@@ -60,7 +60,7 @@ export default function Header() {
       about: "Tentang Kami",
       news: "Artikel",
       testimonials: "Testimoni",
-      tagline: "Koperasi Merah Putih",
+      tagline: "Digital KTA",
       switchLanguage: "Ganti ke English",
     },
     en: {
@@ -71,7 +71,7 @@ export default function Header() {
       about: "About Us",
       news: "Articles",
       testimonials: "Testimonials",
-      tagline: "Koperasi Merah Putih",
+      tagline: "Digital KTA",
       switchLanguage: "Switch to Bahasa",
     },
   };
@@ -196,14 +196,14 @@ export default function Header() {
                 <div className="flex items-center gap-1">
                   <Image
                     src="/logo-koperasi-merah-putih-online.webp"
-                    alt="Koperasi Merah Putih Logo"
+                    alt="Digital KTA Logo"
                     width={50}
                     height={50}
                     className="flex-shrink-0 object-contain"
                   />
                   <div className="hidden sm:flex flex-col leading-tight">
                     <h2 className="text-lg font-semibold text-gray-800">
-                      Koperasi Merah Putih
+                      Digital KTA
                     </h2>
                     <p className="text-xs text-gray-600 mt-[-5px]">
                       Simpan Pinjam & Marketplace
@@ -317,7 +317,7 @@ export default function Header() {
                 </div>
                 <div>
                   <h2 className="font-bold bg-gradient-to-r from-[#E53935] to-[#6B6B6B] bg-clip-text text-transparent">
-                    Koperasi Merah Putih
+                    Digital KTA
                   </h2>
                   <p className="text-xs text-[#6B6B6B]/70">{t.tagline}</p>
                 </div>

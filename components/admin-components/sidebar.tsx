@@ -75,7 +75,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, menuItems }) => {
             </div>
             <div className="ml-2">
               <h2 className="text-gray-900 text-lg font-bold font-italic">
-                Koperasi Merah Putih
+                Digital KTA
               </h2>
             </div>
           </div>
@@ -96,7 +96,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, menuItems }) => {
 
             return (
               <div key={item.id}>
-                <div className="relative" onClick={(e) => toggleSubMenu(item.id, e)}>
+                <div
+                  className="relative"
+                  onClick={(e) => toggleSubMenu(item.id, e)}
+                >
                   <Link
                     href={item.href}
                     onClick={() => window.innerWidth < 1024 && onClose()}
@@ -108,16 +111,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, menuItems }) => {
                   >
                     <div
                       className={`flex items-center ${
-                      item.isSeparator ? "mt-3" : ""
+                        item.isSeparator ? "mt-3" : ""
                       }`}
                     >
                       {!item.isSeparator && (
-                      <div className="mr-3 flex-shrink-0 h-5 w-5">
-                        {item.icon}
-                      </div>
+                        <div className="mr-3 flex-shrink-0 h-5 w-5">
+                          {item.icon}
+                        </div>
                       )}
                       <span className={item.isSeparator ? "font-bold" : ""}>
-                      {item.label}
+                        {item.label}
                       </span>
                     </div>
                     <div className="flex items-center">

@@ -27,7 +27,7 @@ export default function TestimonialsPage() {
       role: "Anggota & Seller",
       image: "/avatars/2.jpeg",
       content:
-        "Sejak menjual produk di marketplace Koperasi Merah Putih, penjualan saya meningkat drastis. Ada banyak dukungan dan promosi yang membantu UMKM seperti saya.",
+        "Sejak menjual produk di marketplace Digital KTA, penjualan saya meningkat drastis. Ada banyak dukungan dan promosi yang membantu UMKM seperti saya.",
     },
     {
       id: 3,
@@ -67,7 +67,7 @@ export default function TestimonialsPage() {
             className="text-lg text-gray-600 mb-12 max-w-2xl mx-auto"
           >
             Dengarkan pengalaman nyata dari anggota kami yang sudah merasakan
-            manfaat bergabung dengan Koperasi Merah Putih.
+            manfaat bergabung dengan Digital KTA.
           </motion.p>
 
           {/* Testimonial Cards */}
@@ -164,8 +164,8 @@ export default function TestimonialsPage() {
               Siap Menjadi Bagian dari Kami?
             </motion.h3>
             <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
-              Gabung dengan ribuan anggota yang sudah merasakan manfaat
-              keuangan dan bisnis dari Koperasi Merah Putih.
+              Gabung dengan ribuan anggota yang sudah merasakan manfaat keuangan
+              dan bisnis dari Digital KTA.
             </p>
             <motion.button
               onClick={goToRegisterPage}

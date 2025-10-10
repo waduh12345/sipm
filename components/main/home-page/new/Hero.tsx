@@ -21,7 +21,7 @@ export default function Hero() {
           className="space-y-6"
         >
           <h1 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight">
-            <span className="text-[#E53935]">Koperasi Merah Putih:</span> <br />
+            <span className="text-[#E53935]">Digital KTA:</span> <br />
             Mandiri, Sejahtera, dan Berdaya
           </h1>
           <p className="text-gray-600 text-lg">
@@ -58,7 +58,7 @@ export default function Hero() {
         >
           <Image
             src="/hero-koperasi.webp"
-            alt="Koperasi Merah Putih Unit Usaha"
+            alt="Digital KTA Unit Usaha"
             width={500}
             height={500}
             className="rounded-2xl shadow-lg"

@@ -14,8 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Koperasi Merah Putih",
-  description: "Mewujudkan kemandirian dan kesejahteraan anggota melalui unit usaha simpan pinjam dan marketplace yang terintegrasi.",
+  title: "Digital KTA",
+  description:
+    "Mewujudkan kemandirian dan kesejahteraan anggota melalui unit usaha simpan pinjam dan marketplace yang terintegrasi.",
   icons: {
     icon: "/logo-koperasi-merah-putih-online.webp",
   },
@@ -31,9 +32,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ReduxProvider>
-          {children}
-        </ReduxProvider>
+        <ReduxProvider>{children}</ReduxProvider>
       </body>
     </html>
   );

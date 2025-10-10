@@ -259,7 +259,7 @@ export default function ProductsPage() {
 
           <h1 className="text-4xl lg:text-6xl font-bold text-[#6B6B6B] mb-6">
             Produk UMKM{" "}
-            <span className="block text-[#E53935]">Koperasi Merah Putih</span>
+            <span className="block text-[#E53935]">Digital KTA</span>
           </h1>
 
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">

@@ -181,7 +181,8 @@ export default function HowToOrderPage() {
 
   const faqs: FAQ[] = [
     {
-      question: "Apakah saya harus menjadi anggota untuk membeli di marketplace?",
+      question:
+        "Apakah saya harus menjadi anggota untuk membeli di marketplace?",
       answer:
         "Ya, marketplace kami adalah platform khusus untuk anggota. Dengan menjadi anggota, Anda tidak hanya bisa membeli, tetapi juga bisa mendapatkan Sisa Hasil Usaha (SHU) tahunan.",
     },
@@ -193,7 +194,7 @@ export default function HowToOrderPage() {
     {
       question: "Metode pembayaran apa saja yang tersedia?",
       answer:
-        "Saat ini kami menerima pembayaran melalui Transfer Bank dan E-Wallet. Semua transaksi akan diarahkan ke rekening resmi Koperasi Merah Putih.",
+        "Saat ini kami menerima pembayaran melalui Transfer Bank dan E-Wallet. Semua transaksi akan diarahkan ke rekening resmi Digital KTA.",
     },
     {
       question: "Berapa lama proses persetujuan pinjaman?",
@@ -242,7 +243,9 @@ export default function HowToOrderPage() {
       description: "Transaksi dan data dilindungi sistem Koperasi",
     },
     {
-      icon: <HeadphonesIcon className="w-6 h-6" style={{ color: THEME.primary }} />,
+      icon: (
+        <HeadphonesIcon className="w-6 h-6" style={{ color: THEME.primary }} />
+      ),
       title: "Tim Solid",
       description: "Tim support siap membantu setiap hari kerja",
     },
@@ -304,7 +307,7 @@ export default function HowToOrderPage() {
           <h1 className="text-4xl lg:text-6xl font-bold text-[#000000] mb-6">
             Cara Menggunakan
             <span className="block text-[#6B6B6B]">Layanan di</span>
-            <span className="block text-[#E53935]">Koperasi Merah Putih</span>
+            <span className="block text-[#E53935]">Digital KTA</span>
           </h1>
 
           {/* Subtitle */}
@@ -339,7 +342,8 @@ export default function HowToOrderPage() {
         <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-[#000000] mb-4">
-              Langkah-langkah <span className="text-[#E53935]">Bertransaksi</span>
+              Langkah-langkah{" "}
+              <span className="text-[#E53935]">Bertransaksi</span>
             </h2>
             <p className="text-[#6B6B6B] max-w-2xl mx-auto">
               Proses yang simple dan user-friendly, dirancang untuk kemudahan
@@ -617,7 +621,9 @@ export default function HowToOrderPage() {
                   <Mail className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="font-semibold mb-2">Email</h3>
-                <p className="text-white/90">support@koperasimerahputih.co.id</p>
+                <p className="text-white/90">
+                  support@koperasimerahputih.co.id
+                </p>
                 <p className="text-sm text-white/70">Respon dalam 2 jam</p>
               </div>
 

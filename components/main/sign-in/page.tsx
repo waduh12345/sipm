@@ -68,25 +68,37 @@ const TERMS_CONTENT = {
     <>
       <h3>1. Penerimaan Persyaratan</h3>
       <p>
-        Dengan mendaftar dan menggunakan layanan Koperasi Merah Putih (Layanan), Anda setuju untuk terikat oleh Syarat dan Ketentuan ini (Syarat). Jika Anda tidak setuju dengan Syarat ini, Anda tidak boleh menggunakan Layanan.
+        Dengan mendaftar dan menggunakan layanan Digital KTA (Layanan), Anda
+        setuju untuk terikat oleh Syarat dan Ketentuan ini (Syarat). Jika Anda
+        tidak setuju dengan Syarat ini, Anda tidak boleh menggunakan Layanan.
       </p>
 
       <h3>2. Layanan Koperasi</h3>
       <p>
-        Layanan kami meliputi fasilitas simpan pinjam bagi anggota, platform marketplace untuk UMKM, serta program pemberdayaan anggota lainnya. Semua layanan tunduk pada peraturan internal Koperasi dan hukum yang berlaku di Indonesia.
+        Layanan kami meliputi fasilitas simpan pinjam bagi anggota, platform
+        marketplace untuk UMKM, serta program pemberdayaan anggota lainnya.
+        Semua layanan tunduk pada peraturan internal Koperasi dan hukum yang
+        berlaku di Indonesia.
       </p>
 
       <h3>3. Kewajiban Anggota</h3>
       <ul>
         <li>Memberikan informasi yang akurat dan terkini saat pendaftaran.</li>
         <li>Menjaga kerahasiaan password dan keamanan akun.</li>
-        <li>Bertanggung jawab atas semua aktivitas yang terjadi di bawah akun Anda.</li>
-        <li>Mematuhi semua anggaran dasar dan anggaran rumah tangga (AD/ART) Koperasi.</li>
+        <li>
+          Bertanggung jawab atas semua aktivitas yang terjadi di bawah akun
+          Anda.
+        </li>
+        <li>
+          Mematuhi semua anggaran dasar dan anggaran rumah tangga (AD/ART)
+          Koperasi.
+        </li>
       </ul>
 
       <h3>4. Larangan</h3>
       <p>
-        Anda dilarang menggunakan Layanan untuk tujuan ilegal, penipuan, atau aktivitas yang dapat merugikan Koperasi dan anggotanya.
+        Anda dilarang menggunakan Layanan untuk tujuan ilegal, penipuan, atau
+        aktivitas yang dapat merugikan Koperasi dan anggotanya.
       </p>
     </>
   ),
@@ -98,13 +110,15 @@ const PRIVACY_POLICY_CONTENT = {
     <>
       <h3>1. Informasi yang Kami Kumpulkan</h3>
       <p>
-        Kami mengumpulkan informasi yang Anda berikan secara langsung saat pendaftaran, seperti nama lengkap, alamat email, nomor telepon, dan data lain yang diperlukan untuk keanggotaan. Kami juga dapat mengumpulkan data transaksi saat Anda menggunakan layanan simpan pinjam atau marketplace.
+        Kami mengumpulkan informasi yang Anda berikan secara langsung saat
+        pendaftaran, seperti nama lengkap, alamat email, nomor telepon, dan data
+        lain yang diperlukan untuk keanggotaan. Kami juga dapat mengumpulkan
+        data transaksi saat Anda menggunakan layanan simpan pinjam atau
+        marketplace.
       </p>
 
       <h3>2. Bagaimana Kami Menggunakan Informasi Anda</h3>
-      <p>
-        Informasi Anda digunakan untuk:
-      </p>
+      <p>Informasi Anda digunakan untuk:</p>
       <ul>
         <li>Memverifikasi identitas Anda dan mengelola keanggotaan Anda.</li>
         <li>Memproses transaksi simpan pinjam dan jual beli di marketplace.</li>
@@ -114,7 +128,9 @@ const PRIVACY_POLICY_CONTENT = {
 
       <h3>3. Keamanan Data</h3>
       <p>
-        Kami menerapkan langkah-langkah keamanan yang wajar untuk melindungi informasi pribadi Anda dari akses, penggunaan, atau pengungkapan yang tidak sah. Data Anda dienkripsi dan disimpan di server yang aman.
+        Kami menerapkan langkah-langkah keamanan yang wajar untuk melindungi
+        informasi pribadi Anda dari akses, penggunaan, atau pengungkapan yang
+        tidak sah. Data Anda dienkripsi dan disimpan di server yang aman.
       </p>
     </>
   ),
@@ -130,7 +146,6 @@ export default function LoginPage() {
     router.replace("/me");
   }
 
-
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] =
@@ -142,7 +157,7 @@ export default function LoginPage() {
     title: string;
     content: React.ReactNode;
   } | null>(null);
-  
+
   const [loginData, setLoginData] = useState<LoginFormData>({
     email: "",
     password: "",
@@ -651,15 +666,13 @@ export default function LoginPage() {
               <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center">
                 <Image
                   src="/logo-koperasi-merah-putih-online.webp"
-                  alt="Koperasi Merah Putih"
+                  alt="Digital KTA"
                   width={50}
                   height={50}
                 />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-white">
-                  Koperasi Merah Putih
-                </h1>
+                <h1 className="text-2xl font-bold text-white">Digital KTA</h1>
                 <p className="text-white/80 text-sm">
                   Mandiri, Sejahtera, & Berdaya
                 </p>
@@ -670,7 +683,7 @@ export default function LoginPage() {
               <h2 className="text-3xl lg:text-4xl font-bold mb-4 leading-tight text-white">
                 {isLogin
                   ? "Selamat Datang Kembali!"
-                  : "Bergabung dengan Koperasi Merah Putih"}
+                  : "Bergabung dengan Digital KTA"}
               </h2>
               <p className="text-white/80 text-lg">
                 {isLogin
@@ -996,24 +1009,24 @@ export default function LoginPage() {
                     className="w-4 h-4 text-[#e84741] border-gray-300 rounded focus:ring-[#e84741] mt-1"
                   />
                   <label htmlFor="terms" className="ml-3 text-sm text-gray-600">
-                      Saya setuju dengan{" "}
-                      {/* ++ Step 4: Change links to buttons that open the modal */}
-                      <button
-                        type="button"
-                        onClick={() => setModalContent(TERMS_CONTENT)}
-                        className="text-[#e84741] hover:underline font-medium"
-                      >
-                        Syarat & Ketentuan
-                      </button>{" "}
-                      dan{" "}
-                      <button
-                        type="button"
-                        onClick={() => setModalContent(PRIVACY_POLICY_CONTENT)}
-                        className="text-[#e84741] hover:underline font-medium"
-                      >
-                        Kebijakan Privasi
-                      </button>
-                    </label>
+                    Saya setuju dengan{" "}
+                    {/* ++ Step 4: Change links to buttons that open the modal */}
+                    <button
+                      type="button"
+                      onClick={() => setModalContent(TERMS_CONTENT)}
+                      className="text-[#e84741] hover:underline font-medium"
+                    >
+                      Syarat & Ketentuan
+                    </button>{" "}
+                    dan{" "}
+                    <button
+                      type="button"
+                      onClick={() => setModalContent(PRIVACY_POLICY_CONTENT)}
+                      className="text-[#e84741] hover:underline font-medium"
+                    >
+                      Kebijakan Privasi
+                    </button>
+                  </label>
                 </div>
 
                 <button

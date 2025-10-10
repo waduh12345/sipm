@@ -23,7 +23,7 @@ const Hero = () => {
               <div className="inline-flex items-center gap-2 bg-[#E53935]/10 px-4 py-2 rounded-full">
                 <Sparkles className="w-4 h-4 text-[#E53935]" />
                 <span className="text-sm font-medium text-[#E53935]">
-                  Tentang Koperasi Merah Putih
+                  Tentang Digital KTA
                 </span>
               </div>
 
@@ -45,9 +45,7 @@ const Hero = () => {
                     <Landmark className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <div className="font-bold text-gray-900">
-                      Simpan Pinjam
-                    </div>
+                    <div className="font-bold text-gray-900">Simpan Pinjam</div>
                     <div className="text-sm text-gray-600">
                       Solusi Finansial Anggota
                     </div>
@@ -72,7 +70,7 @@ const Hero = () => {
               <div className="relative w-full h-[600px] rounded-3xl overflow-hidden shadow-2xl">
                 <Image
                   src="/hero-tentang-kami.webp"
-                  alt="Koperasi Merah Putih Anggota"
+                  alt="Digital KTA Anggota"
                   fill
                   className="object-cover"
                   priority
@@ -93,9 +91,7 @@ const Hero = () => {
 
                     <div>
                       <div className="font-bold text-gray-900">2.500+</div>
-                      <div className="text-xs text-gray-600">
-                        Anggota Aktif
-                      </div>
+                      <div className="text-xs text-gray-600">Anggota Aktif</div>
                     </div>
                   </div>
                 </div>

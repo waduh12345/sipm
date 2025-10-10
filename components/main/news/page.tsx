@@ -167,7 +167,7 @@ export default function NewsPage() {
               <div className="flex flex-wrap items-center gap-6 text-white/90">
                 <div className="flex items-center gap-2">
                   <User className="w-4 h-4" />
-                  <span>Koperasi Merah Putih</span>
+                  <span>Digital KTA</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4" />
@@ -278,7 +278,7 @@ export default function NewsPage() {
                       </div>
                       <div>
                         <div className="font-semibold text-gray-900">
-                          Koperasi Merah Putih Team
+                          Digital KTA Team
                         </div>
                         <div className="text-sm text-gray-600">Penulis</div>
                       </div>
@@ -354,7 +354,7 @@ export default function NewsPage() {
           {/* Title */}
           <h1 className="text-4xl lg:text-6xl font-bold text-[#6B6B6B] mb-6">
             Informasi Terkini{" "}
-            <span className="block text-[#E53935]">Koperasi Merah Putih</span>
+            <span className="block text-[#E53935]">Digital KTA</span>
           </h1>
 
           {/* Subtitle */}
@@ -461,7 +461,7 @@ export default function NewsPage() {
                   <div className="flex items-center gap-6 text-sm text-gray-500 mb-6">
                     <div className="flex items-center gap-2">
                       <User className="w-4 h-4" />
-                      <span>Koperasi Merah Putih</span>
+                      <span>Digital KTA</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Calendar className="w-4 h-4" />
@@ -560,7 +560,7 @@ export default function NewsPage() {
                     <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
                       <div className="flex items-center gap-1">
                         <User className="w-4 h-4" />
-                        <span>Koperasi Merah Putih</span>
+                        <span>Digital KTA</span>
                       </div>
                       <div className="flex items-center gap-1">
                         <Clock className="w-4 h-4" />
@@ -720,8 +720,7 @@ export default function NewsPage() {
 
             {/* Small Note */}
             <p className="text-sm text-gray-500 mt-6">
-              Dengan berlangganan, Anda setuju menerima email dari
-              Koperasi Merah Putih.
+              Dengan berlangganan, Anda setuju menerima email dari Digital KTA.
             </p>
           </div>
         </div>

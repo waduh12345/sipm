@@ -180,7 +180,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
 
   return (
     <div className="w-full min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-gradient-to-br from-red-50 to-white">
-      {/* Left Pane - Koperasi Merah Putih Theme with Carousel */}
+      {/* Left Pane - Digital KTA Theme with Carousel */}
       <div className="relative hidden lg:flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0" ref={emblaRef}>
           <div className="embla__container flex h-full">
@@ -191,7 +191,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
               >
                 <Image
                   src={src}
-                  alt={`Koperasi Merah Putih ${index + 1}`}
+                  alt={`Digital KTA ${index + 1}`}
                   fill
                   style={{ objectFit: "cover" }}
                   quality={100}
@@ -350,14 +350,14 @@ export default function AuthForm({ mode }: AuthFormProps) {
               <div className="flex items-center gap-1">
                 <Image
                   src="/logo-koperasi-merah-putih-online.webp"
-                  alt="Koperasi Merah Putih Logo"
+                  alt="Digital KTA Logo"
                   width={50}
                   height={50}
                   className="flex-shrink-0 object-contain"
                 />
                 <div>
                   <h2 className="text-lg font-semibold text-gray-800">
-                    Koperasi Merah Putih
+                    Digital KTA
                   </h2>
                   <p className="text-xs text-gray-600 mt-[-5px]">
                     Simpan Pinjam & Marketplace
@@ -425,14 +425,14 @@ export default function AuthForm({ mode }: AuthFormProps) {
             <div className="flex items-center justify-center mb-4 gap-1">
               <Image
                 src="/logo-koperasi-merah-putih-online.webp"
-                alt="Koperasi Merah Putih Logo"
+                alt="Digital KTA Logo"
                 width={50}
                 height={50}
                 className="flex-shrink-0 object-contain"
               />
               <div>
                 <h2 className="text-lg font-semibold text-gray-800">
-                  Koperasi Merah Putih
+                  Digital KTA
                 </h2>
                 <p className="text-xs text-gray-600 mt-[-5px]">
                   Simpan Pinjam & Marketplace

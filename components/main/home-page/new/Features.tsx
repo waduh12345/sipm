@@ -4,12 +4,7 @@ import { useTranslation } from "@/hooks/use-translation";
 import en from "@/translations/home/en";
 import id from "@/translations/home/id";
 import { motion } from "framer-motion";
-import {
-  Handshake,
-  Store,
-  AppWindow,
-  BadgeDollarSign
-} from "lucide-react";
+import { Handshake, Store, AppWindow, BadgeDollarSign } from "lucide-react";
 
 export default function Features() {
   const t = useTranslation({ id, en });
@@ -47,7 +42,7 @@ export default function Features() {
           className="text-3xl md:text-4xl font-bold text-gray-800 mb-12"
         >
           Mengapa Bergabung dengan{" "}
-          <span className="text-[#E53935]">Koperasi Merah Putih</span>?
+          <span className="text-[#E53935]">Digital KTA</span>?
         </motion.h2>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">

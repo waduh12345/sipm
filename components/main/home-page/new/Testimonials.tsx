@@ -11,7 +11,7 @@ const testimonials = [
     name: "Siti Rahma",
     role: "Anggota",
     feedback:
-      "Pinjaman di Koperasi Merah Putih prosesnya cepat sekali! Sangat membantu saya untuk mengembangkan usaha kecil saya tanpa harus ribet dengan banyak persyaratan.",
+      "Pinjaman di Digital KTA prosesnya cepat sekali! Sangat membantu saya untuk mengembangkan usaha kecil saya tanpa harus ribet dengan banyak persyaratan.",
     image: "/avatars/1.jpeg",
   },
   {
@@ -25,7 +25,7 @@ const testimonials = [
     name: "Dewi Susanto",
     role: "Anggota",
     feedback:
-      "Aplikasi internal Koperasi Merah Putih sangat memudahkan. Saya bisa cek simpanan, ajukan pinjaman, dan lihat produk marketplace, semuanya dalam satu genggaman. Layanan yang luar biasa!",
+      "Aplikasi internal Digital KTA sangat memudahkan. Saya bisa cek simpanan, ajukan pinjaman, dan lihat produk marketplace, semuanya dalam satu genggaman. Layanan yang luar biasa!",
     image: "/avatars/3.jpeg",
   },
 ];

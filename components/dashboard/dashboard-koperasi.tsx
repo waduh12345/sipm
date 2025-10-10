@@ -1,21 +1,23 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, Banknote, CreditCard, CalendarDays } from "lucide-react";
-import { useMemo } from "react";
 import {
-  useGetDashboardKoperasiHeadQuery,
-  useGetSimpananChartQuery,
-  useGetPinjamanChartQuery,
-} from "@/services/dashboard-koperasi.service";
-
-// Chart.js + types
+  Users,
+  HeartHandshake,
+  Megaphone,
+  Building2,
+  Landmark,
+  Tent,
+  Vote,
+  Shield,
+} from "lucide-react";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Tooltip,
   Legend,
   Filler,
@@ -23,106 +25,71 @@ import {
   type ChartOptions,
   type TooltipItem,
 } from "chart.js";
-import { Line } from "react-chartjs-2";
+import { Line, Bar } from "react-chartjs-2";
 
+// Registrasi komponen Chart.js yang akan digunakan
 ChartJS.register(
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
+  BarElement, // Tambahkan BarElement untuk grafik batang
   Tooltip,
   Legend,
   Filler
 );
 
-// ===== Utils =====
-const formatRupiah = (amount: number): string =>
-  new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  })
-    .format(amount)
-    .replace("IDR", "")
-    .trim();
-
+// ===== Utilitas =====
 const formatNumber = (num: number): string =>
   new Intl.NumberFormat("id-ID").format(num);
 
-const last12MonthLabels = (): string[] => {
-  const labels: string[] = [];
-  const now = new Date();
-  for (let i = 11; i >= 0; i--) {
-    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    labels.push(d.toLocaleString("id-ID", { month: "short", year: "2-digit" }));
-  }
-  return labels;
+// ===== Data Statis =====
+const summaryData = {
+  totalAnggota: 125430,
+  totalRelawan: 88720,
+  totalSimpatisan: 215600,
+  totalKantorPartai: 34,
+  totalKantorOrmas: 12,
+  totalPoskoRelawan: 350,
+  totalSimses: 5210,
+  totalTimsus: 1850,
 };
 
-export default function DashboardPage() {
-  // Get current year for API call
-  const currentYear = new Date().getFullYear();
+const labels = [
+  "Jan", "Feb", "Mar", "Apr", "Mei", "Jun", 
+  "Jul", "Agu", "Sep", "Okt", "Nov", "Des"
+];
 
-  // API calls
-  const { data: dashboardHead, isLoading: isLoadingHead } = useGetDashboardKoperasiHeadQuery();
-  const { data: simpananChart, isLoading: isLoadingSimpanan } = useGetSimpananChartQuery({ year: currentYear });
-  const { data: pinjamanChart, isLoading: isLoadingPinjaman } = useGetPinjamanChartQuery({ year: currentYear });
+// Data statis untuk grafik kenaikan anggota (12 bulan)
+const monthlyAnggotaData = [
+  110500, 112300, 113800, 115100, 116900, 118200, 
+  119500, 121000, 122400, 123600, 124500, 125430
+];
 
-  // Labels 12 bulan
-  const labels = useMemo(last12MonthLabels, []);
+// Data statis untuk grafik kenaikan non-anggota (12 bulan)
+const monthlySimpatisanData = [
+  180200, 183500, 187800, 191200, 195600, 199900, 
+  203400, 206700, 209800, 212300, 214100, 215600
+];
+const monthlyRelawanData = [
+  75100, 76400, 77900, 79200, 80800, 82100, 
+  83500, 84900, 86300, 87500, 88100, 88720
+];
 
-  // Process simpanan chart data
-  const monthlySimpanan = useMemo(() => {
-    if (!simpananChart) return Array(12).fill(0);
-    return simpananChart.map(item => Number(item.total));
-  }, [simpananChart]);
-
-  // Process pinjaman chart data
-  const monthlyPinjaman = useMemo(() => {
-    if (!pinjamanChart) return Array(12).fill(0);
-    return pinjamanChart.map(item => Number(item.total));
-  }, [pinjamanChart]);
-
-  // Ringkasan from API
-  const totalAnggota = dashboardHead?.total_anggota || 0;
-  const totalSimpanan = Number(dashboardHead?.total_simpanan || 0);
-  const totalPinjaman = Number(dashboardHead?.total_pinjaman || 0);
-  const totalTagihanBulanIni = dashboardHead?.total_tagihan_pinjaman_this_month || 0;
-
+export default function DashboardPartaiPage() {
   const cards = [
-    {
-      title: "Total Anggota",
-      value: formatNumber(totalAnggota),
-      icon: Users,
-      color: "text-blue-600",
-      bgColor: "bg-blue-100",
-    },
-    {
-      title: "Total Simpanan",
-      value: formatRupiah(totalSimpanan),
-      icon: Banknote,
-      color: "text-emerald-600",
-      bgColor: "bg-emerald-100",
-    },
-    {
-      title: "Total Pinjaman",
-      value: formatRupiah(totalPinjaman),
-      icon: CreditCard,
-      color: "text-orange-600",
-      bgColor: "bg-orange-100",
-    },
-    {
-      title: "Total Tagihan Bulan Ini",
-      value: formatRupiah(totalTagihanBulanIni),
-      icon: CalendarDays,
-      color: "text-purple-600",
-      bgColor: "bg-purple-100",
-    },
+    { title: "Total Anggota", value: formatNumber(summaryData.totalAnggota), icon: Users, color: "text-blue-600", bgColor: "bg-blue-100" },
+    { title: "Total Relawan", value: formatNumber(summaryData.totalRelawan), icon: HeartHandshake, color: "text-emerald-600", bgColor: "bg-emerald-100" },
+    { title: "Total Simpatisan", value: formatNumber(summaryData.totalSimpatisan), icon: Megaphone, color: "text-orange-600", bgColor: "bg-orange-100" },
+    { title: "Total Kantor Partai", value: formatNumber(summaryData.totalKantorPartai), icon: Building2, color: "text-purple-600", bgColor: "bg-purple-100" },
+    { title: "Total Kantor Ormas", value: formatNumber(summaryData.totalKantorOrmas), icon: Landmark, color: "text-red-600", bgColor: "bg-red-100" },
+    { title: "Total Posko Relawan", value: formatNumber(summaryData.totalPoskoRelawan), icon: Tent, color: "text-yellow-600", bgColor: "bg-yellow-100" },
+    { title: "Total Simses", value: formatNumber(summaryData.totalSimses), icon: Vote, color: "text-indigo-600", bgColor: "bg-indigo-100" },
+    { title: "Total Timsus", value: formatNumber(summaryData.totalTimsus), icon: Shield, color: "text-gray-600", bgColor: "bg-gray-200" },
   ] as const;
 
-  // ===== Chart types (NO any) =====
-  const commonOptions: ChartOptions<"line"> = {
+  // ===== Konfigurasi Grafik (Umum) =====
+  const commonChartOptions: ChartOptions<"line" | "bar"> = {
     responsive: true,
     maintainAspectRatio: false,
     interaction: { mode: "index", intersect: false },
@@ -130,9 +97,9 @@ export default function DashboardPage() {
       legend: { position: "top" },
       tooltip: {
         callbacks: {
-          label: (ctx: TooltipItem<"line">): string => {
+          label: (ctx: TooltipItem<"line" | "bar">): string => {
             const v = ctx.parsed.y ?? 0;
-            return `${ctx.dataset.label ?? "Data"}: Rp ${formatNumber(v)}`;
+            return `${ctx.dataset.label ?? "Data"}: ${formatNumber(v)}`;
           },
         },
       },
@@ -141,35 +108,19 @@ export default function DashboardPage() {
       y: {
         beginAtZero: true,
         ticks: {
-          // ✅ parameter harus string | number
-          callback: (tickValue: string | number) =>
-            `Rp ${formatNumber(Number(tickValue))}`,
+          callback: (tickValue: string | number) => formatNumber(Number(tickValue)),
         },
       },
     },
   };
-
-  const simpananData: ChartData<"line"> = {
+  
+  // Data untuk Grafik Anggota (Line Chart)
+  const anggotaChartData: ChartData<"line"> = {
     labels,
     datasets: [
       {
-        label: "Simpanan per Bulan",
-        data: monthlySimpanan,
-        borderColor: "rgba(16,185,129,1)", // emerald-500
-        backgroundColor: "rgba(16,185,129,0.2)",
-        fill: true,
-        tension: 0.35,
-        pointRadius: 2,
-      },
-    ],
-  };
-
-  const pinjamanData: ChartData<"line"> = {
-    labels,
-    datasets: [
-      {
-        label: "Pinjaman per Bulan",
-        data: monthlyPinjaman,
+        label: "Total Anggota",
+        data: monthlyAnggotaData,
         borderColor: "rgba(59,130,246,1)", // blue-500
         backgroundColor: "rgba(59,130,246,0.2)",
         fill: true,
@@ -179,95 +130,58 @@ export default function DashboardPage() {
     ],
   };
 
-  // Loading state
-  const isLoading = isLoadingHead || isLoadingSimpanan || isLoadingPinjaman;
-
-  if (isLoading) {
-    return (
-      <div className="p-6 space-y-6">
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard Koperasi</h1>
-          <p className="text-sm text-gray-500">
-            Ringkasan anggota, simpanan, pinjaman, & tagihan
-          </p>
-        </div>
-        
-        {/* Loading Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <Card key={i} className="animate-pulse">
-              <CardHeader className="pb-2">
-                <div className="flex items-center space-x-2">
-                  <div className="p-2 rounded-full bg-gray-200">
-                    <div className="h-4 w-4 bg-gray-300 rounded"></div>
-                  </div>
-                  <div className="h-4 w-24 bg-gray-200 rounded"></div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="h-6 w-16 bg-gray-200 rounded mx-auto"></div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {/* Loading Charts */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card className="h-80">
-            <CardHeader>
-              <div className="h-6 w-48 bg-gray-200 rounded"></div>
-            </CardHeader>
-            <CardContent className="h-[260px]">
-              <div className="h-full bg-gray-100 rounded animate-pulse"></div>
-            </CardContent>
-          </Card>
-
-          <Card className="h-80">
-            <CardHeader>
-              <div className="h-6 w-48 bg-gray-200 rounded"></div>
-            </CardHeader>
-            <CardContent className="h-[260px]">
-              <div className="h-full bg-gray-100 rounded animate-pulse"></div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    );
-  }
+  // Data untuk Grafik Non-Anggota (Bar Chart)
+  const nonAnggotaChartData: ChartData<"bar"> = {
+    labels,
+    datasets: [
+      {
+        label: "Simpatisan",
+        data: monthlySimpatisanData,
+        backgroundColor: "rgba(249,115,22, 0.6)", // orange-500
+        borderColor: "rgba(249,115,22, 1)",
+        borderWidth: 1,
+      },
+      {
+        label: "Relawan",
+        data: monthlyRelawanData,
+        backgroundColor: "rgba(16,185,129, 0.6)", // emerald-500
+        borderColor: "rgba(16,185,129, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
 
   return (
     <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard Koperasi</h1>
-        <p className="text-sm text-gray-500">
-          Ringkasan anggota, simpanan, pinjaman, & tagihan
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between">
+        <h1 className="text-3xl font-bold text-gray-900">Dashboard Digital KTA</h1>
+        <p className="text-sm text-gray-500 mt-1 sm:mt-0">
+          Ringkasan data keanggotaan dan infrastruktur
         </p>
       </div>
 
       {/* Kartu Ringkasan */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {cards.map((c, i) => {
-          const Icon = c.icon;
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {cards.map((card, i) => {
+          const Icon = card.icon;
           return (
             <Card
               key={i}
               className="hover:shadow-lg transition-shadow duration-200"
             >
-              <CardHeader className="pb-2">
-                <div className="flex items-center space-x-2">
-                  <div className={`p-2 rounded-full ${c.bgColor}`}>
-                    <Icon className={`h-4 w-4 ${c.color}`} />
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <div className={`p-2 rounded-full ${card.bgColor}`}>
+                    <Icon className={`h-12 w-12 ${card.color}`} />
                   </div>
-                  <CardTitle className="text-sm font-medium text-gray-600">
-                    {c.title}
+                  <CardTitle className="text-md font-medium text-gray-600">
+                    {card.title}
+                    <div className="text-2xl font-bold text-gray-900 text-left">
+                      {card.value}
+                    </div>
                   </CardTitle>
                 </div>
               </CardHeader>
-              <CardContent>
-                <div className="text-xl font-bold text-gray-900 mt-[-25px] text-center">
-                  {c.value}
-                </div>
-              </CardContent>
             </Card>
           );
         })}
@@ -275,37 +189,25 @@ export default function DashboardPage() {
 
       {/* Grafik */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="h-80">
+        <Card>
           <CardHeader>
             <CardTitle className="text-lg font-semibold">
-              Grafik Simpanan Per Bulan (1 tahun berjalan)
+              Grafik Kenaikan Anggota (1 Tahun Terakhir)
             </CardTitle>
           </CardHeader>
-          <CardContent className="h-[260px]">
-            {simpananChart && simpananChart.length > 0 ? (
-              <Line data={simpananData} options={commonOptions} />
-            ) : (
-              <div className="h-full flex items-center justify-center text-gray-500">
-                <p>Tidak ada data simpanan</p>
-              </div>
-            )}
+          <CardContent className="h-[300px]">
+            <Line data={anggotaChartData} options={commonChartOptions} />
           </CardContent>
         </Card>
 
-        <Card className="h-80">
+        <Card>
           <CardHeader>
             <CardTitle className="text-lg font-semibold">
-              Grafik Pinjaman Per Bulan (1 tahun berjalan)
+              Grafik Kenaikan Non-Anggota (1 Tahun Terakhir)
             </CardTitle>
           </CardHeader>
-          <CardContent className="h-[260px]">
-            {pinjamanChart && pinjamanChart.length > 0 ? (
-              <Line data={pinjamanData} options={commonOptions} />
-            ) : (
-              <div className="h-full flex items-center justify-center text-gray-500">
-                <p>Tidak ada data pinjaman</p>
-              </div>
-            )}
+          <CardContent className="h-[300px]">
+            <Bar data={nonAnggotaChartData} options={commonChartOptions} />
           </CardContent>
         </Card>
       </div>

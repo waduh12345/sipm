@@ -6,7 +6,7 @@ const story = [
   {
     year: "2008",
     title: "Pendirian Koperasi",
-    desc: "Koperasi Merah Putih didirikan dengan tujuan utama untuk meningkatkan kesejahteraan ekonomi anggota melalui semangat gotong royong dan kemandirian.",
+    desc: "Digital KTA didirikan dengan tujuan utama untuk meningkatkan kesejahteraan ekonomi anggota melalui semangat gotong royong dan kemandirian.",
     icon: <Handshake className="w-6 h-6 text-white" />,
   },
   {
@@ -35,8 +35,7 @@ export default function BrandStory() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl lg:text-5xl font-bold text-[#6B6B6B] mb-4">
-            Perjalanan{" "}
-            <span className="text-[#E53935]">Koperasi Merah Putih</span>
+            Perjalanan <span className="text-[#E53935]">Digital KTA</span>
           </h2>
           <p className="text-lg text-[#6B6B6B] max-w-2xl mx-auto">
             Dari awal berdiri hingga kini, kami terus konsisten menghadirkan
@@ -61,9 +60,11 @@ export default function BrandStory() {
                 }`}
               >
                 {/* Content */}
-                <div className={`flex-1 bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 ${
-                  index % 2 === 0 ? "lg:pr-12" : "lg:pl-12"
-                }`}>
+                <div
+                  className={`flex-1 bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 ${
+                    index % 2 === 0 ? "lg:pr-12" : "lg:pl-12"
+                  }`}
+                >
                   <div className="text-[#E53935] text-2xl font-bold mb-2">
                     {item.year}
                   </div>

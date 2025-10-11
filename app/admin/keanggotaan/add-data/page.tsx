@@ -7,25 +7,13 @@ import {
   useGetAnggotaByIdQuery,
   useCreateAnggotaMutation,
   useUpdateAnggotaMutation,
-} from "@/services/koperasi-service/anggota.service";
+} from "@/services/admin/anggota.service";
 import type {
-  AnggotaKoperasi,
-  DocumentsAnggota,
-} from "@/types/koperasi-types/anggota";
-import AnggotaForm from "@/components/form-modal/koperasi-modal/anggota-form";
+  Anggota,
+} from "@/types/admin/anggota";
+import AnggotaForm from "@/components/form-modal/admin/anggota-form";
 
 type Mode = "add" | "edit" | "detail";
-
-// helper untuk membuat baris dokumen kosong yg VALID dgn tipe DocumentsAnggota
-const makeEmptyDoc = (anggota_id = 0): DocumentsAnggota => ({
-  id: 0,
-  anggota_id,
-  key: "",
-  document: null,
-  created_at: "",
-  updated_at: "",
-  media: [] as unknown as DocumentsAnggota["media"],
-});
 
 export default function AnggotaAddEditPage() {
   return (
@@ -55,26 +43,10 @@ function AnggotaAddEditPageInner() {
 
   const [form, setForm] = useState<
     Partial<
-      AnggotaKoperasi & { password?: string; password_confirmation?: string }
+      Anggota & { password?: string; password_confirmation?: string }
     >
-  >({
-    documents: [makeEmptyDoc()],
-  });
+  >({});
 
-  // isi form saat edit/detail
-  useEffect(() => {
-    if ((isEdit || isDetail) && detailData) {
-      const docs: DocumentsAnggota[] =
-        detailData.documents && detailData.documents.length > 0
-          ? (detailData.documents.map((d) => ({
-              ...d,
-              document: null,
-            })) as DocumentsAnggota[])
-          : [makeEmptyDoc(detailData.id)];
-
-      setForm((prev) => ({ ...prev, ...detailData, documents: docs }));
-    }
-  }, [detailData, isEdit, isDetail]);
 
   const readonly = isDetail;
   const isLoading = isCreating || isUpdating || isFetching;
@@ -82,8 +54,8 @@ function AnggotaAddEditPageInner() {
   const handleSubmit = async () => {
     try {
       // validasi minimal
-      if (!form.name || !form.email || !form.phone || !form.nik)
-        throw new Error("Nama, Email, Telepon, dan NIK wajib diisi");
+      if (!form.name || !form.email || !form.phone || !form.ktp)
+        throw new Error("Nama, Email, Telepon, dan KTP wajib diisi");
       if (!form.gender || !["M", "F"].includes(form.gender as string))
         throw new Error("Gender wajib diisi (M/F)");
       if (form.status === undefined || form.status === null)
@@ -97,6 +69,7 @@ function AnggotaAddEditPageInner() {
       }
 
       const fd = new FormData();
+      
       fd.append("name", form.name as string);
       fd.append("email", form.email as string);
       fd.append("phone", form.phone as string);
@@ -104,26 +77,33 @@ function AnggotaAddEditPageInner() {
       fd.append("gender", form.gender as string);
       fd.append("birth_date", form.birth_date ?? "");
       fd.append("birth_place", form.birth_place ?? "");
-      fd.append("nik", form.nik as string);
-      fd.append("npwp", form.npwp ?? "");
-      fd.append("status", String(form.status ?? 0));
-      fd.append("nip", form.nip ?? "");
-      fd.append("unit_kerja", form.unit_kerja ?? "");
-      fd.append("jabatan", form.jabatan ?? "");
+      fd.append("status", String(form.status));
+      fd.append("ktp", form.ktp ?? "");
+      if (form.province_id) fd.append("province_id", form.province_id);
+      if (form.regency_id) fd.append("regency_id", form.regency_id);
+      if (form.district_id) fd.append("district_id", form.district_id);
+      if (form.village_id) fd.append("village_id", form.village_id);
+      if (form.rt !== undefined) fd.append("rt", String(form.rt));
+      if (form.rw !== undefined) fd.append("rw", String(form.rw));
+      if (form.religion) fd.append("religion", form.religion);
+      if (form.marital_status) fd.append("marital_status", form.marital_status);
+      if (form.occupation) fd.append("occupation", form.occupation);
+      if (form.last_education) fd.append("last_education", form.last_education);
+      if (form.phone_home) fd.append("phone_home", form.phone_home);
+      if (form.phone_office) fd.append("phone_office", form.phone_office);
+      if (form.phone_faksimili)
+        fd.append("phone_faksimili", form.phone_faksimili);
+      if (form.facebook) fd.append("facebook", form.facebook);
+      if (form.instagram) fd.append("instagram", form.instagram);
+      if (form.twitter) fd.append("twitter", form.twitter);
+      if (form.whatsapp) fd.append("whatsapp", form.whatsapp);
+      if (form.tiktok) fd.append("tiktok", form.tiktok);
+      if (form.path) fd.append("path", form.path);
 
       if (isAdd && form.password && form.password_confirmation) {
         fd.append("password", form.password);
         fd.append("password_confirmation", form.password_confirmation);
       }
-
-      // documents[index][key] & documents[index][file]
-      const docs = (form.documents ?? []) as DocumentsAnggota[];
-      docs.forEach((d, i) => {
-        fd.append(`documents[${i}][key]`, d.key ?? "");
-        if (d.document && d.document instanceof File) {
-          fd.append(`documents[${i}][file]`, d.document);
-        }
-      });
 
       if (isEdit && id) {
         await updateAnggota({ id, payload: fd }).unwrap();
@@ -132,7 +112,7 @@ function AnggotaAddEditPageInner() {
         await createAnggota(fd).unwrap();
         Swal.fire("Sukses", "Anggota ditambahkan", "success");
       }
-      router.push("/admin/anggota");
+      router.push("/admin/keanggotaan");
     } catch (err) {
       const msg =
         err instanceof Error ? err.message : "Terjadi kesalahan saat menyimpan";
@@ -142,7 +122,7 @@ function AnggotaAddEditPageInner() {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-4">
       <AnggotaForm
         form={form}
         setForm={setForm}

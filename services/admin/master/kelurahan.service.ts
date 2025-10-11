@@ -17,15 +17,16 @@ export const kelurahanApi = apiSlice.injectEndpoints({
         total: number;
         per_page: number;
       },
-      { page: number; paginate: number; search?: string }
+      { page: number; paginate: number; search?: string; district_id?: string }
     >({
-      query: ({ page, paginate, search }) => ({
+      query: ({ page, paginate, search, district_id }) => ({
         url: `/master/reg/villages`,
         method: "GET",
         params: {
           page,
           paginate,
           search,
+          district_id,
         },
       }),
       transformResponse: (response: KelurahanResponse) => ({

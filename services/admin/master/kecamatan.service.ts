@@ -17,15 +17,16 @@ export const kecamatanApi = apiSlice.injectEndpoints({
         total: number;
         per_page: number;
       },
-      { page: number; paginate: number; search?: string }
+      { page: number; paginate: number; search?: string; regency_id?: string }
     >({
-      query: ({ page, paginate, search }) => ({
+      query: ({ page, paginate, search, regency_id }) => ({
         url: `/master/reg/districts`,
         method: "GET",
         params: {
           page,
           paginate,
           search,
+          regency_id
         },
       }),
       transformResponse: (response: KecamatanResponse) => ({

@@ -17,7 +17,7 @@ export const kotaApi = apiSlice.injectEndpoints({
         total: number;
         per_page: number;
       },
-      { page: number; paginate: number; search?: string; province_id?: number }
+      { page: number; paginate: number; search?: string; province_id?: string }
     >({
       query: ({ page, paginate, search, province_id }) => ({
         url: `/master/reg/regencies`,

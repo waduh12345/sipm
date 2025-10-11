@@ -162,7 +162,6 @@ export default function KantorPage() {
                 <th className="px-4 py-2">Nama Kantor</th>
                 <th className="px-4 py-2">Alamat</th>
                 <th className="px-4 py-2">No. Handphone</th>
-                <th className="px-4 py-2">Status</th>
               </tr>
             </thead>
             <tbody>
@@ -195,13 +194,6 @@ export default function KantorPage() {
                     <td className="px-4 py-2 font-medium">{item.name}</td>
                     <td className="px-4 py-2 font-medium">{item.address}</td>
                     <td className="px-4 py-2 font-medium">{item.phone}</td>
-                    <td className="px-4 py-2">
-                      {item.status === true ? (
-                        <Badge variant="success">Active</Badge>
-                      ) : (
-                        <Badge variant="destructive">Inactive</Badge>
-                      )}
-                    </td>
                   </tr>
                 ))
               )}

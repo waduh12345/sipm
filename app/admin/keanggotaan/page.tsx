@@ -9,8 +9,8 @@ import {
   useDeleteAnggotaMutation,
   useExportAnggotaExcelMutation,
   useImportAnggotaExcelMutation,
-} from "@/services/koperasi-service/anggota.service";
-import type { AnggotaKoperasi } from "@/types/koperasi-types/anggota";
+} from "@/services/admin/anggota.service";
+import type { Anggota } from "@/types/admin/anggota";
 import { Badge } from "@/components/ui/badge";
 import { ProdukToolbar } from "@/components/ui/produk-toolbar";
 import { useRouter } from "next/navigation";
@@ -44,7 +44,7 @@ export default function AnggotaPage() {
     if (!query.trim()) return arr;
     const q = query.toLowerCase();
     return arr.filter((it) =>
-      [it.name, it.email, it.phone, it.address, it.nik, it.npwp ?? ""].some(
+      [it.name, it.email, it.phone, it.address, it.ktp, ""].some(
         (f) => f?.toLowerCase?.().includes?.(q)
       )
     );
@@ -60,7 +60,7 @@ export default function AnggotaPage() {
   const [importAnggotaExcel, { isLoading: isImporting }] =
     useImportAnggotaExcelMutation();
 
-  const handleDelete = async (item: AnggotaKoperasi) => {
+  const handleDelete = async (item: Anggota) => {
     const confirm = await Swal.fire({
       title: "Yakin hapus Anggota?",
       text: `${item.name} (${item.email})`,
@@ -239,7 +239,7 @@ export default function AnggotaPage() {
     <div className="p-6 space-y-6">
       <ProdukToolbar
         showTemplateCsvButton
-        openModal={() => router.push("/admin/anggota/add-data?mode=add")}
+        openModal={() => router.push("/admin/keanggotaan/add-data?mode=add")}
         onSearchChange={(q: string) => setQuery(q)}
         enableStatusFilter
         statusOptions={[
@@ -266,7 +266,6 @@ export default function AnggotaPage() {
             <thead className="bg-muted text-left">
               <tr>
                 <th className="px-4 py-2">Aksi</th>
-                <th className="px-4 py-2">Nomor Anggota</th>
                 <th className="px-4 py-2">Nama</th>
                 <th className="px-4 py-2">Email</th>
                 <th className="px-4 py-2">Telepon</th>
@@ -324,9 +323,6 @@ export default function AnggotaPage() {
                           </Tooltip>
                         }
                       />
-                    </td>
-                    <td className="px-4 py-2 whitespace-nowrap">
-                      {item.reference}
                     </td>
                     <td className="px-4 py-2 whitespace-nowrap">{item.name}</td>
                     <td className="px-4 py-2 whitespace-nowrap">

@@ -1,24 +1,17 @@
-import { KTACard } from "@/components/kta-card"
-import { AnnouncementCarousel } from "@/components/announcement-carousel"
-import { TaskCard } from "@/components/task-card"
-import { Button } from "@/components/ui/button"
-import { ArrowRight, Megaphone, Briefcase } from "lucide-react"
-import Link from "next/link"
-
-// Sample data
-const memberData = {
-  memberName: "Ahmad Fauzi",
-  memberId: "KTA-2024-001234",
-  memberSince: "Jan 2024",
-  province: "DKI Jakarta",
-}
+import { KTACard } from "@/components/kta-card";
+import { AnnouncementCarousel } from "@/components/announcement-carousel";
+import { TaskCard } from "@/components/task-card";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Megaphone, Briefcase } from "lucide-react";
+import Link from "next/link";
 
 const popularTasks = [
   {
     id: "1",
     category: "Rekrutment" as const,
     title: "Rekrutmen Anggota Baru Wilayah Jakarta",
-    description: "Bantu kami merekrut anggota baru di wilayah Jakarta dan sekitarnya",
+    description:
+      "Bantu kami merekrut anggota baru di wilayah Jakarta dan sekitarnya",
     progress: 65,
     target: 100,
     achieved: 65,
@@ -62,7 +55,7 @@ const popularTasks = [
     endDate: "15 Feb",
     bonus: 40000,
   },
-]
+];
 
 export default function HomePage() {
   return (
@@ -70,12 +63,14 @@ export default function HomePage() {
       {/* Header */}
       <div className="pt-2">
         <h1 className="text-2xl font-bold text-foreground">Selamat Datang</h1>
-        <p className="text-sm text-muted-foreground">Kelola keanggotaan Anda dengan mudah</p>
+        <p className="text-sm text-muted-foreground">
+          Kelola keanggotaan Anda dengan mudah
+        </p>
       </div>
 
       {/* KTA Card */}
       <section>
-        <KTACard {...memberData} />
+        <KTACard />
       </section>
 
       {/* Announcements Carousel */}
@@ -86,8 +81,12 @@ export default function HomePage() {
               <Megaphone className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <h2 className="text-lg font-bold leading-tight">Pengumuman Terbaru</h2>
-              <p className="text-xs text-muted-foreground">Informasi penting untuk Anda</p>
+              <h2 className="text-lg font-bold leading-tight">
+                Pengumuman Terbaru
+              </h2>
+              <p className="text-xs text-muted-foreground">
+                Informasi penting untuk Anda
+              </p>
             </div>
           </div>
           <Link href="/pengumuman">
@@ -109,7 +108,9 @@ export default function HomePage() {
             </div>
             <div>
               <h2 className="text-lg font-bold leading-tight">Task Populer</h2>
-              <p className="text-xs text-muted-foreground">Selesaikan dan dapatkan bonus</p>
+              <p className="text-xs text-muted-foreground">
+                Selesaikan dan dapatkan bonus
+              </p>
             </div>
           </div>
           <Link href="/task">
@@ -126,5 +127,6 @@ export default function HomePage() {
         </div>
       </section>
     </div>
-  )
+  );
 }
+

@@ -84,7 +84,7 @@ export default function PengumumanPage() {
   return (
     <div className="space-y-6 p-4 safe-area-top">
       {/* Header */}
-      <div className="pt-2 flex items-center gap-3">
+      <div className="pt-4 flex gap-3">
         <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
           <Megaphone className="w-6 h-6 text-primary" />
         </div>

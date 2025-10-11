@@ -51,14 +51,14 @@ export function KTACard() {
         </div>
 
         {/* Content: compact two-column layout */}
-        <div className="grid grid-cols-[auto_1fr] gap-x-14 gap-y-1 mt-2">
+        <div className="grid grid-cols-[auto_1fr] gap-x-10 sm:gap-x-14 gap-y-1">
           <span className="opacity-90">No. Anggota</span>
           <span className="font-semibold ">{member.memberId}</span>
 
           <span className="opacity-90">Nama</span>
           <span className="font-semibold ">{member.memberName}</span>
 
-          <span className="opacity-90">Tempat / Tgl Lahir</span>
+          <span className="opacity-90">Tempat/Tgl Lahir</span>
           <span className="">
             {member.placeOfBirth}, {member.dateOfBirth}
           </span>

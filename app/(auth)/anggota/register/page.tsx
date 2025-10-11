@@ -1,17 +1,30 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
-import { UserPlus } from "lucide-react"
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { UserPlus } from "lucide-react";
 
 const provinces = [
   { id: "1", name: "DKI Jakarta" },
@@ -19,7 +32,7 @@ const provinces = [
   { id: "3", name: "Jawa Tengah" },
   { id: "4", name: "Jawa Timur" },
   { id: "5", name: "Banten" },
-]
+];
 
 const cities: Record<string, { id: string; name: string }[]> = {
   "1": [
@@ -35,7 +48,7 @@ const cities: Record<string, { id: string; name: string }[]> = {
     { id: "2-3", name: "Bogor" },
     { id: "2-4", name: "Depok" },
   ],
-}
+};
 
 const districts: Record<string, { id: string; name: string }[]> = {
   "1-1": [
@@ -47,7 +60,7 @@ const districts: Record<string, { id: string; name: string }[]> = {
     { id: "2-1-1", name: "Bandung Wetan" },
     { id: "2-1-2", name: "Sumur Bandung" },
   ],
-}
+};
 
 const subDistricts: Record<string, { id: string; name: string }[]> = {
   "1-1-1": [
@@ -58,20 +71,38 @@ const subDistricts: Record<string, { id: string; name: string }[]> = {
     { id: "2-1-1-1", name: "Cihapit" },
     { id: "2-1-1-2", name: "Citarum" },
   ],
-}
+};
 
-const religions = ["Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Konghucu"]
-const maritalStatuses = ["Belum Menikah", "Menikah", "Cerai Hidup", "Cerai Mati"]
-const educationLevels = ["SD", "SMP", "SMA/SMK", "D3", "S1", "S2", "S3"]
+const religions = [
+  "Islam",
+  "Kristen",
+  "Katolik",
+  "Hindu",
+  "Buddha",
+  "Konghucu",
+];
+const maritalStatuses = [
+  "Belum Menikah",
+  "Menikah",
+  "Cerai Hidup",
+  "Cerai Mati",
+];
+const educationLevels = ["SD", "SMP", "SMA/SMK", "D3", "S1", "S2", "S3"];
 
 export default function RegisterPage() {
-  const router = useRouter()
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // const taskId = searchParams.get("taskId") || "";
+  const referal = searchParams.get("referal") || "";
+
   const [formData, setFormData] = useState({
     // Group 1: Akun
     fullName: "",
     email: "",
     password: "",
     confirmPassword: "",
+    referalCode: "",
     // Group 2: Identitas
     ktpPhoto: null as File | null,
     nik: "",
@@ -99,38 +130,44 @@ export default function RegisterPage() {
     twitter: "",
     whatsapp: "",
     tiktok: "",
-  })
-  const [isLoading, setIsLoading] = useState(false)
-  const [ktpPreview, setKtpPreview] = useState<string | null>(null)
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [ktpPreview, setKtpPreview] = useState<string | null>(null);
 
   const handleKtpUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
+    const file = e.target.files?.[0];
     if (file) {
-      setFormData({ ...formData, ktpPhoto: file })
-      const reader = new FileReader()
+      setFormData({ ...formData, ktpPhoto: file });
+      const reader = new FileReader();
       reader.onloadend = () => {
-        setKtpPreview(reader.result as string)
-      }
-      reader.readAsDataURL(file)
+        setKtpPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
-  }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Password dan konfirmasi password tidak cocok!")
-      return
+      alert("Password dan konfirmasi password tidak cocok!");
+      return;
     }
 
-    setIsLoading(true)
+    setIsLoading(true);
 
     // Simulate registration
     setTimeout(() => {
-      setIsLoading(false)
-      router.push("/login")
-    }, 1500)
-  }
+      setIsLoading(false);
+      router.push("/login");
+    }, 1500);
+  };
+
+  useEffect(() => {
+    if (referal) {
+      setFormData((prev) => ({ ...prev, referalCode: referal }));
+    }
+  }, [referal]);
 
   return (
     <div className="relative">
@@ -141,12 +178,16 @@ export default function RegisterPage() {
       </div>
 
       <Card className="border-border shadow-xl">
-        <CardHeader className="space-y-3 pb-6">
-          <div className="mx-auto w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center shadow-lg">
+        <CardHeader className="space-y-3">
+          <div className="mx-auto w-16 h-16 bg-gradient-to-br from-primary to-accent-foreground rounded-2xl flex items-center justify-center shadow-lg">
             <UserPlus className="w-8 h-8 text-white" />
           </div>
-          <CardTitle className="text-2xl font-bold text-center">Daftar Anggota Baru</CardTitle>
-          <CardDescription className="text-center">Lengkapi formulir pendaftaran di bawah ini</CardDescription>
+          <CardTitle className="text-2xl font-bold text-center">
+            Daftar Anggota Baru
+          </CardTitle>
+          <CardDescription className="text-center">
+            Lengkapi formulir pendaftaran di bawah ini
+          </CardDescription>
         </CardHeader>
         <CardContent className="pb-6">
           <form onSubmit={handleSubmit} className="space-y-8">
@@ -168,7 +209,9 @@ export default function RegisterPage() {
                   type="text"
                   placeholder="Masukkan nama lengkap"
                   value={formData.fullName}
-                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, fullName: e.target.value })
+                  }
                   required
                   className="h-11"
                 />
@@ -183,7 +226,9 @@ export default function RegisterPage() {
                   type="email"
                   placeholder="nama@email.com"
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                   required
                   className="h-11"
                 />
@@ -198,7 +243,9 @@ export default function RegisterPage() {
                   type="password"
                   placeholder="Minimal 8 karakter"
                   value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
                   required
                   minLength={8}
                   className="h-11"
@@ -207,16 +254,38 @@ export default function RegisterPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword">
-                  Konfirmasi Kata Sandi <span className="text-destructive">*</span>
+                  Konfirmasi Kata Sandi{" "}
+                  <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="confirmPassword"
                   type="password"
                   placeholder="Ulangi kata sandi"
                   value={formData.confirmPassword}
-                  onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      confirmPassword: e.target.value,
+                    })
+                  }
                   required
                   minLength={8}
+                  className="h-11"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="referalCode">Kode Referal (Opsional)</Label>
+                <Input
+                  disabled={!!referal}
+                  id="referalCode"
+                  type="text"
+                  placeholder="Masukkan kode referal jika ada"
+                  value={formData.referalCode}
+                  onChange={(e) =>
+                    setFormData({ ...formData, referalCode: e.target.value })
+                  }
+                  required
                   className="h-11"
                 />
               </div>
@@ -248,7 +317,8 @@ export default function RegisterPage() {
                   </div>
                   {ktpPreview && (
                     <div className="relative w-full h-40 rounded-lg overflow-hidden border border-border">
-                      <img
+                      <Image
+                        unoptimized
                         src={ktpPreview || "/placeholder.svg"}
                         alt="Preview KTP"
                         className="w-full h-full object-cover"
@@ -267,11 +337,135 @@ export default function RegisterPage() {
                   type="text"
                   placeholder="16 digit NIK"
                   value={formData.nik}
-                  onChange={(e) => setFormData({ ...formData, nik: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, nik: e.target.value })
+                  }
                   required
                   maxLength={16}
                   className="h-11"
                 />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="birthDate">
+                  Tanggal Lahir <span className="text-destructive">*</span>
+                </Label>
+                <Input
+                  id="birthDate"
+                  type="date"
+                  value={formData.birthDate}
+                  onChange={(e) =>
+                    setFormData({ ...formData, birthDate: e.target.value })
+                  }
+                  required
+                  className="h-11"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="birthPlace">
+                  Tempat Lahir <span className="text-destructive">*</span>
+                </Label>
+                <Input
+                  id="birthPlace"
+                  type="text"
+                  placeholder="Kota tempat lahir"
+                  value={formData.birthPlace}
+                  onChange={(e) =>
+                    setFormData({ ...formData, birthPlace: e.target.value })
+                  }
+                  required
+                  className="h-11"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="religion">
+                  Agama <span className="text-destructive">*</span>
+                </Label>
+                <Select
+                  value={formData.religion}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, religion: value })
+                  }
+                  required
+                >
+                  <SelectTrigger className="h-11 w-full">
+                    <SelectValue placeholder="Pilih agama" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {religions.map((religion) => (
+                      <SelectItem key={religion} value={religion}>
+                        {religion}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="maritalStatus">
+                  Status Menikah <span className="text-destructive">*</span>
+                </Label>
+                <Select
+                  value={formData.maritalStatus}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, maritalStatus: value })
+                  }
+                  required
+                >
+                  <SelectTrigger className="h-11 w-full">
+                    <SelectValue placeholder="Pilih status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {maritalStatuses.map((status) => (
+                      <SelectItem key={status} value={status}>
+                        {status}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="occupation">
+                  Pekerjaan <span className="text-destructive">*</span>
+                </Label>
+                <Input
+                  id="occupation"
+                  type="text"
+                  placeholder="Masukkan pekerjaan"
+                  value={formData.occupation}
+                  onChange={(e) =>
+                    setFormData({ ...formData, occupation: e.target.value })
+                  }
+                  required
+                  className="h-11"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="education">
+                  Pendidikan Terakhir{" "}
+                  <span className="text-destructive">*</span>
+                </Label>
+                <Select
+                  value={formData.education}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, education: value })
+                  }
+                  required
+                >
+                  <SelectTrigger className="h-11 w-full">
+                    <SelectValue placeholder="Pilih pendidikan" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {educationLevels.map((level) => (
+                      <SelectItem key={level} value={level}>
+                        {level}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="space-y-2">
@@ -281,7 +475,13 @@ export default function RegisterPage() {
                 <Select
                   value={formData.province}
                   onValueChange={(value) =>
-                    setFormData({ ...formData, province: value, city: "", district: "", subDistrict: "" })
+                    setFormData({
+                      ...formData,
+                      province: value,
+                      city: "",
+                      district: "",
+                      subDistrict: "",
+                    })
                   }
                   required
                 >
@@ -304,7 +504,14 @@ export default function RegisterPage() {
                 </Label>
                 <Select
                   value={formData.city}
-                  onValueChange={(value) => setFormData({ ...formData, city: value, district: "", subDistrict: "" })}
+                  onValueChange={(value) =>
+                    setFormData({
+                      ...formData,
+                      city: value,
+                      district: "",
+                      subDistrict: "",
+                    })
+                  }
                   disabled={!formData.province}
                   required
                 >
@@ -328,7 +535,13 @@ export default function RegisterPage() {
                 </Label>
                 <Select
                   value={formData.district}
-                  onValueChange={(value) => setFormData({ ...formData, district: value, subDistrict: "" })}
+                  onValueChange={(value) =>
+                    setFormData({
+                      ...formData,
+                      district: value,
+                      subDistrict: "",
+                    })
+                  }
                   disabled={!formData.city}
                   required
                 >
@@ -352,7 +565,9 @@ export default function RegisterPage() {
                 </Label>
                 <Select
                   value={formData.subDistrict}
-                  onValueChange={(value) => setFormData({ ...formData, subDistrict: value })}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, subDistrict: value })
+                  }
                   disabled={!formData.district}
                   required
                 >
@@ -380,7 +595,9 @@ export default function RegisterPage() {
                     type="text"
                     placeholder="001"
                     value={formData.rt}
-                    onChange={(e) => setFormData({ ...formData, rt: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, rt: e.target.value })
+                    }
                     required
                     maxLength={3}
                     className="h-11"
@@ -395,7 +612,9 @@ export default function RegisterPage() {
                     type="text"
                     placeholder="001"
                     value={formData.rw}
-                    onChange={(e) => setFormData({ ...formData, rw: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, rw: e.target.value })
+                    }
                     required
                     maxLength={3}
                     className="h-11"
@@ -411,121 +630,13 @@ export default function RegisterPage() {
                   id="detailAddress"
                   placeholder="Masukkan alamat lengkap (nama jalan, nomor rumah, dll)"
                   value={formData.detailAddress}
-                  onChange={(e) => setFormData({ ...formData, detailAddress: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, detailAddress: e.target.value })
+                  }
                   required
                   rows={3}
                   className="resize-none"
                 />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="birthDate">
-                  Tanggal Lahir <span className="text-destructive">*</span>
-                </Label>
-                <Input
-                  id="birthDate"
-                  type="date"
-                  value={formData.birthDate}
-                  onChange={(e) => setFormData({ ...formData, birthDate: e.target.value })}
-                  required
-                  className="h-11"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="birthPlace">
-                  Tempat Lahir <span className="text-destructive">*</span>
-                </Label>
-                <Input
-                  id="birthPlace"
-                  type="text"
-                  placeholder="Kota tempat lahir"
-                  value={formData.birthPlace}
-                  onChange={(e) => setFormData({ ...formData, birthPlace: e.target.value })}
-                  required
-                  className="h-11"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="religion">
-                  Agama <span className="text-destructive">*</span>
-                </Label>
-                <Select
-                  value={formData.religion}
-                  onValueChange={(value) => setFormData({ ...formData, religion: value })}
-                  required
-                >
-                  <SelectTrigger className="h-11 w-full">
-                    <SelectValue placeholder="Pilih agama" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {religions.map((religion) => (
-                      <SelectItem key={religion} value={religion}>
-                        {religion}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="maritalStatus">
-                  Status Menikah <span className="text-destructive">*</span>
-                </Label>
-                <Select
-                  value={formData.maritalStatus}
-                  onValueChange={(value) => setFormData({ ...formData, maritalStatus: value })}
-                  required
-                >
-                  <SelectTrigger className="h-11 w-full">
-                    <SelectValue placeholder="Pilih status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {maritalStatuses.map((status) => (
-                      <SelectItem key={status} value={status}>
-                        {status}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="occupation">
-                  Pekerjaan <span className="text-destructive">*</span>
-                </Label>
-                <Input
-                  id="occupation"
-                  type="text"
-                  placeholder="Masukkan pekerjaan"
-                  value={formData.occupation}
-                  onChange={(e) => setFormData({ ...formData, occupation: e.target.value })}
-                  required
-                  className="h-11"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="education">
-                  Pendidikan Terakhir <span className="text-destructive">*</span>
-                </Label>
-                <Select
-                  value={formData.education}
-                  onValueChange={(value) => setFormData({ ...formData, education: value })}
-                  required
-                >
-                  <SelectTrigger className="h-11 w-full">
-                    <SelectValue placeholder="Pilih pendidikan" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {educationLevels.map((level) => (
-                      <SelectItem key={level} value={level}>
-                        {level}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
               </div>
             </div>
 
@@ -547,7 +658,9 @@ export default function RegisterPage() {
                   type="tel"
                   placeholder="08xxxxxxxxxx"
                   value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, phone: e.target.value })
+                  }
                   required
                   className="h-11"
                 />
@@ -555,42 +668,57 @@ export default function RegisterPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="homePhone">
-                  Telepon Rumah <span className="text-muted-foreground text-xs">(Opsional)</span>
+                  Telepon Rumah{" "}
+                  <span className="text-muted-foreground text-xs">
+                    (Opsional)
+                  </span>
                 </Label>
                 <Input
                   id="homePhone"
                   type="tel"
                   placeholder="021xxxxxxxx"
                   value={formData.homePhone}
-                  onChange={(e) => setFormData({ ...formData, homePhone: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, homePhone: e.target.value })
+                  }
                   className="h-11"
                 />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="officePhone">
-                  Telepon Kantor <span className="text-muted-foreground text-xs">(Opsional)</span>
+                  Telepon Kantor{" "}
+                  <span className="text-muted-foreground text-xs">
+                    (Opsional)
+                  </span>
                 </Label>
                 <Input
                   id="officePhone"
                   type="tel"
                   placeholder="021xxxxxxxx"
                   value={formData.officePhone}
-                  onChange={(e) => setFormData({ ...formData, officePhone: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, officePhone: e.target.value })
+                  }
                   className="h-11"
                 />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="fax">
-                  Faksimili <span className="text-muted-foreground text-xs">(Opsional)</span>
+                  Faksimili{" "}
+                  <span className="text-muted-foreground text-xs">
+                    (Opsional)
+                  </span>
                 </Label>
                 <Input
                   id="fax"
                   type="tel"
                   placeholder="021xxxxxxxx"
                   value={formData.fax}
-                  onChange={(e) => setFormData({ ...formData, fax: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, fax: e.target.value })
+                  }
                   className="h-11"
                 />
               </div>
@@ -604,7 +732,9 @@ export default function RegisterPage() {
                 </div>
                 <h3 className="font-semibold text-base">Media Sosial</h3>
               </div>
-              <p className="text-sm text-muted-foreground">Semua field di bawah ini bersifat opsional</p>
+              <p className="text-sm text-muted-foreground">
+                Semua field di bawah ini bersifat opsional
+              </p>
 
               <div className="space-y-2">
                 <Label htmlFor="facebook">Link Facebook</Label>
@@ -613,7 +743,9 @@ export default function RegisterPage() {
                   type="url"
                   placeholder="https://facebook.com/username"
                   value={formData.facebook}
-                  onChange={(e) => setFormData({ ...formData, facebook: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, facebook: e.target.value })
+                  }
                   className="h-11"
                 />
               </div>
@@ -625,7 +757,9 @@ export default function RegisterPage() {
                   type="url"
                   placeholder="https://instagram.com/username"
                   value={formData.instagram}
-                  onChange={(e) => setFormData({ ...formData, instagram: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, instagram: e.target.value })
+                  }
                   className="h-11"
                 />
               </div>
@@ -637,7 +771,9 @@ export default function RegisterPage() {
                   type="url"
                   placeholder="https://twitter.com/username"
                   value={formData.twitter}
-                  onChange={(e) => setFormData({ ...formData, twitter: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, twitter: e.target.value })
+                  }
                   className="h-11"
                 />
               </div>
@@ -649,7 +785,9 @@ export default function RegisterPage() {
                   type="tel"
                   placeholder="08xxxxxxxxxx"
                   value={formData.whatsapp}
-                  onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, whatsapp: e.target.value })
+                  }
                   className="h-11"
                 />
               </div>
@@ -661,21 +799,30 @@ export default function RegisterPage() {
                   type="url"
                   placeholder="https://tiktok.com/@username"
                   value={formData.tiktok}
-                  onChange={(e) => setFormData({ ...formData, tiktok: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, tiktok: e.target.value })
+                  }
                   className="h-11"
                 />
               </div>
             </div>
 
             <div className="pt-4">
-              <Button type="submit" className="w-full h-12 font-semibold text-base" disabled={isLoading}>
+              <Button
+                type="submit"
+                className="w-full h-12 font-semibold text-base"
+                disabled={isLoading}
+              >
                 {isLoading ? "Memproses Pendaftaran..." : "Daftar Sekarang"}
               </Button>
             </div>
 
             <div className="text-center text-sm text-muted-foreground">
               Sudah punya akun?{" "}
-              <Link href="/login" className="text-primary font-semibold hover:underline">
+              <Link
+                href="/anggota/login"
+                className="text-primary font-semibold hover:underline"
+              >
                 Masuk di sini
               </Link>
             </div>
@@ -683,5 +830,6 @@ export default function RegisterPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
+

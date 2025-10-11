@@ -2,7 +2,7 @@ import { KTACard } from "@/components/kta-card";
 import { AnnouncementCarousel } from "@/components/announcement-carousel";
 import { TaskCard } from "@/components/task-card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Megaphone, Briefcase } from "lucide-react";
+import { ArrowRight, Megaphone, Briefcase, LayoutGrid } from "lucide-react";
 import Link from "next/link";
 
 const popularTasks = [
@@ -61,11 +61,18 @@ export default function HomePage() {
   return (
     <div className="space-y-6 p-4 safe-area-top">
       {/* Header */}
-      <div className="pt-2">
-        <h1 className="text-2xl font-bold text-foreground">Selamat Datang</h1>
-        <p className="text-sm text-muted-foreground">
-          Kelola keanggotaan Anda dengan mudah
-        </p>
+      <div className="pt-4 flex gap-3">
+        <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+          <LayoutGrid className="w-6 h-6 text-primary" />
+        </div>
+        <div>
+          <h1 className="text-2xl font-bold text-foreground leading-tight">
+            Selamat Datang
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            Kelola keanggotaan Anda dengan mudah
+          </p>
+        </div>
       </div>
 
       {/* KTA Card */}

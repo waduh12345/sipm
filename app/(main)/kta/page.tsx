@@ -1,6 +1,6 @@
 "use client";
 
-import { PrinterIcon } from "lucide-react";
+import { PrinterIcon, IdCard } from "lucide-react";
 import { useRef } from "react";
 import { KTACard } from "@/components/kta-card";
 import KTACardBack from "@/components/kta-card-back";
@@ -15,11 +15,17 @@ export default function KtaPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background p-6">
+    <div className="min-h-screen bg-background p-4">
       <div className="space-y-6">
-        <div className="space-y-2 no-print">
+        {/* Header */}
+        <div className="pt-2 flex gap-3 no-print">
+          <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+            <IdCard className="w-6 h-6 text-primary" />
+          </div>
           <div>
-            <h1 className="text-2xl font-semibold">Kartu Anggota</h1>
+            <h1 className="text-2xl font-bold text-foreground leading-tight">
+              Kartu Anggota
+            </h1>
             <p className="text-sm text-muted-foreground">
               Tampilan depan dan belakang kartu, siap cetak
             </p>

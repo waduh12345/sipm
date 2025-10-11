@@ -1,9 +1,15 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { TaskCard } from "@/components/task-card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Filter, ArrowUpDown, Briefcase } from "lucide-react"
+import { useState } from "react";
+import { TaskCard } from "@/components/task-card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Filter, ArrowUpDown, Briefcase } from "lucide-react";
 
 // Sample tasks data
 const allTasks = [
@@ -11,7 +17,8 @@ const allTasks = [
     id: "1",
     category: "Rekrutment" as const,
     title: "Rekrutmen Anggota Baru Wilayah Jakarta",
-    description: "Bantu kami merekrut anggota baru di wilayah Jakarta dan sekitarnya",
+    description:
+      "Bantu kami merekrut anggota baru di wilayah Jakarta dan sekitarnya",
     progress: 65,
     target: 100,
     achieved: 65,
@@ -71,7 +78,8 @@ const allTasks = [
     id: "6",
     category: "Lainnya" as const,
     title: "Laporan Kegiatan Bulanan",
-    description: "Submit laporan kegiatan bulanan beserta dokumentasi pendukung",
+    description:
+      "Submit laporan kegiatan bulanan beserta dokumentasi pendukung",
     progress: 90,
     target: 30,
     achieved: 27,
@@ -79,37 +87,41 @@ const allTasks = [
     endDate: "5 Feb",
     bonus: 20000,
   },
-]
+];
 
 export default function TaskPage() {
-  const [categoryFilter, setCategoryFilter] = useState<string>("all")
-  const [sortBy, setSortBy] = useState<string>("newest")
+  const [categoryFilter, setCategoryFilter] = useState<string>("all");
+  const [sortBy, setSortBy] = useState<string>("newest");
 
   // Filter tasks by category
   const filteredTasks = allTasks.filter((task) => {
-    if (categoryFilter === "all") return true
-    return task.category === categoryFilter
-  })
+    if (categoryFilter === "all") return true;
+    return task.category === categoryFilter;
+  });
 
   // Sort tasks
   const sortedTasks = [...filteredTasks].sort((a, b) => {
     if (sortBy === "newest") {
-      return Number.parseInt(b.id) - Number.parseInt(a.id)
+      return Number.parseInt(b.id) - Number.parseInt(a.id);
     } else {
-      return Number.parseInt(a.id) - Number.parseInt(b.id)
+      return Number.parseInt(a.id) - Number.parseInt(b.id);
     }
-  })
+  });
 
   return (
     <div className="space-y-4 p-4 safe-area-top">
       {/* Header */}
-      <div className="pt-2 flex items-center gap-3">
+      <div className="pt-4 flex gap-3">
         <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
           <Briefcase className="w-6 h-6 text-primary" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold text-foreground leading-tight">Semua Task</h1>
-          <p className="text-sm text-muted-foreground">Pilih task dan selesaikan untuk mendapatkan bonus</p>
+          <h1 className="text-2xl font-bold text-foreground leading-tight">
+            Semua Task
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            Pilih task dan selesaikan untuk mendapatkan bonus
+          </p>
         </div>
       </div>
 
@@ -157,5 +169,6 @@ export default function TaskPage() {
         </div>
       )}
     </div>
-  )
+  );
 }
+

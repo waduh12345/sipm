@@ -36,7 +36,7 @@ export function TaskCard({
   bonus,
 }: TaskCardProps) {
   return (
-    <Link href={`/task/${id}`}>
+    <Link href={`/task/detail`}>
       <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full bg-card">
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between gap-2 mb-2">

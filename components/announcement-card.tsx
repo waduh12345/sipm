@@ -24,7 +24,7 @@ export function AnnouncementCard({
 }: AnnouncementCardProps) {
   if (variant === "large") {
     return (
-      <Link href={`/pengumuman/${id}`}>
+      <Link href={`/pengumuman/detail`}>
         <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer border-0 shadow-md">
           <div className="relative h-48">
             <img src={imageUrl || "/placeholder.svg"} alt={title} className="w-full h-full object-cover" />

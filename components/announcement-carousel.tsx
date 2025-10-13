@@ -37,7 +37,7 @@ export function AnnouncementCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [touchStart, setTouchStart] = useState(0)
   const [touchEnd, setTouchEnd] = useState(0)
-  const autoSlideRef = useRef<NodeJS.Timeout>()
+  const autoSlideRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   useEffect(() => {
     autoSlideRef.current = setInterval(() => {

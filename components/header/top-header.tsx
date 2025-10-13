@@ -15,7 +15,6 @@ import {
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import useCart from "@/hooks/use-cart";
 import Image from "next/image";
 
 interface TranslationContent {
@@ -44,12 +43,6 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const { data: session, status } = useSession();
-
-  const cartItems = useCart((s) => s.cartItems);
-  const cartCount = useMemo(
-    () => cartItems.reduce((t, item) => t + item.quantity, 0),
-    [cartItems]
-  );
 
   const translations: Translations = {
     id: {
@@ -263,20 +256,6 @@ export default function Header() {
                   <MessageSquare className="w-5 h-5 text-[#6B6B6B]" />
                 </button>
               )}
-
-              {/* Cart */}
-              <button
-                onClick={handleCartClick}
-                className="relative p-3 rounded-xl hover:bg-gray-100 transition-all duration-300"
-                aria-label="Cart"
-              >
-                <ShoppingCart className="w-5 h-5 text-[#6B6B6B]" />
-                {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-[#E53935] text-white text-xs font-bold min-w-[20px] h-[20px] rounded-full flex items-center justify-center border-2 border-white shadow-lg">
-                    {cartCount > 99 ? "99+" : cartCount}
-                  </span>
-                )}
-              </button>
 
               {/* Mobile Menu Button */}
               <button

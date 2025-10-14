@@ -32,7 +32,11 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { UserPlus, Loader2 } from "lucide-react";
 import { useRegisterMutation } from "@/services/admin/anggota.service";
-import { extractApiErrorMessage, hasErrorString, isFetchBaseQueryError } from "@/lib/error-format";
+import {
+  extractApiErrorMessage,
+  hasErrorString,
+  isFetchBaseQueryError,
+} from "@/lib/error-format";
 
 const religions = [
   "Islam",
@@ -134,7 +138,7 @@ export default function RegisterForm() {
     {
       page: 1,
       paginate: 100,
-      search: debouncedProvinsiSearch,
+      search: debouncedKotaSearch,
       province_id: formData.province_id,
     },
     { skip: !formData.province_id || debouncedKotaSearch.length < 2 }
@@ -225,8 +229,13 @@ export default function RegisterForm() {
       // validasi minimal
       if (!formData.name || !formData.email || !formData.phone || !formData.ktp)
         throw new Error("Nama, Email, Telepon, dan KTP wajib diisi");
-      if (!formData.gender || !["M", "F"].includes(formData.gender as string))
-        throw new Error("Gender wajib diisi (M/F)");
+
+      // ✅ Normalisasi gender sesuai rule backend: in:laki-laki,wanita
+      const genderNormalized = (formData.gender ?? "").trim().toLowerCase();
+      if (!["laki-laki", "wanita"].includes(genderNormalized)) {
+        throw new Error("Jenis kelamin wajib dipilih (laki-laki/wanita)");
+      }
+
       if (!formData.password || formData.password.trim().length < 8)
         throw new Error("Password minimal 8 karakter");
       if (formData.password !== formData.password_confirmation)
@@ -237,11 +246,12 @@ export default function RegisterForm() {
       fd.append("email", formData.email);
       fd.append("phone", formData.phone);
       fd.append("address", formData.address ?? "");
-      fd.append("gender", formData.gender);
+      fd.append("gender", genderNormalized); // ✅ kirim nilai yang valid
       fd.append("birth_date", formData.birth_date ?? "");
       fd.append("birth_place", formData.birth_place ?? "");
       fd.append("status", String(formData.status));
       fd.append("ktp", formData.ktp ?? "");
+
       if (formData.province_id) fd.append("province_id", formData.province_id);
       if (formData.regency_id) fd.append("regency_id", formData.regency_id);
       if (formData.district_id) fd.append("district_id", formData.district_id);
@@ -583,14 +593,13 @@ export default function RegisterForm() {
                   onValueChange={(value) =>
                     setFormData({ ...formData, gender: value })
                   }
-                  required
                 >
                   <SelectTrigger id="gender" className="h-11 w-full">
                     <SelectValue placeholder="Pilih jenis kelamin" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="M">Laki-laki</SelectItem>
-                    <SelectItem value="F">Perempuan</SelectItem>
+                    <SelectItem value="laki-laki">Laki-laki</SelectItem>
+                    <SelectItem value="wanita">Perempuan</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -899,7 +908,7 @@ export default function RegisterForm() {
                   <Input
                     id="rt"
                     type="text"
-                    placeholder="001"
+                    placeholder="Misal: 1"
                     value={formData.rt}
                     onChange={(e) =>
                       setFormData({ ...formData, rt: e.target.value })
@@ -916,7 +925,7 @@ export default function RegisterForm() {
                   <Input
                     id="rw"
                     type="text"
-                    placeholder="001"
+                    placeholder="Misal: 1"
                     value={formData.rw}
                     onChange={(e) =>
                       setFormData({ ...formData, rw: e.target.value })

@@ -52,8 +52,8 @@ export async function middleware(req: NextRequest) {
     return redirectToLogin(req);
   }
 
-  // This logic applies only to the /admin/* path
-  if (pathname.startsWith("/admin") && !isSuperadmin(token.roles) && !isAdmin(token.roles)) {
+  // ⛔️ Restrict /admin hanya untuk superadmin
+  if (pathname.startsWith("/admin") && !isSuperadmin(token.roles)) {
     return redirectToLogin(req);
   }
 

@@ -5,6 +5,7 @@ export interface Anggota {
   email: string;
   gender: string;
   birth_place: string;
+  user_id: number;
   birth_date: string;
   address: string;
   phone: string;

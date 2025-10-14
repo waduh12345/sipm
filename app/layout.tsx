@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SwRegister from "@/components/SwRegister";
 import ReduxProvider from "@/providers/redux";
+import { Suspense } from "react"; // ➕
+import AuthGate from "@/components/auth-gate";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,9 +27,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="id">
       <head>
@@ -46,6 +46,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReduxProvider>
+          {/* 🔐 Blokir semua halaman saat session kosong, kecuali route publik */}
+          <Suspense fallback={null}>
+            <AuthGate />
+          </Suspense>
+
           {children}
           <SwRegister />
         </ReduxProvider>

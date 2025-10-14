@@ -281,11 +281,11 @@ export default function AnggotaForm({
       {/* Content */}
       <div className="flex-1 overflow-y-auto p-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {readonly && (
-              <>
-              <KTACard />
-              <KTACardBack memberId={'1'} />
-              </>
+          {readonly && form.id && (
+            <>
+              <KTACard memberId={form.id} onClickRoute="/admin/kta" />
+              <KTACardBack memberId={String(form.id)} />
+            </>
           )}
           {/* ========================================================== */}
           {/* BASIC INFO */}
@@ -362,42 +362,44 @@ export default function AnggotaForm({
           </div>
 
           {/* KTP */}
-						<div className="flex flex-col gap-y-1">
-						<Label htmlFor="ktp">Nomor KTP</Label>
-						<Input
-							id="ktp"
-							name="ktp"
-							placeholder="Masukkan 16 digit nomor KTP"
-							value={form.ktp ?? ""}
-							onChange={(e) => {
-							const digitsOnly = e.target.value.replace(/\D/g, "").slice(0, 16);
-							setForm({ ...form, ktp: digitsOnly });
-							}}
-							inputMode="numeric"
-							maxLength={16}
-							pattern="^\d{16}$"
-							title="Nomor KTP harus 16 digit angka"
-							readOnly={readonly}
-							autoComplete="off"
-							className={
-							(form.ktp ?? "").length > 0 && !/^\d{16}$/.test(form.ktp ?? "")
-								? "border-red-500 focus-visible:ring-red-500"
-								: undefined
-							}
-							aria-invalid={
-							(form.ktp ?? "").length > 0 && !/^\d{16}$/.test(form.ktp ?? "")
-								? "true"
-								: "false"
-							}
-						/>
-						{!readonly &&
-							(form.ktp ?? "").length > 0 &&
-							!/^\d{16}$/.test(form.ktp ?? "") && (
-							<span className="text-xs text-red-600">
-								Nomor KTP harus terdiri dari 16 digit angka.
-							</span>
-							)}
-						</div>
+          <div className="flex flex-col gap-y-1">
+            <Label htmlFor="ktp">Nomor KTP</Label>
+            <Input
+              id="ktp"
+              name="ktp"
+              placeholder="Masukkan 16 digit nomor KTP"
+              value={form.ktp ?? ""}
+              onChange={(e) => {
+                const digitsOnly = e.target.value
+                  .replace(/\D/g, "")
+                  .slice(0, 16);
+                setForm({ ...form, ktp: digitsOnly });
+              }}
+              inputMode="numeric"
+              maxLength={16}
+              pattern="^\d{16}$"
+              title="Nomor KTP harus 16 digit angka"
+              readOnly={readonly}
+              autoComplete="off"
+              className={
+                (form.ktp ?? "").length > 0 && !/^\d{16}$/.test(form.ktp ?? "")
+                  ? "border-red-500 focus-visible:ring-red-500"
+                  : undefined
+              }
+              aria-invalid={
+                (form.ktp ?? "").length > 0 && !/^\d{16}$/.test(form.ktp ?? "")
+                  ? "true"
+                  : "false"
+              }
+            />
+            {!readonly &&
+              (form.ktp ?? "").length > 0 &&
+              !/^\d{16}$/.test(form.ktp ?? "") && (
+                <span className="text-xs text-red-600">
+                  Nomor KTP harus terdiri dari 16 digit angka.
+                </span>
+              )}
+          </div>
 
           {/* Tempat/Tanggal Lahir */}
           <div className="grid grid-cols-2 gap-4">
@@ -425,42 +427,42 @@ export default function AnggotaForm({
           </div>
 
           {/* Agama */}
-					<div className="flex flex-col gap-y-1">
-						<Label>Agama</Label>
-						<select
-							className="border rounded-md px-3 py-2 text-sm bg-white dark:bg-zinc-800 border-gray-300 dark:border-zinc-600"
-							value={form.religion ?? ""}
-							onChange={(e) => setForm({ ...form, religion: e.target.value })}
-							disabled={readonly}
-						>
-							<option value="">Pilih Agama</option>
-							<option value="Islam">Islam</option>
-							<option value="Kristen Protestan">Kristen Protestan</option>
-							<option value="Katolik">Katolik</option>
-							<option value="Hindu">Hindu</option>
-							<option value="Buddha">Buddha</option>
-							<option value="Konghucu">Konghucu</option>
-						</select>
-					</div>
+          <div className="flex flex-col gap-y-1">
+            <Label>Agama</Label>
+            <select
+              className="border rounded-md px-3 py-2 text-sm bg-white dark:bg-zinc-800 border-gray-300 dark:border-zinc-600"
+              value={form.religion ?? ""}
+              onChange={(e) => setForm({ ...form, religion: e.target.value })}
+              disabled={readonly}
+            >
+              <option value="">Pilih Agama</option>
+              <option value="Islam">Islam</option>
+              <option value="Kristen Protestan">Kristen Protestan</option>
+              <option value="Katolik">Katolik</option>
+              <option value="Hindu">Hindu</option>
+              <option value="Buddha">Buddha</option>
+              <option value="Konghucu">Konghucu</option>
+            </select>
+          </div>
 
           {/* Status Pernikahan */}
-						<div className="flex flex-col gap-y-1">
-						<Label>Status Pernikahan</Label>
-						<select
-							className="border rounded-md px-3 py-2 text-sm bg-white dark:bg-zinc-800 border-gray-300 dark:border-zinc-600"
-							value={form.marital_status ?? ""}
-							onChange={(e) =>
-							setForm({ ...form, marital_status: e.target.value })
-							}
-							disabled={readonly}
-						>
-							<option value="">Pilih Status Pernikahan</option>
-							<option value="Belum Menikah">Belum Menikah</option>
-							<option value="Menikah">Menikah</option>
-							<option value="Cerai Hidup">Cerai Hidup</option>
-							<option value="Cerai Mati">Cerai Mati</option>
-						</select>
-					</div>
+          <div className="flex flex-col gap-y-1">
+            <Label>Status Pernikahan</Label>
+            <select
+              className="border rounded-md px-3 py-2 text-sm bg-white dark:bg-zinc-800 border-gray-300 dark:border-zinc-600"
+              value={form.marital_status ?? ""}
+              onChange={(e) =>
+                setForm({ ...form, marital_status: e.target.value })
+              }
+              disabled={readonly}
+            >
+              <option value="">Pilih Status Pernikahan</option>
+              <option value="Belum Menikah">Belum Menikah</option>
+              <option value="Menikah">Menikah</option>
+              <option value="Cerai Hidup">Cerai Hidup</option>
+              <option value="Cerai Mati">Cerai Mati</option>
+            </select>
+          </div>
 
           {/* Pekerjaan */}
           <div className="flex flex-col gap-y-1">
@@ -468,9 +470,7 @@ export default function AnggotaForm({
             <select
               className="border rounded-md px-3 py-2 text-sm bg-white dark:bg-zinc-800 border-gray-300 dark:border-zinc-600"
               value={form.occupation ?? ""}
-              onChange={(e) =>
-                setForm({ ...form, occupation: e.target.value })
-              }
+              onChange={(e) => setForm({ ...form, occupation: e.target.value })}
               disabled={readonly}
             >
               <option value="">Pilih Pekerjaan</option>
@@ -480,7 +480,9 @@ export default function AnggotaForm({
               <option value="PEGAWAI NEGERI SIPIL">PEGAWAI NEGERI SIPIL</option>
               <option value="TNI">TNI</option>
               <option value="POLRI">POLRI</option>
-              <option value="MENGURUS RUMAH TANGGA">MENGURUS RUMAH TANGGA</option>
+              <option value="MENGURUS RUMAH TANGGA">
+                MENGURUS RUMAH TANGGA
+              </option>
               <option value="BELUM/TIDAK BEKERJA">BELUM/TIDAK BEKERJA</option>
               <option value="PETANI/PEKEBUN">PETANI/PEKEBUN</option>
               <option value="PEDAGANG">PEDAGANG</option>
@@ -490,30 +492,30 @@ export default function AnggotaForm({
             </select>
           </div>
 
-						{/* Pendidikan Terakhir */}
-						<div className="flex flex-col gap-y-1">
-						<Label>Pendidikan Terakhir</Label>
-						<select
-							className="border rounded-md px-3 py-2 text-sm bg-white dark:bg-zinc-800 border-gray-300 dark:border-zinc-600"
-							value={form.last_education ?? ""}
-							onChange={(e) =>
-							setForm({ ...form, last_education: e.target.value })
-							}
-							disabled={readonly}
-						>
-							<option value="">Pilih Pendidikan Terakhir</option>
-							<option value="SD">SD</option>
-							<option value="SMP">SMP</option>
-							<option value="SMA/SMK">SMA/SMK</option>
-							<option value="D1">D1</option>
-							<option value="D2">D2</option>
-							<option value="D3">D3</option>
-							<option value="D4">D4</option>
-							<option value="S1">S1</option>
-							<option value="S2">S2</option>
-							<option value="S3">S3</option>
-						</select>
-						</div>
+          {/* Pendidikan Terakhir */}
+          <div className="flex flex-col gap-y-1">
+            <Label>Pendidikan Terakhir</Label>
+            <select
+              className="border rounded-md px-3 py-2 text-sm bg-white dark:bg-zinc-800 border-gray-300 dark:border-zinc-600"
+              value={form.last_education ?? ""}
+              onChange={(e) =>
+                setForm({ ...form, last_education: e.target.value })
+              }
+              disabled={readonly}
+            >
+              <option value="">Pilih Pendidikan Terakhir</option>
+              <option value="SD">SD</option>
+              <option value="SMP">SMP</option>
+              <option value="SMA/SMK">SMA/SMK</option>
+              <option value="D1">D1</option>
+              <option value="D2">D2</option>
+              <option value="D3">D3</option>
+              <option value="D4">D4</option>
+              <option value="S1">S1</option>
+              <option value="S2">S2</option>
+              <option value="S3">S3</option>
+            </select>
+          </div>
 
           {/* ========================================================== */}
           {/* ADDRESS INFO */}
@@ -550,7 +552,9 @@ export default function AnggotaForm({
                       <Loader2 className="h-5 w-5 animate-spin" />
                     </div>
                   ) : provinsiSearch.length < 2 ? (
-                    <p className="text-sm text-gray-500 p-3">Ketik minimal 2 huruf...</p>
+                    <p className="text-sm text-gray-500 p-3">
+                      Ketik minimal 2 huruf...
+                    </p>
                   ) : filteredProvinsi.length > 0 ? (
                     filteredProvinsi.map((provinsi) => (
                       <button
@@ -563,177 +567,191 @@ export default function AnggotaForm({
                       </button>
                     ))
                   ) : (
-                    <p className="text-sm text-gray-500 p-3">Provinsi tidak ditemukan.</p>
+                    <p className="text-sm text-gray-500 p-3">
+                      Provinsi tidak ditemukan.
+                    </p>
                   )}
                 </div>
               )}
             </div>
           </div>
 
-            {/* Kota Searchable Dropdown */}
-            <div className="flex flex-col gap-y-1.5" ref={dropdownKotaRef}>
-                <Label htmlFor="regency_id">Kota / Kabupaten</Label>
-                <div className="relative">
-                <Input
+          {/* Kota Searchable Dropdown */}
+          <div className="flex flex-col gap-y-1.5" ref={dropdownKotaRef}>
+            <Label htmlFor="regency_id">Kota / Kabupaten</Label>
+            <div className="relative">
+              <Input
                 id="regency_id"
                 placeholder={
-                    !form.province_id
+                  !form.province_id
                     ? "Pilih provinsi terlebih dahulu"
                     : "Ketik min 2 huruf untuk mencari kota..."
                 }
                 value={kotaSearch}
                 onChange={(e) => {
-                    setKotaSearch(e.target.value);
-                    setDropdownKotaOpen(true);
-                    // Hapus regency_id jika input diubah
-                    if (form.regency_id) {
+                  setKotaSearch(e.target.value);
+                  setDropdownKotaOpen(true);
+                  // Hapus regency_id jika input diubah
+                  if (form.regency_id) {
                     setForm({ ...form, regency_id: undefined });
-                    }
+                  }
                 }}
                 onFocus={() => {
-                    if (form.province_id) setDropdownKotaOpen(true);
+                  if (form.province_id) setDropdownKotaOpen(true);
                 }}
                 readOnly={readonly}
                 required
                 autoComplete="off"
                 disabled={!form.province_id || readonly}
-                />
-                {isDropdownKotaOpen && !readonly && form.province_id && (
+              />
+              {isDropdownKotaOpen && !readonly && form.province_id && (
                 <div className="absolute z-10 w-full mt-1 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-md shadow-lg max-h-60 overflow-y-auto">
-                    {isKotaLoading ? (
+                  {isKotaLoading ? (
                     <div className="flex items-center justify-center p-4">
-                    <Loader2 className="h-5 w-5 animate-spin" />
+                      <Loader2 className="h-5 w-5 animate-spin" />
                     </div>
-                    ) : kotaSearch.length < 2 ? (
-                    <p className="text-sm text-gray-500 p-3">Ketik minimal 2 huruf...</p>
-                    ) : filteredKota.length > 0 ? (
+                  ) : kotaSearch.length < 2 ? (
+                    <p className="text-sm text-gray-500 p-3">
+                      Ketik minimal 2 huruf...
+                    </p>
+                  ) : filteredKota.length > 0 ? (
                     filteredKota.map((kota) => (
-                    <button
-                    type="button"
-                    key={kota.id}
-                    onClick={() => handleKotaSelect(kota)}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700"
-                    >
-                    {kota.name}
-                    </button>
+                      <button
+                        type="button"
+                        key={kota.id}
+                        onClick={() => handleKotaSelect(kota)}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700"
+                      >
+                        {kota.name}
+                      </button>
                     ))
-                    ) : (
-                    <p className="text-sm text-gray-500 p-3">Kota tidak ditemukan.</p>
-                    )}
+                  ) : (
+                    <p className="text-sm text-gray-500 p-3">
+                      Kota tidak ditemukan.
+                    </p>
+                  )}
                 </div>
-                )}
-                </div>
+              )}
             </div>
-            
-            {/* Kecamatan Searchable Dropdown */}
-            <div className="flex flex-col gap-y-1.5" ref={dropdownKecamatanRef}>
-                <Label htmlFor="district_id">Kecamatan</Label>
-                <div className="relative">
-                <Input
+          </div>
+
+          {/* Kecamatan Searchable Dropdown */}
+          <div className="flex flex-col gap-y-1.5" ref={dropdownKecamatanRef}>
+            <Label htmlFor="district_id">Kecamatan</Label>
+            <div className="relative">
+              <Input
                 id="district_id"
                 placeholder={
-                    !form.regency_id
+                  !form.regency_id
                     ? "Pilih kota terlebih dahulu"
                     : "Ketik min 2 huruf untuk mencari kecamatan..."
                 }
                 value={kecamatanSearch}
                 onChange={(e) => {
-                    setKecamatanSearch(e.target.value);
-                    setDropdownKecamatanOpen(true);
-                    // Hapus district_id jika input diubah
-                    if (form.district_id) {
+                  setKecamatanSearch(e.target.value);
+                  setDropdownKecamatanOpen(true);
+                  // Hapus district_id jika input diubah
+                  if (form.district_id) {
                     setForm({ ...form, district_id: undefined });
-                    }
+                  }
                 }}
                 onFocus={() => {
-                    if (form.regency_id) setDropdownKecamatanOpen(true);
+                  if (form.regency_id) setDropdownKecamatanOpen(true);
                 }}
                 readOnly={readonly}
                 required
                 autoComplete="off"
                 disabled={!form.regency_id || readonly}
-                />
-                {isDropdownKecamatanOpen && !readonly && form.regency_id && (
+              />
+              {isDropdownKecamatanOpen && !readonly && form.regency_id && (
                 <div className="absolute z-10 w-full mt-1 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-md shadow-lg max-h-60 overflow-y-auto">
-                    {isKecamatanLoading ? (
+                  {isKecamatanLoading ? (
                     <div className="flex items-center justify-center p-4">
-                    <Loader2 className="h-5 w-5 animate-spin" />
+                      <Loader2 className="h-5 w-5 animate-spin" />
                     </div>
-                    ) : kecamatanSearch.length < 2 ? (
-                    <p className="text-sm text-gray-500 p-3">Ketik minimal 2 huruf...</p>
-                    ) : filteredKecamatan.length > 0 ? (
+                  ) : kecamatanSearch.length < 2 ? (
+                    <p className="text-sm text-gray-500 p-3">
+                      Ketik minimal 2 huruf...
+                    </p>
+                  ) : filteredKecamatan.length > 0 ? (
                     filteredKecamatan.map((kecamatan) => (
-                    <button
-                    type="button"
-                    key={kecamatan.id}
-                    onClick={() => handleKecamatanSelect(kecamatan)}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700"
-                    >
-                    {kecamatan.name}
-                    </button>
+                      <button
+                        type="button"
+                        key={kecamatan.id}
+                        onClick={() => handleKecamatanSelect(kecamatan)}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700"
+                      >
+                        {kecamatan.name}
+                      </button>
                     ))
-                    ) : (
-                    <p className="text-sm text-gray-500 p-3">Kecamatan tidak ditemukan.</p>
-                    )}
+                  ) : (
+                    <p className="text-sm text-gray-500 p-3">
+                      Kecamatan tidak ditemukan.
+                    </p>
+                  )}
                 </div>
-                )}
-                </div>
+              )}
             </div>
+          </div>
 
-            {/* Kelurahan Searchable Dropdown */}
-            <div className="flex flex-col gap-y-1.5" ref={dropdownKelurahanRef}>
-                <Label htmlFor="village_id">Kelurahan / Desa</Label>
-                <div className="relative">
-                <Input
+          {/* Kelurahan Searchable Dropdown */}
+          <div className="flex flex-col gap-y-1.5" ref={dropdownKelurahanRef}>
+            <Label htmlFor="village_id">Kelurahan / Desa</Label>
+            <div className="relative">
+              <Input
                 id="village_id"
                 placeholder={
-                    !form.district_id
+                  !form.district_id
                     ? "Pilih kota terlebih dahulu"
                     : "Ketik min 2 huruf untuk mencari kelurahan..."
                 }
                 value={kelurahanSearch}
                 onChange={(e) => {
-                    setKelurahanSearch(e.target.value);
-                    setDropdownKelurahanOpen(true);
-                    // Hapus village_id jika input diubah
-                    if (form.village_id) {
+                  setKelurahanSearch(e.target.value);
+                  setDropdownKelurahanOpen(true);
+                  // Hapus village_id jika input diubah
+                  if (form.village_id) {
                     setForm({ ...form, village_id: undefined });
-                    }
+                  }
                 }}
                 onFocus={() => {
-                    if (form.district_id) setDropdownKelurahanOpen(true);
+                  if (form.district_id) setDropdownKelurahanOpen(true);
                 }}
                 readOnly={readonly}
                 required
                 autoComplete="off"
                 disabled={!form.district_id || readonly}
-                />
-                {isDropdownKelurahanOpen && !readonly && form.district_id && (
+              />
+              {isDropdownKelurahanOpen && !readonly && form.district_id && (
                 <div className="absolute z-10 w-full mt-1 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-md shadow-lg max-h-60 overflow-y-auto">
-                    {isKelurahanLoading ? (
+                  {isKelurahanLoading ? (
                     <div className="flex items-center justify-center p-4">
-                    <Loader2 className="h-5 w-5 animate-spin" />
+                      <Loader2 className="h-5 w-5 animate-spin" />
                     </div>
-                    ) : kelurahanSearch.length < 2 ? (
-                    <p className="text-sm text-gray-500 p-3">Ketik minimal 2 huruf...</p>
-                    ) : filteredKelurahan.length > 0 ? (
+                  ) : kelurahanSearch.length < 2 ? (
+                    <p className="text-sm text-gray-500 p-3">
+                      Ketik minimal 2 huruf...
+                    </p>
+                  ) : filteredKelurahan.length > 0 ? (
                     filteredKelurahan.map((kelurahan) => (
-                    <button
-                    type="button"
-                    key={kelurahan.id}
-                    onClick={() => handleKelurahanSelect(kelurahan)}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700"
-                    >
-                    {kelurahan.name}
-                    </button>
+                      <button
+                        type="button"
+                        key={kelurahan.id}
+                        onClick={() => handleKelurahanSelect(kelurahan)}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700"
+                      >
+                        {kelurahan.name}
+                      </button>
                     ))
-                    ) : (
-                    <p className="text-sm text-gray-500 p-3">Kelurahan tidak ditemukan.</p>
-                    )}
+                  ) : (
+                    <p className="text-sm text-gray-500 p-3">
+                      Kelurahan tidak ditemukan.
+                    </p>
+                  )}
                 </div>
-                )}
-                </div>
+              )}
             </div>
+          </div>
 
           {/* RT / RW */}
           <div className="sm:col-span-2 grid grid-cols-2 gap-4">
@@ -792,9 +810,7 @@ export default function AnggotaForm({
             <Label>Telepon Rumah</Label>
             <Input
               value={form.phone_home ?? ""}
-              onChange={(e) =>
-                setForm({ ...form, phone_home: e.target.value })
-              }
+              onChange={(e) => setForm({ ...form, phone_home: e.target.value })}
               readOnly={readonly}
             />
           </div>
@@ -866,7 +882,7 @@ export default function AnggotaForm({
               readOnly={readonly}
             />
           </div>
-					{/* Status Anggota */}
+          {/* Status Anggota */}
           <div className="flex flex-col gap-y-1">
             <Label>Status Anggota</Label>
             <select

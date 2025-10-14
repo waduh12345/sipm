@@ -7,6 +7,7 @@ import { getSession } from "next-auth/react";
 
 // Daftar route publik yang boleh tanpa login
 const PUBLIC_ALLOW: string[] = [
+  "/auth/login",
   "/anggota/login",
   "/anggota/register", // ✅ tetap bisa diakses
   "/api",

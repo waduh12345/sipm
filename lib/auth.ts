@@ -36,7 +36,7 @@ export const authOptions: AuthOptions = {
         );
 
         const loginData = await loginRes.json();
-
+        console.log({ loginData });
         if (!loginRes.ok || !loginData?.data?.token) return null;
 
         const token = loginData.data.token;

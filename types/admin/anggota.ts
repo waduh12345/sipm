@@ -9,6 +9,7 @@ export interface Anggota {
   birth_date: string;
   address: string;
   phone: string;
+  postal_code: string | null;
   password?: string;
   password_confirmation?: string;
   status: number;

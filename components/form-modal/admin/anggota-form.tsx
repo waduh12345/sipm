@@ -8,31 +8,22 @@ import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import type { Anggota } from "@/types/admin/anggota";
 import { formatDateForInput } from "@/lib/format-utils";
-import {
-  useGetProvinsiListQuery,
-} from "@/services/admin/master/provinsi.service";
-import {
-  useGetKotaListQuery,
-} from "@/services/admin/master/kota.service";
-import {
-  useGetKecamatanListQuery,
-} from "@/services/admin/master/kecamatan.service";
-import {
-  useGetKelurahanListQuery,
-} from "@/services/admin/master/kelurahan.service";
+import { useGetProvinsiListQuery } from "@/services/admin/master/provinsi.service";
+import { useGetKotaListQuery } from "@/services/admin/master/kota.service";
+import { useGetKecamatanListQuery } from "@/services/admin/master/kecamatan.service";
+import { useGetKelurahanListQuery } from "@/services/admin/master/kelurahan.service";
 import { KTACard } from "@/components/kta-card-admin";
 import KTACardBack from "@/components/kta-card-back-admin";
-
+import type { AdminAnggotaFormState } from "@/app/admin/keanggotaan/add-data/page";
 
 interface AnggotaFormProps {
-  form: Partial<Anggota>;
-  setForm: (data: Partial<Anggota>) => void;
+  form: AdminAnggotaFormState;
+  setForm: (data: AdminAnggotaFormState) => void;
   onCancel: () => void;
   onSubmit: () => void;
   readonly?: boolean;
   isLoading?: boolean;
 }
-
 
 export default function AnggotaForm({
   form,
@@ -45,206 +36,243 @@ export default function AnggotaForm({
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-    const statusOptions: Array<{ value: 0 | 1 | 2; label: string }> = [
-        { value: 0, label: "PENDING" },
-        { value: 1, label: "APPROVED" },
-        { value: 2, label: "REJECTED" },
-    ];
+  const statusOptions: Array<{ value: 0 | 1 | 2; label: string }> = [
+    { value: 0, label: "PENDING" },
+    { value: 1, label: "APPROVED" },
+    { value: 2, label: "REJECTED" },
+  ];
 
-    const [kotaSearch, setKotaSearch] = useState("");
-    const { data: kotaData, isLoading: isKotaLoading } = useGetKotaListQuery({
-        page: 1,
-        paginate: 100,
-        search: kotaSearch,
-        province_id: form.province_id || "",
-    });
-    const [isDropdownKotaOpen, setDropdownKotaOpen] = useState(false);
-    const dropdownKotaRef = useRef<HTMLDivElement>(null);
+  // ------ PREVIEW untuk upload KTP & Foto (mirip RegisterForm) ------
+  const [ktpPreview, setKtpPreview] = useState<string | null>(null);
+  const [fotoPreview, setFotoPreview] = useState<string | null>(null);
 
-    useEffect(() => {
-        setMounted(true);
-        // Cari dan set nama kota awal jika form dalam mode edit/readonly
-        if (form.regency_id && kotaData?.data) {
-        const selectedKota = kotaData.data.find(p => p.id === form.regency_id);
-        if (selectedKota) {
-            setKotaSearch(selectedKota.name);
-        }
-        }
-    }, [form.regency_id, kotaData]);
+  const handleKtpUpload = (file?: File | null) => {
+    setForm({ ...form, upload_ktp: file ?? null });
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => setKtpPreview(reader.result as string);
+      reader.readAsDataURL(file);
+    } else {
+      setKtpPreview(null);
+    }
+  };
 
-    // Menutup dropdown saat klik di luar komponen
-    useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
-        if (dropdownKotaRef.current && !dropdownKotaRef.current.contains(event.target as Node)) {
-            setDropdownKotaOpen(false);
-        }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [dropdownKotaRef]);
+  const handleFotoUpload = (file?: File | null) => {
+    setForm({ ...form, upload_foto: file ?? null });
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => setFotoPreview(reader.result as string);
+      reader.readAsDataURL(file);
+    } else {
+      setFotoPreview(null);
+    }
+  };
+  // ------------------------------------------------------------------
 
+  const [kotaSearch, setKotaSearch] = useState("");
+  const { data: kotaData, isLoading: isKotaLoading } = useGetKotaListQuery({
+    page: 1,
+    paginate: 100,
+    search: kotaSearch,
+    province_id: form.province_id || "",
+  });
+  const [isDropdownKotaOpen, setDropdownKotaOpen] = useState(false);
+  const dropdownKotaRef = useRef<HTMLDivElement>(null);
 
-    const filteredKota = useMemo(() => {
-        if (!kotaData?.data || kotaSearch.length < 2) {
-        return [];
-        }
-        return kotaData.data.filter((kota) =>
-        kota.name.toLowerCase().includes(kotaSearch.toLowerCase())
-        );
-    }, [kotaSearch, kotaData]);
+  useEffect(() => {
+    setMounted(true);
+    if (form.regency_id && kotaData?.data) {
+      const selectedKota = kotaData.data.find((p) => p.id === form.regency_id);
+      if (selectedKota) setKotaSearch(selectedKota.name);
+    }
+  }, [form.regency_id, kotaData]);
 
-    const handleKotaSelect = (kota: { id: string; name: string }) => {
-        setForm({ ...form, regency_id: kota.id });
-        setKotaSearch(kota.name);
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownKotaRef.current &&
+        !dropdownKotaRef.current.contains(event.target as Node)
+      ) {
         setDropdownKotaOpen(false);
-    };
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [dropdownKotaRef]);
 
-    const [provinsiSearch, setProvinsiSearch] = useState("");
-    const { data: provinsiData, isLoading: isProvinsiLoading } = useGetProvinsiListQuery({
-        page: 1,
-        paginate: 100,
-        search: provinsiSearch,
+  const filteredKota = useMemo(() => {
+    if (!kotaData?.data || kotaSearch.length < 2) return [];
+    return kotaData.data.filter((kota) =>
+      kota.name.toLowerCase().includes(kotaSearch.toLowerCase())
+    );
+  }, [kotaSearch, kotaData]);
+
+  const handleKotaSelect = (kota: { id: string; name: string }) => {
+    setForm({
+      ...form,
+      regency_id: kota.id,
+      district_id: undefined,
+      village_id: undefined,
     });
-    const [isDropdownProvinsiOpen, setDropdownProvinsiOpen] = useState(false);
-    const dropdownProvinsiRef = useRef<HTMLDivElement>(null);
+    setKotaSearch(kota.name);
+    setDropdownKotaOpen(false);
+  };
 
-    useEffect(() => {
-        setMounted(true);
-        // Cari dan set nama provinsi awal jika form dalam mode edit/readonly
-        if (form.province_id && provinsiData?.data) {
-        const selectedProvinsi = provinsiData.data.find(p => p.id === form.province_id);
-        if (selectedProvinsi) {
-            setProvinsiSearch(selectedProvinsi.name);
-        }
-        }
-    }, [form.province_id, provinsiData]);
+  const [provinsiSearch, setProvinsiSearch] = useState("");
+  const { data: provinsiData, isLoading: isProvinsiLoading } =
+    useGetProvinsiListQuery({
+      page: 1,
+      paginate: 100,
+      search: provinsiSearch,
+    });
+  const [isDropdownProvinsiOpen, setDropdownProvinsiOpen] = useState(false);
+  const dropdownProvinsiRef = useRef<HTMLDivElement>(null);
 
-    // Menutup dropdown saat klik di luar komponen
-    useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
-        if (dropdownProvinsiRef.current && !dropdownProvinsiRef.current.contains(event.target as Node)) {
-            setDropdownProvinsiOpen(false);
-        }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [dropdownProvinsiRef]);
+  useEffect(() => {
+    setMounted(true);
+    if (form.province_id && provinsiData?.data) {
+      const selectedProvinsi = provinsiData.data.find(
+        (p) => p.id === form.province_id
+      );
+      if (selectedProvinsi) setProvinsiSearch(selectedProvinsi.name);
+    }
+  }, [form.province_id, provinsiData]);
 
-
-    const filteredProvinsi = useMemo(() => {
-        if (!provinsiData?.data || provinsiSearch.length < 2) {
-        return [];
-        }
-        return provinsiData.data.filter((provinsi) =>
-        provinsi.name.toLowerCase().includes(provinsiSearch.toLowerCase())
-        );
-    }, [provinsiSearch, provinsiData]);
-
-    const handleProvinsiSelect = (provinsi: { id: string; name: string }) => {
-        setForm({ ...form, province_id: provinsi.id });
-        setProvinsiSearch(provinsi.name);
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownProvinsiRef.current &&
+        !dropdownProvinsiRef.current.contains(event.target as Node)
+      ) {
         setDropdownProvinsiOpen(false);
-    };
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [dropdownProvinsiRef]);
 
-    const [kecamatanSearch, setKecamatanSearch] = useState("");
-    const { data: kecamatanData, isLoading: isKecamatanLoading } = useGetKecamatanListQuery({
-        page: 1,
-        paginate: 100,
-        search: kecamatanSearch,
-        regency_id: form.regency_id || "",
+  const filteredProvinsi = useMemo(() => {
+    if (!provinsiData?.data || provinsiSearch.length < 2) return [];
+    return provinsiData.data.filter((provinsi) =>
+      provinsi.name.toLowerCase().includes(provinsiSearch.toLowerCase())
+    );
+  }, [provinsiSearch, provinsiData]);
+
+  const handleProvinsiSelect = (provinsi: { id: string; name: string }) => {
+    setForm({
+      ...form,
+      province_id: provinsi.id,
+      regency_id: undefined,
+      district_id: undefined,
+      village_id: undefined,
     });
-    const [isDropdownKecamatanOpen, setDropdownKecamatanOpen] = useState(false);
-    const dropdownKecamatanRef = useRef<HTMLDivElement>(null);
+    setProvinsiSearch(provinsi.name);
+    setDropdownProvinsiOpen(false);
+    setKotaSearch("");
+    setKecamatanSearch("");
+    setKelurahanSearch("");
+  };
 
-    useEffect(() => {
-        setMounted(true);
-        // Cari dan set nama kecamatan awal jika form dalam mode edit/readonly
-        if (form.district_id && kecamatanData?.data) {
-        const selectedKecamatan = kecamatanData.data.find(p => p.id === form.district_id);
-        if (selectedKecamatan) {
-            setKecamatanSearch(selectedKecamatan.name);
-        }
-        }
-    }, [form.district_id, kecamatanData]);
+  const [kecamatanSearch, setKecamatanSearch] = useState("");
+  const { data: kecamatanData, isLoading: isKecamatanLoading } =
+    useGetKecamatanListQuery({
+      page: 1,
+      paginate: 100,
+      search: kecamatanSearch,
+      regency_id: form.regency_id || "",
+    });
+  const [isDropdownKecamatanOpen, setDropdownKecamatanOpen] = useState(false);
+  const dropdownKecamatanRef = useRef<HTMLDivElement>(null);
 
-    // Menutup dropdown saat klik di luar komponen
-    useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
-        if (dropdownKecamatanRef.current && !dropdownKecamatanRef.current.contains(event.target as Node)) {
-            setDropdownKecamatanOpen(false);
-        }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [dropdownKecamatanRef]);
+  useEffect(() => {
+    setMounted(true);
+    if (form.district_id && kecamatanData?.data) {
+      const selectedKecamatan = kecamatanData.data.find(
+        (p) => p.id === form.district_id
+      );
+      if (selectedKecamatan) setKecamatanSearch(selectedKecamatan.name);
+    }
+  }, [form.district_id, kecamatanData]);
 
-
-    const filteredKecamatan = useMemo(() => {
-        if (!kecamatanData?.data || kecamatanSearch.length < 2) {
-        return [];
-        }
-        return kecamatanData.data.filter((kecamatan) =>
-        kecamatan.name.toLowerCase().includes(kecamatanSearch.toLowerCase())
-        );
-    }, [kecamatanSearch, kecamatanData]);
-
-    const handleKecamatanSelect = (kecamatan: { id: string; name: string }) => {
-        setForm({ ...form, district_id: kecamatan.id });
-        setKecamatanSearch(kecamatan.name);
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownKecamatanRef.current &&
+        !dropdownKecamatanRef.current.contains(event.target as Node)
+      ) {
         setDropdownKecamatanOpen(false);
-    };
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [dropdownKecamatanRef]);
 
-    // kelurahan
-    const [kelurahanSearch, setKelurahanSearch] = useState("");
-    const { data: kelurahanData, isLoading: isKelurahanLoading } = useGetKelurahanListQuery({
-        page: 1,
-        paginate: 100,
-        search: kelurahanSearch,
-        district_id: form.district_id || "",
+  const filteredKecamatan = useMemo(() => {
+    if (!kecamatanData?.data || kecamatanSearch.length < 2) return [];
+    return kecamatanData.data.filter((kecamatan) =>
+      kecamatan.name.toLowerCase().includes(kecamatanSearch.toLowerCase())
+    );
+  }, [kecamatanSearch, kecamatanData]);
+
+  const handleKecamatanSelect = (kecamatan: { id: string; name: string }) => {
+    setForm({ ...form, district_id: kecamatan.id, village_id: undefined });
+    setKecamatanSearch(kecamatan.name);
+    setDropdownKecamatanOpen(false);
+    setKelurahanSearch("");
+  };
+
+  // kelurahan
+  const [kelurahanSearch, setKelurahanSearch] = useState("");
+  const { data: kelurahanData, isLoading: isKelurahanLoading } =
+    useGetKelurahanListQuery({
+      page: 1,
+      paginate: 100,
+      search: kelurahanSearch,
+      district_id: form.district_id || "",
     });
-    const [isDropdownKelurahanOpen, setDropdownKelurahanOpen] = useState(false);
-    const dropdownKelurahanRef = useRef<HTMLDivElement>(null);
+  const [isDropdownKelurahanOpen, setDropdownKelurahanOpen] = useState(false);
+  const dropdownKelurahanRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        setMounted(true);
-        // Cari dan set nama kelurahan awal jika form dalam mode edit/readonly
-        if (form.district_id && kelurahanData?.data) {
-            const selectedKelurahan = kelurahanData.data.find(p => p.id === form.district_id);
-            if (selectedKelurahan) {
-                setKelurahanSearch(selectedKelurahan.name);
-            }
-        }
-    }, [form.district_id, kelurahanData]);
+  useEffect(() => {
+    setMounted(true);
+    // ✅ FIX: pakai village_id untuk cari nama kelurahan awal
+    if (form.village_id && kelurahanData?.data) {
+      const selectedKelurahan = kelurahanData.data.find(
+        (p) => p.id === form.village_id
+      );
+      if (selectedKelurahan) setKelurahanSearch(selectedKelurahan.name);
+    }
+  }, [form.village_id, kelurahanData]);
 
-    // Menutup dropdown saat klik di luar komponen
-    useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
-            if (dropdownKelurahanRef.current && !dropdownKelurahanRef.current.contains(event.target as Node)) {
-                setDropdownKelurahanOpen(false);
-            }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [dropdownKelurahanRef]);
-
-    const filteredKelurahan = useMemo(() => {
-        if (!kelurahanData?.data || kelurahanSearch.length < 2) {
-            return [];
-        }
-        return kelurahanData.data.filter((kelurahan) =>
-            kelurahan.name.toLowerCase().includes(kelurahanSearch.toLowerCase())
-        );
-    }, [kelurahanSearch, kelurahanData]);
-
-    const handleKelurahanSelect = (kelurahan: { id: string; name: string }) => {
-        setForm({ ...form, village_id: kelurahan.id });
-        setKelurahanSearch(kelurahan.name);
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownKelurahanRef.current &&
+        !dropdownKelurahanRef.current.contains(event.target as Node)
+      ) {
         setDropdownKelurahanOpen(false);
-    };
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [dropdownKelurahanRef]);
+
+  const filteredKelurahan = useMemo(() => {
+    if (!kelurahanData?.data || kelurahanSearch.length < 2) return [];
+    return kelurahanData.data.filter((kelurahan) =>
+      kelurahan.name.toLowerCase().includes(kelurahanSearch.toLowerCase())
+    );
+  }, [kelurahanSearch, kelurahanData]);
+
+  const handleKelurahanSelect = (kelurahan: { id: string; name: string }) => {
+    setForm({ ...form, village_id: kelurahan.id });
+    setKelurahanSearch(kelurahan.name);
+    setDropdownKelurahanOpen(false);
+  };
 
   if (!mounted) {
     return (
-      <div className="bg-white dark:bg-zinc-900 rounded-lg w-full max-w-3xl max-h-[90vh] flex flex-col">
+      <div className="bg-white dark:bg-zinc-900 rounded-lg w-full max-h-[90vh] flex flex-col">
         <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-zinc-700 flex-shrink-0">
           <h2 className="text-lg font-semibold">Loading...</h2>
           <Button variant="ghost" onClick={onCancel}>
@@ -287,6 +315,7 @@ export default function AnggotaForm({
               <KTACardBack memberId={String(form.id)} />
             </>
           )}
+
           {/* ========================================================== */}
           {/* BASIC INFO */}
           {/* ========================================================== */}
@@ -334,10 +363,7 @@ export default function AnggotaForm({
                   type="password"
                   value={form.password_confirmation ?? ""}
                   onChange={(e) =>
-                    setForm({
-                      ...form,
-                      password_confirmation: e.target.value,
-                    })
+                    setForm({ ...form, password_confirmation: e.target.value })
                   }
                 />
               </div>
@@ -437,7 +463,7 @@ export default function AnggotaForm({
             >
               <option value="">Pilih Agama</option>
               <option value="Islam">Islam</option>
-              <option value="Kristen Protestan">Kristen Protestan</option>
+              <option value="Kristen">Kristen</option>
               <option value="Katolik">Katolik</option>
               <option value="Hindu">Hindu</option>
               <option value="Buddha">Buddha</option>
@@ -488,7 +514,6 @@ export default function AnggotaForm({
               <option value="PEDAGANG">PEDAGANG</option>
               <option value="PENSIUNAN">PENSIUNAN</option>
               <option value="LAINNYA">LAINNYA</option>
-              {/* Anda dapat menambahkan lebih banyak opsi sesuai kebutuhan */}
             </select>
           </div>
 
@@ -517,6 +542,67 @@ export default function AnggotaForm({
             </select>
           </div>
 
+          {/* ✅ Foto KTP (opsional, sama seperti RegisterForm) */}
+          <div className="sm:col-span-2">
+            <div className="space-y-2">
+              <Label htmlFor="upload_ktp">Foto KTP</Label>
+              <div className="flex flex-col gap-3">
+                <div className="relative">
+                  <Input
+                    id="upload_ktp"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) =>
+                      handleKtpUpload(e.target.files?.[0] ?? null)
+                    }
+                    disabled={readonly}
+                    className="h-11"
+                  />
+                </div>
+                {ktpPreview && (
+                  <div className="relative w-full h-40 rounded-lg overflow-hidden border border-border">
+                    {/* pakai img biasa agar tanpa next/image config */}
+                    <img
+                      src={ktpPreview}
+                      alt="Preview KTP"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* ✅ Foto Asli (opsional, sama seperti RegisterForm) */}
+          <div className="sm:col-span-2">
+            <div className="space-y-2">
+              <Label htmlFor="upload_foto">Foto Asli</Label>
+              <div className="flex flex-col gap-3">
+                <div className="relative">
+                  <Input
+                    id="upload_foto"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) =>
+                      handleFotoUpload(e.target.files?.[0] ?? null)
+                    }
+                    disabled={readonly}
+                    className="h-11"
+                  />
+                </div>
+                {fotoPreview && (
+                  <div className="relative w-full h-40 rounded-lg overflow-hidden border border-border">
+                    <img
+                      src={fotoPreview}
+                      alt="Preview Foto"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
           {/* ========================================================== */}
           {/* ADDRESS INFO */}
           {/* ========================================================== */}
@@ -535,9 +621,14 @@ export default function AnggotaForm({
                 onChange={(e) => {
                   setProvinsiSearch(e.target.value);
                   setDropdownProvinsiOpen(true);
-                  // Hapus province_id jika input diubah
                   if (form.province_id) {
-                    setForm({ ...form, province_id: undefined });
+                    setForm({
+                      ...form,
+                      province_id: undefined,
+                      regency_id: undefined,
+                      district_id: undefined,
+                      village_id: undefined,
+                    });
                   }
                 }}
                 onFocus={() => setDropdownProvinsiOpen(true)}
@@ -576,7 +667,7 @@ export default function AnggotaForm({
             </div>
           </div>
 
-          {/* Kota Searchable Dropdown */}
+          {/* Kota */}
           <div className="flex flex-col gap-y-1.5" ref={dropdownKotaRef}>
             <Label htmlFor="regency_id">Kota / Kabupaten</Label>
             <div className="relative">
@@ -591,10 +682,13 @@ export default function AnggotaForm({
                 onChange={(e) => {
                   setKotaSearch(e.target.value);
                   setDropdownKotaOpen(true);
-                  // Hapus regency_id jika input diubah
-                  if (form.regency_id) {
-                    setForm({ ...form, regency_id: undefined });
-                  }
+                  if (form.regency_id)
+                    setForm({
+                      ...form,
+                      regency_id: undefined,
+                      district_id: undefined,
+                      village_id: undefined,
+                    });
                 }}
                 onFocus={() => {
                   if (form.province_id) setDropdownKotaOpen(true);
@@ -635,7 +729,7 @@ export default function AnggotaForm({
             </div>
           </div>
 
-          {/* Kecamatan Searchable Dropdown */}
+          {/* Kecamatan */}
           <div className="flex flex-col gap-y-1.5" ref={dropdownKecamatanRef}>
             <Label htmlFor="district_id">Kecamatan</Label>
             <div className="relative">
@@ -650,10 +744,12 @@ export default function AnggotaForm({
                 onChange={(e) => {
                   setKecamatanSearch(e.target.value);
                   setDropdownKecamatanOpen(true);
-                  // Hapus district_id jika input diubah
-                  if (form.district_id) {
-                    setForm({ ...form, district_id: undefined });
-                  }
+                  if (form.district_id)
+                    setForm({
+                      ...form,
+                      district_id: undefined,
+                      village_id: undefined,
+                    });
                 }}
                 onFocus={() => {
                   if (form.regency_id) setDropdownKecamatanOpen(true);
@@ -694,7 +790,7 @@ export default function AnggotaForm({
             </div>
           </div>
 
-          {/* Kelurahan Searchable Dropdown */}
+          {/* Kelurahan */}
           <div className="flex flex-col gap-y-1.5" ref={dropdownKelurahanRef}>
             <Label htmlFor="village_id">Kelurahan / Desa</Label>
             <div className="relative">
@@ -709,10 +805,8 @@ export default function AnggotaForm({
                 onChange={(e) => {
                   setKelurahanSearch(e.target.value);
                   setDropdownKelurahanOpen(true);
-                  // Hapus village_id jika input diubah
-                  if (form.village_id) {
+                  if (form.village_id)
                     setForm({ ...form, village_id: undefined });
-                  }
                 }}
                 onFocus={() => {
                   if (form.district_id) setDropdownKelurahanOpen(true);
@@ -776,6 +870,26 @@ export default function AnggotaForm({
                 }
                 readOnly={readonly}
               />
+            </div>
+            {/* ✅ Kode Pos */}
+            <div className="sm:col-span-2">
+              <div className="flex flex-col gap-y-1">
+                <Label>Kode Pos</Label>
+                <Input
+                  inputMode="numeric"
+                  maxLength={5} // kode pos Indonesia umumnya 5 digit
+                  placeholder="Misal: 53111"
+                  value={form.postal_code ?? ""}
+                  onChange={(e) => {
+                    const digits = e.target.value
+                      .replace(/\D/g, "")
+                      .slice(0, 5);
+                    setForm({ ...form, postal_code: digits });
+                  }}
+                  readOnly={readonly}
+                  autoComplete="postal-code"
+                />
+              </div>
             </div>
           </div>
 
@@ -882,6 +996,7 @@ export default function AnggotaForm({
               readOnly={readonly}
             />
           </div>
+
           {/* Status Anggota */}
           <div className="flex flex-col gap-y-1">
             <Label>Status Anggota</Label>

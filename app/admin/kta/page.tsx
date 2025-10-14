@@ -1,13 +1,27 @@
 "use client";
 
 import { PrinterIcon, IdCard } from "lucide-react";
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, Suspense } from "react";
 import { useSearchParams, useParams } from "next/navigation";
 import { KTACard } from "@/components/kta-card-admin";
 import KTACardBack from "@/components/kta-card-back-admin";
 import { Button } from "@/components/ui/button";
 
-export default function KtaPage() {
+/** Skeleton ringan saat menunggu router params/searchParams siap */
+function KtaPageFallback() {
+  return (
+    <div className="min-h-screen bg-background p-4 animate-pulse">
+      <div className="h-10 w-1/3 bg-muted rounded mb-4" />
+      <div className="h-6 w-2/3 bg-muted rounded mb-6" />
+      <div className="h-[220px] bg-muted rounded mb-4" />
+      <div className="h-[220px] bg-muted rounded mb-6" />
+      <div className="h-12 w-full bg-muted rounded" />
+    </div>
+  );
+}
+
+/** Komponen yang MEMAKAI useSearchParams / useParams */
+function KtaPageContent() {
   const searchParams = useSearchParams();
   const params = useParams();
 
@@ -31,21 +45,18 @@ export default function KtaPage() {
     <div className="min-h-screen bg-background p-4">
       {/* Global print styles */}
       <style jsx global>{`
-        /* Samain lebar kartu depan & belakang */
         .kta-card-frame {
-          width: 360px; /* lebar di layar */
+          width: 360px;
         }
         @media (min-width: 640px) {
           .kta-card-frame {
-            width: 420px; /* sedikit lebih besar di layar lebar */
+            width: 420px;
           }
         }
-
-        /* Print-safe */
         @media print {
           @page {
-            size: A4; /* bisa ganti ke 'A4 portrait/landscape' sesuai kebutuhan */
-            margin: 12mm; /* spasi aman biar tidak terpotong */
+            size: A4;
+            margin: 12mm;
           }
           body {
             -webkit-print-color-adjust: exact;
@@ -63,8 +74,8 @@ export default function KtaPage() {
             page-break-inside: avoid;
           }
           .kta-card-frame {
-            width: 85.6mm; /* ukuran CR80 (kartu ID) */
-          }
+            width: 85.6mm;
+          } /* ukuran CR80 */
         }
       `}</style>
 
@@ -89,15 +100,12 @@ export default function KtaPage() {
           {/* Depan */}
           <div className="flex items-center justify-center">
             <div className="kta-card-frame">
-              {/* Kirim ID numerik ke KTACard agar data terisi dari ID */}
               <KTACard memberId={numericId} onClickRoute="/admin/kta/[id]" />
             </div>
           </div>
-
           {/* Belakang */}
           <div className="flex items-center justify-center">
             <div className="kta-card-frame">
-              {/* Belakang kartu boleh pakai nomor KTA (string) */}
               <KTACardBack memberId={backId} />
             </div>
           </div>
@@ -105,17 +113,20 @@ export default function KtaPage() {
 
         {/* Tombol Print */}
         <div>
-          <Button
-            className="w-full no-print"
-            onClick={handlePrint}
-            size="lg"
-            variant="default"
-          >
+          <Button className="w-full no-print" onClick={handlePrint} size="lg">
             <PrinterIcon />
             <span> Print / Download PDF</span>
           </Button>
         </div>
       </div>
     </div>
+  );
+}
+
+export default function KtaPage() {
+  return (
+    <Suspense fallback={<KtaPageFallback />}>
+      <KtaPageContent />
+    </Suspense>
   );
 }

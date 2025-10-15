@@ -72,10 +72,6 @@ function AnggotaAddEditPageInner() {
     try {
       if (!form.name || !form.email || !form.phone || !form.ktp)
         throw new Error("Nama, Email, Telepon, dan KTP wajib diisi");
-      if (!form.gender || !["M", "F"].includes(form.gender as string))
-        throw new Error("Gender wajib diisi (M/F)");
-      if (form.status === undefined || form.status === null)
-        throw new Error("Status wajib diisi");
 
       if (isAdd) {
         if (!form.password || form.password.trim().length < 8)
@@ -93,19 +89,21 @@ function AnggotaAddEditPageInner() {
       fd.append("gender", form.gender as string);
       fd.append("birth_date", form.birth_date ?? "");
       fd.append("birth_place", form.birth_place ?? "");
-      fd.append("status", String(form.status));
       fd.append("ktp", form.ktp ?? "");
       if (form.postal_code) fd.append("postal_code", String(form.postal_code));
 
-      if (form.province_id) fd.append("province_id", form.province_id);
-      if (form.regency_id) fd.append("regency_id", form.regency_id);
-      if (form.district_id) fd.append("district_id", form.district_id);
-      if (form.village_id) fd.append("village_id", form.village_id);
+      if (form.province_id !== undefined && form.province_id !== null) fd.append("province_id", String(form.province_id));
+      if (form.regency_id !== undefined && form.regency_id !== null) fd.append("regency_id", String(form.regency_id));
+      if (form.district_id !== undefined && form.district_id !== null) fd.append("district_id", String(form.district_id));
+      if (form.village_id !== undefined && form.village_id !== null) fd.append("village_id", String(form.village_id));
 
       if (form.rt !== undefined && form.rt !== null)
         fd.append("rt", String(form.rt));
       if (form.rw !== undefined && form.rw !== null)
         fd.append("rw", String(form.rw));
+      console.log(form);
+
+      fd.append("level_id", form.level_id?.toString() ?? "");
 
       if (form.religion) fd.append("religion", form.religion);
       if (form.marital_status) fd.append("marital_status", form.marital_status);

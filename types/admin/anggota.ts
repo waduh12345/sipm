@@ -12,7 +12,8 @@ export interface Anggota {
   postal_code: string | null;
   password?: string;
   password_confirmation?: string;
-  status: number;
+  status?: number;
+  level_id: number | string;
   // New fields from the desired JSON structure:
   province_id?: string;
   province_name?: string;

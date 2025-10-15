@@ -110,12 +110,6 @@ export default function AnggotaPage() {
       }
     }
   };
-
-  const statusBadge = (status: number) => {
-    if (status === 1) return <Badge variant="success">APPROVED</Badge>;
-    if (status === 2) return <Badge variant="destructive">REJECTED</Badge>;
-    return <Badge variant="secondary">PENDING</Badge>;
-  };
   
   // =========================================================================
   // LOGIKA FILTER WILAYAH
@@ -406,114 +400,49 @@ export default function AnggotaPage() {
 
   // === Export handler ===
   const handleExportExcel = async () => {
+    // 1. Tentukan tanggal sesuai permintaan
     const fmt = (d: Date) =>
       `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
         d.getDate()
       ).padStart(2, "0")}`;
+    
+    // Tentukan from_date
+    const from_date = "2020-01-01";
+    
+    // Tentukan to_date (Hari ini + 1 hari)
     const today = new Date();
-    const last30 = new Date();
-    last30.setDate(today.getDate() - 30);
-    const todayStr = fmt(today),
-      last30Str = fmt(last30);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const to_date = fmt(tomorrow);
 
-    const { value: formValues } = await Swal.fire({
-      title: "Export Anggota",
-      html: `
-        <div class="sae-wrap">
-          <div class="sae-field">
-            <label for="from_date" class="sae-label"><span class="sae-icon">📅</span> From date</label>
-            <input id="from_date" type="date" class="sae-input" />
-          </div>
-          <div class="sae-field">
-            <label for="to_date" class="sae-label"><span class="sae-icon">📆</span> To date</label>
-            <input id="to_date" type="date" class="sae-input" />
-          </div>
-          <p class="sae-hint">Pilih rentang tanggal export anggota.</p>
-        </div>
-      `,
-      focusConfirm: false,
-      showCancelButton: true,
-      confirmButtonText: "Kirim",
-      cancelButtonText: "Batal",
-      width: 520,
-      color: "#0f172a",
-      background: "rgba(255,255,255,0.9)",
-      backdrop: `rgba(15,23,42,0.4)`,
-      customClass: {
-        popup: "sae-popup",
-        title: "sae-title",
-        confirmButton: "sae-btn-confirm",
-        cancelButton: "sae-btn-cancel",
-      },
-      didOpen: () => {
-        if (!document.getElementById("sae-styles")) {
-          const style = document.createElement("style");
-          style.id = "sae-styles";
-          style.innerHTML = `
-            .sae-popup{border-radius:18px;box-shadow:0 20px 60px rgba(2,6,23,.15),0 2px 8px rgba(2,6,23,.06);backdrop-filter: blur(8px); border:1px solid rgba(2,6,23,.06)}
-            .sae-title{font-weight:700; letter-spacing:.2px}
-            .sae-wrap{display:grid; gap:14px}
-            .sae-field{display:grid; gap:8px}
-            .sae-label{font-size:12px; color:#475569; display:flex; align-items:center; gap:6px}
-            .sae-icon{font-size:14px}
-            .sae-input{appearance:none;width:100%;padding:12px 14px;border-radius:12px;border:1px solid #e2e8f0;background:#fff;font-size:14px;transition:all .15s ease}
-            .sae-input:focus{outline:none;border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.15)}
-            .sae-hint{margin-top:4px;font-size:12px;color:#64748b}
-            .sae-btn-confirm{background:linear-gradient(90deg,#6366f1,#22d3ee);color:white;border:none;border-radius:10px !important;padding:10px 18px;font-weight:600}
-            .sae-btn-cancel{background:white;color:#0f172a;border:1px solid #e2e8f0;border-radius:10px !important;padding:10px 18px;font-weight:600}
-          `;
-          document.head.appendChild(style);
-        }
-        const fromEl = document.getElementById("from_date") as HTMLInputElement;
-        const toEl = document.getElementById("to_date") as HTMLInputElement;
-        if (fromEl && toEl) {
-          fromEl.value = last30Str;
-          toEl.value = todayStr;
-          fromEl.max = todayStr;
-          toEl.max = todayStr;
-          toEl.min = fromEl.value;
-          fromEl.addEventListener("input", () => {
-            toEl.min = fromEl.value || "";
-            if (toEl.value < fromEl.value) toEl.value = fromEl.value;
-          });
-          toEl.addEventListener("input", () => {
-            fromEl.max = toEl.value || todayStr;
-          });
-        }
-      },
-      preConfirm: () => {
-        const from_date = (
-          document.getElementById("from_date") as HTMLInputElement
-        )?.value;
-        const to_date = (document.getElementById("to_date") as HTMLInputElement)
-          ?.value;
-        if (!from_date || !to_date) {
-          Swal.showValidationMessage("from_date dan to_date wajib diisi");
-          return;
-        }
-        if (to_date < from_date) {
-          Swal.showValidationMessage("to_date tidak boleh < from_date");
-          return;
-        }
-        return { from_date, to_date };
-      },
-    });
-
-    if (!formValues) return;
+    // 2. Kumpulkan semua filter yang aktif (hanya jika ada nilainya)
+    const exportPayload = {
+      from_date: from_date,
+      to_date: to_date,
+      ...(filterRegion.province_id && { province_id: filterRegion.province_id }),
+      ...(filterRegion.regency_id && { regency_id: filterRegion.regency_id }),
+      ...(filterRegion.district_id && { district_id: filterRegion.district_id }),
+      ...(filterRegion.village_id && { village_id: filterRegion.village_id }),
+      // level_id dikirim sebagai string atau number, disesuaikan dengan API
+      ...(filterLevelId && { level_id: String(filterLevelId) }), 
+    };
 
     try {
       Swal.fire({
-        title: "Mengirim permintaan…",
+        title: "Mengirim permintaan Export...",
         allowOutsideClick: false,
         didOpen: () => Swal.showLoading(),
         showConfirmButton: false,
         customClass: { popup: "sae-popup", title: "sae-title" },
       });
-      const res = await exportAnggotaExcel(formValues).unwrap();
+      
+      // Mengirim payload ke mutasi
+      const res = await exportAnggotaExcel(exportPayload).unwrap(); 
+
       Swal.fire({
         icon: "success",
         title: "Export diproses",
-        text: res.message ?? "Permintaan export diterima \n Silahkan cek di notifikasi",
+        text: res.message ?? "Permintaan export diterima. Silahkan cek di notifikasi.",
         confirmButtonText: "Oke",
         customClass: {
           popup: "sae-popup",
@@ -525,7 +454,7 @@ export default function AnggotaPage() {
       Swal.fire({
         icon: "error",
         title: "Gagal",
-        text: "Export gagal diproses",
+        text: "Export gagal diproses.",
         confirmButtonText: "Tutup",
         customClass: {
           popup: "sae-popup",
@@ -926,7 +855,8 @@ export default function AnggotaPage() {
                 <th className="px-4 py-2">Telepon</th>
                 <th className="px-4 py-2">Provinsi</th>
                 <th className="px-4 py-2">Kota</th>
-                <th className="px-4 py-2">Status</th>
+                <th className="px-4 py-2">Kecamatan</th>
+                <th className="px-4 py-2">Kelurahan</th>
               </tr>
             </thead>
             <tbody>
@@ -975,7 +905,10 @@ export default function AnggotaPage() {
                       {item.regency_name}
                     </td>
                     <td className="px-4 py-2 whitespace-nowrap">
-                      {statusBadge(item.status)}
+                      {item.district_name}
+                    </td>
+                    <td className="px-4 py-2 whitespace-nowrap">
+                      {item.village_name}
                     </td>
                   </tr>
                 ))

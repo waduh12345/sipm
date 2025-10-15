@@ -21,11 +21,20 @@ import { useSession } from "next-auth/react";
 import type { User } from "@/types/user";
 import ClientAuthGuard from "@/components/client-guards";
 
+// Fungsi pembantu untuk cek role (memperhatikan struktur roles[0].name)
+const userHasRole = (user: User | undefined, roleName: string): boolean => {
+  if (!user || !user.roles || user.roles.length === 0) {
+    return false;
+  }
+  // Cek apakah role pertama (asumsi role utama) sesuai, atau cek seluruh array roles jika perlu
+  return user.roles[0].name?.toLowerCase() === roleName.toLowerCase();
+};
+
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { data: session } = useSession();
   const user = session?.user as User | undefined;
-
+  
   // Menutup sidebar saat ukuran layar berubah ke desktop
   useEffect(() => {
     const handleResize = () => {
@@ -38,7 +47,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Definisi menu untuk superadmin
+  // Definisi menu untuk superadmin (SEMUA MENU)
   const superadminMenuItems: MenuItem[] = [
     {
       id: "dashboard",
@@ -69,28 +78,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => {
       label: "Tugas",
       icon: <ClipboardCheck className="h-5 w-5" />,
       href: "/admin/tugas",
-      // children: [
-      //   {
-      //     id: "tugas/tugas-anggota",
-      //     label: "Tugas Anggota",
-      //     href: "/admin/tugas",
-      //   },
-      //   {
-      //     id: "tugas/hasil",
-      //     label: "Hasil Tugas",
-      //     href: "/admin/tugas/hasil",
-      //   },
-      //   {
-      //     id: "tugas/hasil-rekrutmen",
-      //     label: "Hasil Rekrutmen",
-      //     href: "/admin/tugas/hasil-rekrutmen",
-      //   },
-      //   {
-      //     id: "tugas/hasil-simpatisan",
-      //     label: "Hasil Simpatisan",
-      //     href: "/admin/tugas/hasil-simpatisan",
-      //   },
-      // ],
+      // ... (children task)
     },
     {
       id: "pengumuman",
@@ -162,13 +150,50 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => {
     },
   ];
 
-  // Tentukan menu items berdasarkan role pengguna
-  // TODO: Tambahkan logika untuk role lain jika ada
+  // ✅ DEFINISI MENU KHUSUS UNTUK ADMIN
+  const adminMenuItems: MenuItem[] = [
+    {
+      id: "dashboard",
+      label: "Dashboard",
+      icon: <LayoutDashboard className="h-5 w-5" />,
+      href: "/admin/dashboard",
+    },
+    {
+      id: "keanggotaan",
+      label: "Keanggotaan",
+      icon: <Users className="h-5 w-5" />,
+      href: "/admin/keanggotaan",
+    },
+    {
+      id: "kantor",
+      label: "Kantor",
+      icon: <Building2 className="h-5 w-5" />,
+      href: "/admin/kantor",
+    },
+    {
+      id: "task",
+      label: "Tugas",
+      icon: <ClipboardCheck className="h-5 w-5" />,
+      href: "/admin/tugas",
+      // Jika Anda ingin Admin melihat submenu tugas, tambahkan children di sini:
+      // children: [ ... ]
+    },
+  ];
+
+  // ✅ Tentukan menu items berdasarkan role pengguna
   let menuItems: MenuItem[] = [];
-  if (!user || user?.roles[0].name === "superadmin") {
-    menuItems = superadminMenuItems;
+  
+  if (user) {
+    if (userHasRole(user, "superadmin")) {
+      menuItems = superadminMenuItems;
+    } else if (userHasRole(user, "admin")) {
+      menuItems = adminMenuItems;
+    }
   }
 
+  // Jika tidak ada user atau role tidak dikenali, menu akan kosong (sesuai let menuItems = [])
+  // Ini membantu mencegah akses ke menu jika otentikasi belum selesai.
+  
   return (
     <div className="h-screen flex overflow-hidden bg-gray-100">
       {/* Sidebar */}

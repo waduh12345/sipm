@@ -15,6 +15,7 @@ import { useGetKelurahanListQuery } from "@/services/admin/master/kelurahan.serv
 import { KTACard } from "@/components/kta-card-admin";
 import KTACardBack from "@/components/kta-card-back-admin";
 import type { AdminAnggotaFormState } from "@/app/admin/keanggotaan/add-data/page";
+import { useGetLevelListQuery } from "@/services/admin/master/level.service"; 
 
 interface AnggotaFormProps {
   form: AdminAnggotaFormState;
@@ -35,6 +36,7 @@ export default function AnggotaForm({
 }: AnggotaFormProps) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
+  const [filterLevelId, setFilterLevelId] = useState<number | undefined>(undefined);
 
   const statusOptions: Array<{ value: 0 | 1 | 2; label: string }> = [
     { value: 0, label: "PENDING" },
@@ -273,6 +275,33 @@ export default function AnggotaForm({
     setDropdownKelurahanOpen(false);
   };
 
+    // =========================================================================
+  // ✅ LOGIKA LEVEL BARU
+  // =========================================================================
+    // Gunakan useGetLevelListQuery untuk mendapatkan data level
+    const { data: levelData, isLoading: isLevelLoading } = useGetLevelListQuery({
+      page: 1,
+      paginate: 100,
+      search: "",
+    });
+
+    // Semua opsi level (diperlukan untuk dropdown)
+    const allLevelOptions = useMemo(() => levelData?.data ?? [], [levelData]);
+
+    // Handler untuk mengubah level
+    const handleLevelChange = (value: string) => {
+      const idNum = Number(value);
+      // Perbarui form.level_id. Jika value kosong, set ke undefined.
+      setForm({ ...form, level_id: isNaN(idNum) || value === "" ? undefined : idNum });
+    };
+
+    // Kosongkan state levelSearch dan logic handleLevelSelect/handleClearLevel 
+    // karena tidak lagi relevan (kita menggunakan <select> standar)
+    
+    // Kosongkan state search yang tidak perlu
+    const [levelSearch, setLevelSearch] = useState("");
+    const [isDropdownLevelOpen, setDropdownLevelOpen] = useState(false);
+
   if (!mounted) {
     return (
       <div className="bg-white dark:bg-zinc-900 rounded-lg w-full max-h-[90vh] flex flex-col">
@@ -380,13 +409,13 @@ export default function AnggotaForm({
               className="border rounded-md px-3 py-2 text-sm bg-white dark:bg-zinc-800 border-gray-300 dark:border-zinc-600"
               value={form.gender ?? ""}
               onChange={(e) =>
-                setForm({ ...form, gender: e.target.value as "M" | "F" })
+                setForm({ ...form, gender: e.target.value as "laki-laki" | "wanita" })
               }
               disabled={readonly}
             >
               <option value="">Pilih Jenis Kelamin</option>
-              <option value="M">Laki-laki</option>
-              <option value="F">Perempuan</option>
+              <option value="laki-laki">Laki-laki</option>
+              <option value="wanita">Perempuan</option>
             </select>
           </div>
 
@@ -542,6 +571,30 @@ export default function AnggotaForm({
               <option value="S1">S1</option>
               <option value="S2">S2</option>
               <option value="S3">S3</option>
+            </select>
+          </div>
+          
+          <div className="flex flex-col gap-y-1">
+            <Label>Level</Label>
+              <select
+              id="level_id"
+              className="border rounded-md px-3 py-2 text-sm bg-white dark:bg-zinc-800 border-gray-300 dark:border-zinc-600"
+              // Pastikan value adalah string (meskipun form.level_id adalah number)
+              value={form.level_id?.toString() ?? ""}
+              onChange={(e) => handleLevelChange(e.target.value)}
+              disabled={readonly || isLevelLoading}
+            >
+              <option value="">
+                {isLevelLoading ? "Memuat level..." : "Pilih Level"}
+              </option>
+              {!isLevelLoading &&
+                allLevelOptions.map((level) => (
+                  // ID dari API biasanya string, kita gunakan Number(level.id).toString()
+                  // agar kompatibel dengan value select (yang selalu string)
+                  <option key={level.id} value={Number(level.id).toString()}> 
+                    {level.name}
+                  </option>
+                ))}
             </select>
           </div>
 
@@ -998,33 +1051,6 @@ export default function AnggotaForm({
               onChange={(e) => setForm({ ...form, tiktok: e.target.value })}
               readOnly={readonly}
             />
-          </div>
-
-          {/* Status Anggota */}
-          <div className="flex flex-col gap-y-1">
-            <Label>Status Anggota</Label>
-            <select
-              className="border rounded-md px-3 py-2 text-sm bg-white dark:bg-zinc-800 border-gray-300 dark:border-zinc-600"
-              value={
-                form.status !== undefined && form.status !== null
-                  ? String(form.status)
-                  : ""
-              }
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  status: Number(e.target.value) as 0 | 1 | 2,
-                })
-              }
-              disabled={readonly}
-            >
-              <option value="">Pilih Status</option>
-              {statusOptions.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
           </div>
         </div>
       </div>

@@ -375,11 +375,11 @@ export default function AuthForm({ mode }: AuthFormProps) {
             <div className="mt-6 flex justify-center space-x-4 text-sm text-gray-600">
               <div className="flex items-center">
                 <div className="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
-                Simpan Pinjam
+                Keanggotaan
               </div>
               <div className="flex items-center">
                 <div className="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
-                Manajemen Anggota
+                Digital KTA
               </div>
             </div>
           </motion.div>

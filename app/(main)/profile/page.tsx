@@ -96,10 +96,14 @@ export default function ProfilePage() {
   const displayEmail = anggota?.email ?? user?.email ?? "-";
 
   // avatar dari anggota.photo_file → jika kosong fallback default
-  const avatarSrc =
-    anggota?.photo_file && anggota.photo_file.trim() !== ""
-      ? anggota.photo_file
-      : "";
+  const pf = anggota?.photo_file;
+  const avatarSrc = typeof pf === "string" && pf.trim() !== "" ? pf : "";
+
+  // const avatarSrc = (() => {
+  //   if (typeof pf === "string") return pf.trim() || "";
+  //   // if (pf instanceof File) return URL.createObjectURL(pf); // optional: preview lokal
+  //   return "";
+  // })();
 
   // Bergabung sejak → roles.created_at paling awal
   const roles = (user?.roles as RoleWithDate[] | undefined) ?? [];
@@ -138,7 +142,7 @@ export default function ProfilePage() {
       >
         <div className="flex items-center gap-4">
           <Avatar className="h-20 w-20 border-4 border-white/20">
-            <AvatarImage src={avatarSrc} />
+            <AvatarImage src={avatarSrc || undefined} />
             <AvatarFallback className="bg-white text-primary text-xl font-bold">
               {getInitials(displayName)}
             </AvatarFallback>

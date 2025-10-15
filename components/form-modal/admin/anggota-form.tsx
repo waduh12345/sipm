@@ -6,7 +6,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import type { Anggota } from "@/types/admin/anggota";
 import { formatDateForInput } from "@/lib/format-utils";
 import { useGetProvinsiListQuery } from "@/services/admin/master/provinsi.service";
 import { useGetKotaListQuery } from "@/services/admin/master/kota.service";
@@ -19,7 +18,7 @@ import { useGetLevelListQuery } from "@/services/admin/master/level.service";
 
 interface AnggotaFormProps {
   form: AdminAnggotaFormState;
-  setForm: (data: AdminAnggotaFormState) => void;
+  setForm: React.Dispatch<React.SetStateAction<AdminAnggotaFormState>>;
   onCancel: () => void;
   onSubmit: () => void;
   readonly?: boolean;
@@ -36,39 +35,19 @@ export default function AnggotaForm({
 }: AnggotaFormProps) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
-  const [filterLevelId, setFilterLevelId] = useState<number | undefined>(undefined);
-
-  const statusOptions: Array<{ value: 0 | 1 | 2; label: string }> = [
-    { value: 0, label: "PENDING" },
-    { value: 1, label: "APPROVED" },
-    { value: 2, label: "REJECTED" },
-  ];
 
   // ------ PREVIEW untuk upload KTP & Foto (mirip RegisterForm) ------
   const [ktpPreview, setKtpPreview] = useState<string | null>(null);
   const [fotoPreview, setFotoPreview] = useState<string | null>(null);
 
   const handleKtpUpload = (file?: File | null) => {
-    setForm({ ...form, upload_ktp: file ?? null });
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => setKtpPreview(reader.result as string);
-      reader.readAsDataURL(file);
-    } else {
-      setKtpPreview(null);
-    }
+    setForm((f) => ({ ...f, ktp_file: file ?? null }));
   };
 
   const handleFotoUpload = (file?: File | null) => {
-    setForm({ ...form, upload_foto: file ?? null });
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => setFotoPreview(reader.result as string);
-      reader.readAsDataURL(file);
-    } else {
-      setFotoPreview(null);
-    }
+    setForm((f) => ({ ...f, photo_file: file ?? null }));
   };
+
   // ------------------------------------------------------------------
 
   // provinsi

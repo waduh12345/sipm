@@ -51,15 +51,39 @@ export default function AnggotaPage() {
     undefined
   );
 
-  const { data, isLoading, refetch } = useGetAnggotaListQuery({
-    page: currentPage,
-    paginate: itemsPerPage,
-    province_id: filterRegion.province_id,
-    regency_id: filterRegion.regency_id,
-    district_id: filterRegion.district_id,
-    village_id: filterRegion.village_id,
-    level_id: filterLevelId,
-  });
+  const { data, isLoading, refetch } = useGetAnggotaListQuery(
+    {
+      page: currentPage,
+      paginate: itemsPerPage,
+      province_id: filterRegion.province_id,
+      regency_id: filterRegion.regency_id,
+      district_id: filterRegion.district_id,
+      village_id: filterRegion.village_id,
+      level_id: filterLevelId,
+    },
+    {
+      refetchOnMountOrArgChange: true, // selalu refetch saat mount / arg berubah
+      refetchOnFocus: true, // refetch saat tab kembali fokus
+      refetchOnReconnect: true, // refetch saat koneksi kembali
+    }
+  );
+
+  useEffect(() => {
+    const onVisible = () => {
+      if (document.visibilityState === "visible") refetch();
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => document.removeEventListener("visibilitychange", onVisible);
+  }, [refetch]);
+
+  // Refetch keras kalau form set flag setelah save/cancel
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (sessionStorage.getItem("anggota_need_refetch") === "1") {
+      sessionStorage.removeItem("anggota_need_refetch");
+      refetch();
+    }
+  }, [refetch]);
 
   const list = useMemo(() => data?.data ?? [], [data]);
 
@@ -85,6 +109,16 @@ export default function AnggotaPage() {
     useExportAnggotaExcelMutation();
   const [importAnggotaExcel, { isLoading: isImporting }] =
     useImportAnggotaExcelMutation();
+
+  const handleGoBatchKTA = () => {
+    if (!filterRegion.village_id) return;
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("batch_kta_village_id", filterRegion.village_id);
+      sessionStorage.setItem("batch_kta_village_name", kelurahanSearch || "");
+    }
+    // params URL: hanya page & paginate (sesuai permintaan)
+    router.push(`/admin/kta/print-multiple?page=1&paginate=100`);
+  };
 
   const handleDelete = async (item: Anggota) => {
     const confirm = await Swal.fire({
@@ -809,11 +843,17 @@ export default function AnggotaPage() {
             </Button>
 
             <Button
-              className="h-10 w-full sm:w-auto"
-              onClick={handleExportExcel}
-              disabled={exportDisabled}
-              variant="outline"
+              className="h-10 w-full sm:w-auto gap-2"
+              onClick={handleGoBatchKTA}
+              disabled={!filterRegion.village_id}
+              variant="secondary"
+              title={
+                filterRegion.village_id
+                  ? "Cetak KTA semua anggota pada Kelurahan terpilih"
+                  : "Pilih Kelurahan terlebih dahulu"
+              }
             >
+              <Printer className="h-4 w-4" />
               Generate KTA
             </Button>
 
@@ -832,7 +872,6 @@ export default function AnggotaPage() {
             <thead className="bg-muted text-left">
               <tr>
                 <th className="px-4 py-2">Aksi</th>
-                <th className="px-4 py-2">Print</th> {/* ⬅️ Kolom baru */}
                 <th className="px-4 py-2">No. Anggota</th>
                 <th className="px-4 py-2">Nama</th>
                 <th className="px-4 py-2">Email</th>

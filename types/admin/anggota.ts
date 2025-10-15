@@ -62,9 +62,19 @@ export interface Anggota {
   whatsapp?: string;
   tiktok?: string;
   path?: string;
-  photo_file?: string;
+  photo_file: File | string | null;
+  ktp_file: File | string | null;
   province?: ProvinceRef | null;
   regency?: RegencyRef | null;
   district?: DistrictRef | null;
   village?: VillageRef | null;
 }
+
+// gunakan nama yang sama persis dengan API
+export type AdminAnggotaFormState = Partial<Anggota> & {
+  password?: string;
+  password_confirmation?: string;
+
+  ktp_file?: File | null;
+  photo_file?: File | null;
+};

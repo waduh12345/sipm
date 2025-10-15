@@ -45,7 +45,11 @@ function AnggotaAddEditPageInner() {
 
   const { data: detailData, isFetching } = useGetAnggotaByIdQuery(id!, {
     skip: !(isEdit || isDetail) || !id,
+    refetchOnMountOrArgChange: true,
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
   });
+
   const [createAnggota, { isLoading: isCreating }] = useCreateAnggotaMutation();
   const [updateAnggota, { isLoading: isUpdating }] = useUpdateAnggotaMutation();
 
@@ -70,76 +74,79 @@ function AnggotaAddEditPageInner() {
 
   const handleSubmit = async () => {
     try {
-      if (!form.name || !form.email || !form.phone || !form.ktp)
+      // Validasi dasar
+      if (!form.name || !form.email || !form.phone || !form.ktp) {
         throw new Error("Nama, Email, Telepon, dan KTP wajib diisi");
-
-      if (isAdd) {
-        if (!form.password || form.password.trim().length < 8)
-          throw new Error("Password minimal 8 karakter");
-        if (form.password !== form.password_confirmation)
-          throw new Error("Konfirmasi password tidak cocok");
       }
 
+      const isPut = isEdit && !!id;
       const fd = new FormData();
 
-      fd.append("name", form.name as string);
-      fd.append("email", form.email as string);
-      fd.append("phone", form.phone as string);
-      fd.append("address", form.address ?? "");
-      fd.append("gender", form.gender as string);
-      fd.append("birth_date", form.birth_date ?? "");
-      fd.append("birth_place", form.birth_place ?? "");
-      fd.append("ktp", form.ktp ?? "");
-      if (form.postal_code) fd.append("postal_code", String(form.postal_code));
+      // Helper: hanya append kalau ada nilainya (0 tetap dikirim)
+      const appendIf = (k: string, v: unknown) => {
+        if (v === undefined || v === null || v === "") return;
+        fd.append(k, String(v));
+      };
 
-      if (form.province_id !== undefined && form.province_id !== null) fd.append("province_id", String(form.province_id));
-      if (form.regency_id !== undefined && form.regency_id !== null) fd.append("regency_id", String(form.regency_id));
-      if (form.district_id !== undefined && form.district_id !== null) fd.append("district_id", String(form.district_id));
-      if (form.village_id !== undefined && form.village_id !== null) fd.append("village_id", String(form.village_id));
+      // Field teks/angka
+      appendIf("name", form.name);
+      appendIf("email", form.email);
+      appendIf("phone", form.phone);
+      appendIf("address", form.address);
+      appendIf("gender", form.gender);
+      appendIf("birth_date", form.birth_date);
+      appendIf("birth_place", form.birth_place);
+      appendIf("ktp", form.ktp);
+      appendIf("postal_code", form.postal_code);
 
-      if (form.rt !== undefined && form.rt !== null)
-        fd.append("rt", String(form.rt));
-      if (form.rw !== undefined && form.rw !== null)
-        fd.append("rw", String(form.rw));
-      console.log(form);
+      appendIf("province_id", form.province_id);
+      appendIf("regency_id", form.regency_id);
+      appendIf("district_id", form.district_id);
+      appendIf("village_id", form.village_id);
+      appendIf("rt", form.rt);
+      appendIf("rw", form.rw);
+      appendIf("level_id", form.level_id);
 
-      fd.append("level_id", form.level_id?.toString() ?? "");
+      appendIf("religion", form.religion);
+      appendIf("marital_status", form.marital_status);
+      appendIf("occupation", form.occupation);
+      appendIf("last_education", form.last_education);
+      appendIf("phone_home", form.phone_home);
+      appendIf("phone_office", form.phone_office);
+      appendIf("phone_faksimili", form.phone_faksimili);
+      appendIf("facebook", form.facebook);
+      appendIf("instagram", form.instagram);
+      appendIf("twitter", form.twitter);
+      appendIf("whatsapp", form.whatsapp);
+      appendIf("tiktok", form.tiktok);
+      appendIf("path", form.path);
 
-      if (form.religion) fd.append("religion", form.religion);
-      if (form.marital_status) fd.append("marital_status", form.marital_status);
-      if (form.occupation) fd.append("occupation", form.occupation);
-      if (form.last_education) fd.append("last_education", form.last_education);
-      if (form.phone_home) fd.append("phone_home", form.phone_home);
-      if (form.phone_office) fd.append("phone_office", form.phone_office);
-      if (form.phone_faksimili)
-        fd.append("phone_faksimili", form.phone_faksimili);
-      if (form.facebook) fd.append("facebook", form.facebook);
-      if (form.instagram) fd.append("instagram", form.instagram);
-      if (form.twitter) fd.append("twitter", form.twitter);
-      if (form.whatsapp) fd.append("whatsapp", form.whatsapp);
-      if (form.tiktok) fd.append("tiktok", form.tiktok);
-      if (form.path) fd.append("path", form.path);
+      // File: kirim HANYA jika user memilih file baru
+      if (form.ktp_file instanceof File) {
+        fd.append("ktp_file", form.ktp_file);
+      }
+      if (form.photo_file instanceof File) {
+        fd.append("photo_file", form.photo_file);
+      }
 
-      // ✅ Kirim file hanya kalau dipilih
-      if (form.upload_ktp instanceof File)
-        fd.append("upload_ktp", form.upload_ktp);
-      if (form.upload_foto instanceof File)
-        fd.append("upload_foto", form.upload_foto);
-
-      if (isAdd && form.password && form.password_confirmation) {
+      // Password hanya saat create
+      if (!isPut && form.password && form.password_confirmation) {
         fd.append("password", form.password);
         fd.append("password_confirmation", form.password_confirmation);
       }
 
-      if (isEdit) fd.append("_method", "PUT");
+      // Update via method override
+      if (isPut) fd.append("_method", "PUT");
 
-      if (isEdit && id) {
+      // Kirim
+      if (isPut && id) {
         await updateAnggota({ id, payload: fd }).unwrap();
         await Swal.fire("Sukses", "Anggota diperbarui", "success");
       } else {
         await createAnggota(fd).unwrap();
         await Swal.fire("Sukses", "Anggota ditambahkan", "success");
       }
+
       router.push("/admin/keanggotaan");
     } catch (err) {
       const msg =
@@ -157,7 +164,12 @@ function AnggotaAddEditPageInner() {
         <AnggotaForm
           form={form}
           setForm={setForm}
-          onCancel={() => router.back()}
+          onCancel={() => {
+            if (typeof window !== "undefined") {
+              sessionStorage.setItem("anggota_need_refetch", "1");
+            }
+            router.back();
+          }}
           onSubmit={handleSubmit}
           readonly={readonly}
           isLoading={isLoading}

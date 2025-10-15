@@ -46,8 +46,8 @@ function AnggotaAddEditPageInner() {
   const { data: detailData, isFetching } = useGetAnggotaByIdQuery(id!, {
     skip: !(isEdit || isDetail) || !id,
     refetchOnMountOrArgChange: true,
-    refetchOnFocus: true,
-    refetchOnReconnect: true,
+    refetchOnFocus: false,
+    refetchOnReconnect: false,
   });
 
   const [createAnggota, { isLoading: isCreating }] = useCreateAnggotaMutation();

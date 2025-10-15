@@ -40,13 +40,42 @@ export default function AnggotaForm({
   const [ktpPreview, setKtpPreview] = useState<string | null>(null);
   const [fotoPreview, setFotoPreview] = useState<string | null>(null);
 
+  const ktpSrc = useMemo(() => {
+    if (ktpPreview) return ktpPreview;
+    const v = form.ktp_file;
+    return typeof v === "string" && v.length > 0 ? v : null;
+  }, [ktpPreview, form.ktp_file]);
+
+  const fotoSrc = useMemo(() => {
+    if (fotoPreview) return fotoPreview;
+    const v = form.photo_file;
+    return typeof v === "string" && v.length > 0 ? v : null;
+  }, [fotoPreview, form.photo_file]);
+
   const handleKtpUpload = (file?: File | null) => {
     setForm((f) => ({ ...f, ktp_file: file ?? null }));
+    // ganti preview
+    if (ktpPreview && ktpPreview.startsWith("blob:"))
+      URL.revokeObjectURL(ktpPreview);
+    setKtpPreview(file ? URL.createObjectURL(file) : null);
   };
 
   const handleFotoUpload = (file?: File | null) => {
     setForm((f) => ({ ...f, photo_file: file ?? null }));
+    if (fotoPreview && fotoPreview.startsWith("blob:"))
+      URL.revokeObjectURL(fotoPreview);
+    setFotoPreview(file ? URL.createObjectURL(file) : null);
   };
+
+  // optional: bersihkan saat unmount
+  useEffect(() => {
+    return () => {
+      if (ktpPreview && ktpPreview.startsWith("blob:"))
+        URL.revokeObjectURL(ktpPreview);
+      if (fotoPreview && fotoPreview.startsWith("blob:"))
+        URL.revokeObjectURL(fotoPreview);
+    };
+  }, [ktpPreview, fotoPreview]);
 
   // ------------------------------------------------------------------
 
@@ -254,32 +283,35 @@ export default function AnggotaForm({
     setDropdownKelurahanOpen(false);
   };
 
-    // =========================================================================
+  // =========================================================================
   // ✅ LOGIKA LEVEL BARU
   // =========================================================================
-    // Gunakan useGetLevelListQuery untuk mendapatkan data level
-    const { data: levelData, isLoading: isLevelLoading } = useGetLevelListQuery({
-      page: 1,
-      paginate: 100,
-      search: "",
+  // Gunakan useGetLevelListQuery untuk mendapatkan data level
+  const { data: levelData, isLoading: isLevelLoading } = useGetLevelListQuery({
+    page: 1,
+    paginate: 100,
+    search: "",
+  });
+
+  // Semua opsi level (diperlukan untuk dropdown)
+  const allLevelOptions = useMemo(() => levelData?.data ?? [], [levelData]);
+
+  // Handler untuk mengubah level
+  const handleLevelChange = (value: string) => {
+    const idNum = Number(value);
+    // Perbarui form.level_id. Jika value kosong, set ke undefined.
+    setForm({
+      ...form,
+      level_id: isNaN(idNum) || value === "" ? undefined : idNum,
     });
+  };
 
-    // Semua opsi level (diperlukan untuk dropdown)
-    const allLevelOptions = useMemo(() => levelData?.data ?? [], [levelData]);
+  // Kosongkan state levelSearch dan logic handleLevelSelect/handleClearLevel
+  // karena tidak lagi relevan (kita menggunakan <select> standar)
 
-    // Handler untuk mengubah level
-    const handleLevelChange = (value: string) => {
-      const idNum = Number(value);
-      // Perbarui form.level_id. Jika value kosong, set ke undefined.
-      setForm({ ...form, level_id: isNaN(idNum) || value === "" ? undefined : idNum });
-    };
-
-    // Kosongkan state levelSearch dan logic handleLevelSelect/handleClearLevel 
-    // karena tidak lagi relevan (kita menggunakan <select> standar)
-    
-    // Kosongkan state search yang tidak perlu
-    const [levelSearch, setLevelSearch] = useState("");
-    const [isDropdownLevelOpen, setDropdownLevelOpen] = useState(false);
+  // Kosongkan state search yang tidak perlu
+  const [levelSearch, setLevelSearch] = useState("");
+  const [isDropdownLevelOpen, setDropdownLevelOpen] = useState(false);
 
   if (!mounted) {
     return (
@@ -388,7 +420,10 @@ export default function AnggotaForm({
               className="border rounded-md px-3 py-2 text-sm bg-white dark:bg-zinc-800 border-gray-300 dark:border-zinc-600"
               value={form.gender ?? ""}
               onChange={(e) =>
-                setForm({ ...form, gender: e.target.value as "laki-laki" | "wanita" })
+                setForm({
+                  ...form,
+                  gender: e.target.value as "laki-laki" | "wanita",
+                })
               }
               disabled={readonly}
             >
@@ -552,10 +587,10 @@ export default function AnggotaForm({
               <option value="S3">S3</option>
             </select>
           </div>
-          
+
           <div className="flex flex-col gap-y-1">
             <Label>Level</Label>
-              <select
+            <select
               id="level_id"
               className="border rounded-md px-3 py-2 text-sm bg-white dark:bg-zinc-800 border-gray-300 dark:border-zinc-600"
               // Pastikan value adalah string (meskipun form.level_id adalah number)
@@ -570,7 +605,7 @@ export default function AnggotaForm({
                 allLevelOptions.map((level) => (
                   // ID dari API biasanya string, kita gunakan Number(level.id).toString()
                   // agar kompatibel dengan value select (yang selalu string)
-                  <option key={level.id} value={Number(level.id).toString()}> 
+                  <option key={level.id} value={Number(level.id).toString()}>
                     {level.name}
                   </option>
                 ))}
@@ -594,11 +629,11 @@ export default function AnggotaForm({
                     className="h-11"
                   />
                 </div>
-                {ktpPreview && (
+                {/* Preview KTP */}
+                {ktpSrc && (
                   <div className="relative w-full h-40 rounded-lg overflow-hidden border border-border">
-                    {/* pakai img biasa agar tanpa next/image config */}
                     <img
-                      src={ktpPreview}
+                      src={ktpSrc}
                       alt="Preview KTP"
                       className="w-full h-full object-cover"
                     />
@@ -625,10 +660,11 @@ export default function AnggotaForm({
                     className="h-11"
                   />
                 </div>
-                {fotoPreview && (
+                {/* Preview Foto */}
+                {fotoSrc && (
                   <div className="relative w-full h-40 rounded-lg overflow-hidden border border-border">
                     <img
-                      src={fotoPreview}
+                      src={fotoSrc}
                       alt="Preview Foto"
                       className="w-full h-full object-cover"
                     />

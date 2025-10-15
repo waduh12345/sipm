@@ -1,13 +1,26 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import NextAuth, { DefaultSession } from "next-auth";
 
+type UserRole = {
+  id: number;
+  name: string;
+  guard_name?: string;
+  created_at?: string; // ← penting untuk "Bergabung sejak"
+  updated_at?: string;
+  pivot?: {
+    model_type: string;
+    model_id: number;
+    role_id: number;
+  };
+};
+
 declare module "next-auth" {
   interface Session {
     user: {
       id: number;
       token: string;
       phone: string;
-      roles: { id: number; name: string }[];
+      roles: UserRole[]; // ← sekarang menyertakan created_at
       shop:
         | {
             id: number;
@@ -39,8 +52,7 @@ declare module "next-auth" {
     id: number;
     token: string;
     phone: string;
-    roles: { id: number; name: string }[];
-    // ⬇️ perbaikan: izinkan array atau null, bukan single object
+    roles: UserRole[]; // ← konsisten
     shop:
       | {
           id: number;

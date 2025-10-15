@@ -5,11 +5,13 @@ export interface Tugas {
   task_category_id: number;
   task_category_name?: string;
   name: string;
-  start_date: Date;
-  end_date: Date;
+  start_date: string;
+  end_date: string;
   target: number;
   bonus: number;
-  status: number;
+  status: boolean | number;
+  description: string;
+  created_at: string;
 }
 
 export interface TugasResponse {
@@ -41,20 +43,20 @@ export interface CreateTugasRequest {
   level_id: number;
   task_category_id: number;
   name: string;
-  start_date: Date;
-  end_date: Date;
+  start_date: string;
+  end_date: string;
   target: number;
   bonus: number;
-  status: number;
+  status: boolean | number;
 }
 
 export interface UpdateTugasRequest {
   level_id: number;
   task_category_id: number;
   name: string;
-  start_date: Date;
-  end_date: Date;
+  start_date: string;
+  end_date: string;
   target: number;
   bonus: number;
-  status: number;
+  status: boolean | number;
 }

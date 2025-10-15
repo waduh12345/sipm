@@ -5,14 +5,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import type { Tugas } from "@/types/admin/tugas";
-import {
-  useGetLevelListQuery,
-} from "@/services/admin/master/level.service";
-import {
-  useGetKategoriTugasListQuery,
-} from "@/services/admin/master/kategori-tugas.service";
+import { useGetLevelListQuery } from "@/services/admin/master/level.service";
+import { useGetKategoriTugasListQuery } from "@/services/admin/master/kategori-tugas.service";
 import { Loader2 } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
+import { formatDateForInput } from "@/lib/format-utils";
 
 // Definisikan tipe props yang lebih spesifik untuk form ini
 interface TugasFormProps {
@@ -42,11 +39,12 @@ export default function TugasForm({
   });
 
   const [kategoriTugasSearch, setKategoriTugasSearch] = useState("");
-  const { data: kategoriTugasData, isLoading: isKategoriTugasLoading } = useGetKategoriTugasListQuery({
-    page: 1,
-    paginate: 100,
-    search: kategoriTugasSearch,
-  });
+  const { data: kategoriTugasData, isLoading: isKategoriTugasLoading } =
+    useGetKategoriTugasListQuery({
+      page: 1,
+      paginate: 100,
+      search: kategoriTugasSearch,
+    });
 
   const [isDropdownLevelOpen, setDropdownLevelOpen] = useState(false);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -55,7 +53,7 @@ export default function TugasForm({
   useEffect(() => {
     setMounted(true);
     if (form.level_id && levelData?.data) {
-      const selectedLevel = levelData.data.find(p => p.id === form.level_id);
+      const selectedLevel = levelData.data.find((p) => p.id === form.level_id);
       if (selectedLevel) {
         setLevelSearch(selectedLevel.name);
       }
@@ -65,7 +63,9 @@ export default function TugasForm({
   useEffect(() => {
     setMounted(true);
     if (form.task_category_id && kategoriTugasData?.data) {
-      const selectedKategori = kategoriTugasData.data.find(p => p.id === form.task_category_id);
+      const selectedKategori = kategoriTugasData.data.find(
+        (p) => p.id === form.task_category_id
+      );
       if (selectedKategori) {
         setKategoriTugasSearch(selectedKategori.name);
       }
@@ -75,7 +75,10 @@ export default function TugasForm({
   // Menutup dropdown saat klik di luar komponen
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setDropdownOpen(false);
         setDropdownLevelOpen(false);
       }
@@ -85,10 +88,10 @@ export default function TugasForm({
   }, [dropdownRef]);
 
   const handleLevelSelect = (level: { id: number; name: string }) => {
-      setForm({ ...form, level_id: level.id });
-      setLevelSearch(level.name);
-      setDropdownLevelOpen(false);
-    };
+    setForm({ ...form, level_id: level.id });
+    setLevelSearch(level.name);
+    setDropdownLevelOpen(false);
+  };
 
   const filteredLevel = useMemo(() => {
     if (!levelData?.data || levelSearch.length < 2) {
@@ -108,7 +111,10 @@ export default function TugasForm({
     );
   }, [kategoriTugasSearch, kategoriTugasData]);
 
-  const handleKategoriTugasSelect = (kategori: { id: number; name: string }) => {
+  const handleKategoriTugasSelect = (kategori: {
+    id: number;
+    name: string;
+  }) => {
     setForm({ ...form, task_category_id: kategori.id });
     setKategoriTugasSearch(kategori.name);
     setDropdownOpen(false);
@@ -152,7 +158,6 @@ export default function TugasForm({
         className="flex-1 overflow-y-auto p-6"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
           {/* Level Searchable Dropdown */}
           <div className="flex flex-col gap-y-1.5" ref={dropdownRef}>
             <Label htmlFor="level_id">Level</Label>
@@ -164,7 +169,7 @@ export default function TugasForm({
                 onChange={(e) => {
                   setLevelSearch(e.target.value);
                   setDropdownLevelOpen(true);
-                   // Hapus level_id jika input diubah
+                  // Hapus level_id jika input diubah
                   if (form.level_id) {
                     setForm({ ...form, level_id: undefined });
                   }
@@ -181,7 +186,9 @@ export default function TugasForm({
                       <Loader2 className="h-5 w-5 animate-spin" />
                     </div>
                   ) : levelSearch.length < 2 ? (
-                     <p className="text-sm text-gray-500 p-3">Ketik minimal 2 huruf...</p>
+                    <p className="text-sm text-gray-500 p-3">
+                      Ketik minimal 2 huruf...
+                    </p>
                   ) : filteredLevel.length > 0 ? (
                     filteredLevel.map((level) => (
                       <button
@@ -194,7 +201,9 @@ export default function TugasForm({
                       </button>
                     ))
                   ) : (
-                    <p className="text-sm text-gray-500 p-3">Level tidak ditemukan.</p>
+                    <p className="text-sm text-gray-500 p-3">
+                      Level tidak ditemukan.
+                    </p>
                   )}
                 </div>
               )}
@@ -212,7 +221,7 @@ export default function TugasForm({
                 onChange={(e) => {
                   setKategoriTugasSearch(e.target.value);
                   setDropdownOpen(true);
-                   // Hapus task_category_id jika input diubah
+                  // Hapus task_category_id jika input diubah
                   if (form.task_category_id) {
                     setForm({ ...form, task_category_id: undefined });
                   }
@@ -229,7 +238,9 @@ export default function TugasForm({
                       <Loader2 className="h-5 w-5 animate-spin" />
                     </div>
                   ) : kategoriTugasSearch.length < 2 ? (
-                     <p className="text-sm text-gray-500 p-3">Ketik minimal 2 huruf...</p>
+                    <p className="text-sm text-gray-500 p-3">
+                      Ketik minimal 2 huruf...
+                    </p>
                   ) : filteredKategoriTugas.length > 0 ? (
                     filteredKategoriTugas.map((kategori) => (
                       <button
@@ -242,7 +253,9 @@ export default function TugasForm({
                       </button>
                     ))
                   ) : (
-                    <p className="text-sm text-gray-500 p-3">Kategori tidak ditemukan.</p>
+                    <p className="text-sm text-gray-500 p-3">
+                      Kategori tidak ditemukan.
+                    </p>
                   )}
                 </div>
               )}
@@ -267,16 +280,8 @@ export default function TugasForm({
             <Input
               id="start_date"
               type="date"
-              value={
-                form.start_date
-                  ? typeof form.start_date === "string"
-                    ? form.start_date
-                    : form.start_date instanceof Date
-                    ? form.start_date.toISOString().slice(0, 10)
-                    : ""
-                  : ""
-              }
-              onChange={(e) => setForm({ ...form, start_date: new Date(e.target.value) })}
+              value={formatDateForInput(form.start_date ?? "")}
+              onChange={(e) => setForm({ ...form, start_date: e.target.value })}
               readOnly={readonly}
               required
             />
@@ -288,16 +293,8 @@ export default function TugasForm({
             <Input
               id="end_date"
               type="date"
-              value={
-                form.end_date
-                  ? typeof form.end_date === "string"
-                    ? form.end_date
-                    : form.end_date instanceof Date
-                    ? form.end_date.toISOString().slice(0, 10)
-                    : ""
-                  : ""
-              }
-              onChange={(e) => setForm({ ...form, end_date: new Date(e.target.value) })}
+              value={formatDateForInput(form.end_date ?? "")}
+              onChange={(e) => setForm({ ...form, end_date: e.target.value })}
               readOnly={readonly}
               required
             />
@@ -309,7 +306,9 @@ export default function TugasForm({
             <Input
               id="target"
               value={form.target ?? ""}
-              onChange={(e) => setForm({ ...form, target: Number(e.target.value) })}
+              onChange={(e) =>
+                setForm({ ...form, target: Number(e.target.value) })
+              }
               readOnly={readonly}
               required
             />
@@ -321,7 +320,9 @@ export default function TugasForm({
             <Input
               id="bonus"
               value={form.bonus ?? ""}
-              onChange={(e) => setForm({ ...form, bonus: Number(e.target.value) })}
+              onChange={(e) =>
+                setForm({ ...form, bonus: Number(e.target.value) })
+              }
               readOnly={readonly}
               required
             />
@@ -330,20 +331,32 @@ export default function TugasForm({
           {/* Status */}
           <div className="flex flex-col gap-y-1.5 col-span-1 md:col-span-2">
             <Label htmlFor="status">Status</Label>
-            <select
-              id="status"
-              value={form.status ?? 1}
-              onChange={(e) =>
-                setForm({ ...form, status: Number(e.target.value) })
-              }
-              disabled={readonly}
-              className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              <option value={1}>Aktif</option>
-              <option value={0}>Tidak Aktif</option>
-            </select>
-          </div>
 
+            {(() => {
+              // Tampilkan 1/0 apapun tipe `form.status`-nya
+              const statusValue =
+                typeof form.status === "boolean"
+                  ? form.status
+                    ? 1
+                    : 0
+                  : Number(form.status ?? 1);
+
+              return (
+                <select
+                  id="status"
+                  value={statusValue}
+                  onChange={(e) =>
+                    setForm({ ...form, status: Number(e.target.value) })
+                  }
+                  disabled={readonly}
+                  className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <option value={1}>Aktif</option>
+                  <option value={0}>Tidak Aktif</option>
+                </select>
+              );
+            })()}
+          </div>
         </div>
       </form>
 

@@ -17,17 +17,18 @@ import { Input } from "@/components/ui/input";
 import ActionsGroup from "@/components/admin-components/actions-group";
 import { Plus } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { displayDate } from "@/lib/format-utils";
 
 export default function TugasPage() {
   const [form, setForm] = useState<Partial<Tugas>>({
     level_id: 0,
     task_category_id: 0,
     name: "",
-    start_date: new Date(),
-    end_date: new Date(),
+    start_date: "",
+    end_date: "",
     target: 0,
     bonus: 0,
-    status: 1,
+    status: true,
   });
   const [editingId, setEditingId] = useState<number | null>(null);
   const [readonly, setReadonly] = useState(false);
@@ -53,23 +54,30 @@ export default function TugasPage() {
     );
   }, [categoryList, query]);
 
-  const [createCategory, { isLoading: isCreating }] =
-    useCreateTugasMutation();
-  const [updateCategory, { isLoading: isUpdating }] =
-    useUpdateTugasMutation();
+  const [createCategory, { isLoading: isCreating }] = useCreateTugasMutation();
+  const [updateCategory, { isLoading: isUpdating }] = useUpdateTugasMutation();
   const [deleteCategory] = useDeleteTugasMutation();
 
   const handleSubmit = async () => {
     try {
+      // Normalisasi status dari boolean/number → boolean
+      const statusBool =
+        typeof form.status === "boolean"
+          ? form.status
+          : Number(form.status) === 1;
+
       const payload = {
         level_id: form.level_id || 0,
         task_category_id: form.task_category_id || 0,
         name: form.name || "",
-        start_date: form.start_date || new Date(),
-        end_date: form.end_date || new Date(),
+        start_date: form.start_date || "",
+        end_date: form.end_date || "",
         target: form.target || 0,
         bonus: form.bonus || 0,
-        status: form.status || 1,
+        // Jika API terima boolean:
+        status: statusBool,
+        // Jika API minta 0/1, pakai ini:
+        // status: statusBool ? 1 : 0,
       };
 
       if (editingId) {
@@ -144,7 +152,11 @@ export default function TugasPage() {
           {/* Kanan: aksi */}
           <div className="shrink-0 flex flex-wrap items-center gap-2">
             {/* Tambah data (opsional) */}
-            {openModal && <Button onClick={openModal}><Plus /> Tugas</Button>}
+            {openModal && (
+              <Button onClick={openModal}>
+                <Plus /> Tugas
+              </Button>
+            )}
           </div>
         </div>
       </div>
@@ -191,14 +203,20 @@ export default function TugasPage() {
                       </div>
                     </td>
                     <td className="px-4 py-2 font-medium">{item.level_name}</td>
-                    <td className="px-4 py-2 font-medium">{item.task_category_name}</td>
+                    <td className="px-4 py-2 font-medium">
+                      {item.task_category_name}
+                    </td>
                     <td className="px-4 py-2 font-medium">{item.name}</td>
-                    <td className="px-4 py-2 font-medium">{item.start_date instanceof Date ? item.start_date.toLocaleDateString() : item.start_date}</td>
-                    <td className="px-4 py-2 font-medium">{item.end_date instanceof Date ? item.end_date.toLocaleDateString() : item.end_date}</td>
+                    <td className="px-4 py-2 font-medium">
+                      {displayDate(item.start_date)}
+                    </td>
+                    <td className="px-4 py-2 font-medium">
+                      {displayDate(item.end_date)}
+                    </td>
                     <td className="px-4 py-2 font-medium">{item.target}</td>
                     <td className="px-4 py-2 font-medium">{item.bonus}</td>
                     <td className="px-4 py-2">
-                      {item.status === 1 ? (
+                      {item.status === true ? (
                         <Badge variant="success">Active</Badge>
                       ) : (
                         <Badge variant="destructive">Inactive</Badge>

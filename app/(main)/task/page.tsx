@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import dayjs from "dayjs";
+import "dayjs/locale/id";
 import { TaskCard } from "@/components/task-card";
 import {
   Select,
@@ -10,103 +12,88 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Filter, ArrowUpDown, Briefcase } from "lucide-react";
+import { useGetTugasListQuery } from "@/services/admin/tugas.service";
+import { useGetKategoriTugasListQuery } from "@/services/admin/master/kategori-tugas.service";
 
-// Sample tasks data
-const allTasks = [
-  {
-    id: "1",
-    category: "Rekrutment" as const,
-    title: "Rekrutmen Anggota Baru Wilayah Jakarta",
-    description:
-      "Bantu kami merekrut anggota baru di wilayah Jakarta dan sekitarnya",
-    progress: 65,
-    target: 100,
-    achieved: 65,
-    startDate: "1 Jan",
-    endDate: "31 Jan",
-    bonus: 50000,
-  },
-  {
-    id: "2",
-    category: "Simpatisan" as const,
-    title: "Pendataan Simpatisan Daerah",
-    description: "Lakukan pendataan simpatisan di daerah masing-masing",
-    progress: 45,
-    target: 200,
-    achieved: 90,
-    startDate: "5 Jan",
-    endDate: "28 Feb",
-    bonus: 35000,
-  },
-  {
-    id: "3",
-    category: "Lainnya" as const,
-    title: "Dokumentasi Kegiatan Sosial",
-    description: "Upload dokumentasi kegiatan sosial yang telah dilaksanakan",
-    progress: 80,
-    target: 50,
-    achieved: 40,
-    startDate: "10 Jan",
-    endDate: "20 Jan",
-    bonus: 25000,
-  },
-  {
-    id: "4",
-    category: "Rekrutment" as const,
-    title: "Sosialisasi Program Keanggotaan",
-    description: "Lakukan sosialisasi program keanggotaan di komunitas lokal",
-    progress: 30,
-    target: 75,
-    achieved: 23,
-    startDate: "15 Jan",
-    endDate: "15 Feb",
-    bonus: 40000,
-  },
-  {
-    id: "5",
-    category: "Simpatisan" as const,
-    title: "Survey Kepuasan Simpatisan",
-    description: "Kumpulkan feedback dari simpatisan untuk evaluasi program",
-    progress: 55,
-    target: 150,
-    achieved: 83,
-    startDate: "1 Feb",
-    endDate: "28 Feb",
-    bonus: 30000,
-  },
-  {
-    id: "6",
-    category: "Lainnya" as const,
-    title: "Laporan Kegiatan Bulanan",
-    description:
-      "Submit laporan kegiatan bulanan beserta dokumentasi pendukung",
-    progress: 90,
-    target: 30,
-    achieved: 27,
-    startDate: "1 Jan",
-    endDate: "5 Feb",
-    bonus: 20000,
-  },
-];
+dayjs.locale("id");
+
+type UITask = {
+  id: string;
+  category: string;
+  title: string;
+  description: string;
+  progress: number;
+  target: number;
+  achieved: number;
+  startDate: string;
+  endDate: string;
+  bonus: number;
+  createdAt: string; // for sorting
+};
 
 export default function TaskPage() {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [sortBy, setSortBy] = useState<string>("newest");
 
-  // Filter tasks by category
-  const filteredTasks = allTasks.filter((task) => {
-    if (categoryFilter === "all") return true;
-    return task.category === categoryFilter;
+  // fetch tasks
+  const { data: taskResp, isLoading: isTaskLoading } = useGetTugasListQuery({
+    page: 1,
+    paginate: 100,
+    search: "",
   });
 
-  // Sort tasks
-  const sortedTasks = [...filteredTasks].sort((a, b) => {
-    if (sortBy === "newest") {
-      return Number.parseInt(b.id) - Number.parseInt(a.id);
-    } else {
-      return Number.parseInt(a.id) - Number.parseInt(b.id);
-    }
+  // fetch categories
+  const { data: catResp } = useGetKategoriTugasListQuery({
+    page: 1,
+    paginate: 100,
+    search: "",
   });
+
+  const categories = useMemo(
+    () => (catResp?.data ?? []).map((c) => c.name),
+    [catResp]
+  );
+
+  const tasksRaw = taskResp?.data ?? [];
+
+  const allTasks: UITask[] = useMemo(
+    () =>
+      tasksRaw.map((t) => ({
+        id: String(t.id),
+        category: t.task_category_name ?? "-",
+        title: t.name ?? "-",
+        description: t.description ?? "",
+        progress: 0, // belum ada di response → default 0
+        achieved: 0, // belum ada di response → default 0
+        target: Number(t.target ?? 0),
+        startDate: dayjs(t.start_date).isValid()
+          ? dayjs(t.start_date).format("D MMM")
+          : "",
+        endDate: dayjs(t.end_date).isValid()
+          ? dayjs(t.end_date).format("D MMM")
+          : "",
+        bonus: Number(t.bonus ?? 0),
+        createdAt: t.created_at ?? "",
+      })),
+    [tasksRaw]
+  );
+
+  // filter by category (name)
+  const filteredTasks = useMemo(() => {
+    if (categoryFilter === "all") return allTasks;
+    return allTasks.filter((t) => t.category === categoryFilter);
+  }, [allTasks, categoryFilter]);
+
+  // sort by createdAt
+  const sortedTasks = useMemo(() => {
+    const copy = [...filteredTasks];
+    copy.sort((a, b) => {
+      const da = dayjs(a.createdAt).valueOf();
+      const db = dayjs(b.createdAt).valueOf();
+      return sortBy === "newest" ? db - da : da - db;
+    });
+    return copy;
+  }, [filteredTasks, sortBy]);
 
   return (
     <div className="space-y-4 p-4 safe-area-top">
@@ -128,16 +115,22 @@ export default function TaskPage() {
       {/* Filters */}
       <div className="flex gap-3">
         <div className="flex-1">
-          <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+          <Select
+            value={categoryFilter}
+            onValueChange={setCategoryFilter}
+            disabled={isTaskLoading}
+          >
             <SelectTrigger className="h-10 w-full">
               <Filter className="w-4 h-4 mr-2" />
               <SelectValue placeholder="Kategori" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">Semua Kategori</SelectItem>
-              <SelectItem value="Rekrutment">Rekrutment</SelectItem>
-              <SelectItem value="Simpatisan">Simpatisan</SelectItem>
-              <SelectItem value="Lainnya">Lainnya</SelectItem>
+              {(categories ?? []).map((name) => (
+                <SelectItem key={name} value={name}>
+                  {name}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
@@ -163,7 +156,7 @@ export default function TaskPage() {
         ))}
       </div>
 
-      {sortedTasks.length === 0 && (
+      {!isTaskLoading && sortedTasks.length === 0 && (
         <div className="text-center py-12">
           <p className="text-muted-foreground">Tidak ada task ditemukan</p>
         </div>
@@ -171,4 +164,3 @@ export default function TaskPage() {
     </div>
   );
 }
-

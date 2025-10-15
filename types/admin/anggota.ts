@@ -1,3 +1,26 @@
+export interface ProvinceRef {
+  id: string;
+  name: string;
+}
+
+export interface RegencyRef {
+  id: string;
+  province_id: string;
+  name: string;
+}
+
+export interface DistrictRef {
+  id: string;
+  regency_id: string;
+  name: string;
+}
+
+export interface VillageRef {
+  id: string;
+  district_id: string;
+  name: string;
+}
+
 export interface Anggota {
   id: number;
   reference?: string;
@@ -39,4 +62,9 @@ export interface Anggota {
   whatsapp?: string;
   tiktok?: string;
   path?: string;
+  photo_file?: string;
+  province?: ProvinceRef | null;
+  regency?: RegencyRef | null;
+  district?: DistrictRef | null;
+  village?: VillageRef | null;
 }

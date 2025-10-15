@@ -1,7 +1,17 @@
 "use client";
 
-import { signOut } from "next-auth/react";
+import { useEffect, useMemo, useState } from "react";
+import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
+import {
+  useGetAnggotaListQuery,
+  useGetAnggotaByIdQuery,
+} from "@/services/admin/anggota.service";
+import type { Anggota } from "@/types/admin/anggota";
+
 import { useLogoutMutation } from "@/services/auth.service";
+import { displayDate } from "@/lib/format-utils";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -16,10 +26,97 @@ import {
   TrendingUp,
   DollarSign,
 } from "lucide-react";
-import Link from "next/link";
+
+function getInitials(name?: string | null): string {
+  if (!name) return "U";
+  const parts = name.trim().split(/\s+/);
+  const first = parts[0]?.[0] ?? "";
+  const last = parts.length > 1 ? parts[parts.length - 1][0] ?? "" : "";
+  return (first + last).toUpperCase() || "U";
+}
+
+type RoleWithDate = { id: number; name: string; created_at?: string };
 
 export default function ProfilePage() {
+  const { data: session } = useSession();
+  const user = session?.user;
+  const sessionUserId = user?.id ?? null;
+
   const [logoutApi, { isLoading: isLoggingOut }] = useLogoutMutation();
+
+  const [page, setPage] = useState(1);
+  const paginate = 100; // ambil banyak biar cepat ketemu
+  const [foundAnggotaId, setFoundAnggotaId] = useState<
+    number | null | undefined
+  >(undefined);
+
+  const {
+    data: listResp,
+    isLoading: isListLoading,
+    isFetching: isListFetching,
+  } = useGetAnggotaListQuery(
+    { page, paginate },
+    { skip: !sessionUserId || foundAnggotaId !== undefined } // stop setelah ketemu / mentok
+  );
+
+  useEffect(() => {
+    if (!sessionUserId) return;
+    if (!listResp) return;
+
+    const match = (listResp.data ?? []).find(
+      (row) => Number(row.user_id) === Number(sessionUserId)
+    );
+    if (match) {
+      setFoundAnggotaId(match.id);
+      return;
+    }
+
+    const last = listResp.last_page ?? 1;
+    if (page < last) {
+      setPage((p) => p + 1);
+    } else {
+      setFoundAnggotaId(null); // tidak ketemu di seluruh halaman
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [listResp, sessionUserId]);
+
+  // Ambil detail anggota setelah id ketemu
+  const {
+    data: anggotaDetail,
+    isLoading: isDetailLoading,
+    isFetching: isDetailFetching,
+  } = useGetAnggotaByIdQuery(foundAnggotaId as number, {
+    skip: !foundAnggotaId || foundAnggotaId === null,
+  });
+
+  const anggota: Anggota | undefined = anggotaDetail;
+
+  // Sumber tampilan: prioritas data anggota; kalau tidak ada, fallback ke session
+  const displayName = anggota?.name ?? user?.name ?? "-";
+  const displayEmail = anggota?.email ?? user?.email ?? "-";
+
+  // avatar dari anggota.photo_file → jika kosong fallback default
+  const avatarSrc =
+    anggota?.photo_file && anggota.photo_file.trim() !== ""
+      ? anggota.photo_file
+      : "";
+
+  // Bergabung sejak → roles.created_at paling awal
+  const roles = (user?.roles as RoleWithDate[] | undefined) ?? [];
+  const roleDates = roles
+    .map((r) => r.created_at)
+    .filter((s): s is string => Boolean(s));
+  const joinedAtISO = roleDates.length
+    ? roleDates.slice().sort()[0]
+    : undefined;
+  const joinedAtText = displayDate(joinedAtISO);
+
+  const isLoadingAnything =
+    isListLoading ||
+    isListFetching ||
+    (foundAnggotaId !== null && foundAnggotaId === undefined) ||
+    isDetailLoading ||
+    isDetailFetching;
 
   const handleLogout = async () => {
     try {
@@ -41,17 +138,23 @@ export default function ProfilePage() {
       >
         <div className="flex items-center gap-4">
           <Avatar className="h-20 w-20 border-4 border-white/20">
-            <AvatarImage src="/placeholder.svg?height=80&width=80" />
+            <AvatarImage src={avatarSrc} />
             <AvatarFallback className="bg-white text-primary text-xl font-bold">
-              JD
+              {getInitials(displayName)}
             </AvatarFallback>
           </Avatar>
+
           <div className="flex-1">
-            <h1 className="text-xl font-bold">John Doe</h1>
-            <p className="text-sm text-white/80">john.doe@email.com</p>
+            <h1 className="text-xl font-bold">{displayName}</h1>
+            <p className="text-sm text-white/80">{displayEmail}</p>
             <p className="text-xs text-white/60 mt-1">
-              Bergabung sejak 15 Januari 2024
+              Bergabung sejak {joinedAtText}
             </p>
+            {isLoadingAnything && (
+              <p className="text-[11px] text-white/60 mt-1">
+                Memuat data akun…
+              </p>
+            )}
           </div>
         </div>
       </div>
@@ -223,4 +326,3 @@ export default function ProfilePage() {
     </div>
   );
 }
-

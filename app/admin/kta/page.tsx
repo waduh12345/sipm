@@ -7,7 +7,6 @@ import { KTACard } from "@/components/kta-card-admin";
 import KTACardBack from "@/components/kta-card-back-admin";
 import { Button } from "@/components/ui/button";
 
-/** Skeleton ringan saat menunggu router params/searchParams siap */
 function KtaPageFallback() {
   return (
     <div className="min-h-screen bg-background p-4 animate-pulse">
@@ -24,16 +23,20 @@ function KtaPageContent() {
   const searchParams = useSearchParams();
   const params = useParams();
 
-  // id dari /admin/kta/[id] atau ?id=
-  const rawId =
-    (params?.id as string | undefined) ?? searchParams?.get("id") ?? undefined;
+  // Ambil id dari: /admin/kta/[id]  → params.id
+  // atau query:     ?id= / ?memberId=
+  const rawId: string | undefined =
+    (typeof params?.id === "string" ? (params.id as string) : undefined) ??
+    searchParams?.get("id") ??
+    searchParams?.get("memberId") ??
+    undefined;
 
-  const numericId = useMemo(() => {
+  const numericId = useMemo<number | undefined>(() => {
     if (!rawId) return undefined;
     return /^\d+$/.test(rawId) ? Number(rawId) : undefined;
   }, [rawId]);
 
-  const backId = rawId ?? "KTA-001234";
+  const backId: string = rawId ?? "KTA-001234";
 
   const printRef = useRef<HTMLDivElement | null>(null);
   const handlePrint = () => window.print();
@@ -42,17 +45,13 @@ function KtaPageContent() {
     <div className="min-h-screen bg-background p-4">
       {/* Global print styles */}
       <style jsx global>{`
-        /* ============================
-           KENDALI UKURAN
-           ============================ */
         :root {
-          --card-width-preview: 120mm; /* lebar di layar (preview) */
-          --card-width-print: 140mm; /* lebar saat CETAK (dibesarkan) */
+          --card-width-preview: 120mm;
+          --card-width-print: 140mm;
           --page-margin: 8mm;
           --card-gap: 10mm;
         }
 
-        /* Preview layar (WYSIWYG) */
         .kta-card-frame {
           width: var(--card-width-preview);
           max-width: 100%;
@@ -74,7 +73,6 @@ function KtaPageContent() {
             background: transparent !important;
           }
 
-          /* hanya area kartu yang tampil */
           body * {
             visibility: hidden !important;
           }
@@ -93,7 +91,6 @@ function KtaPageContent() {
             row-gap: var(--card-gap);
           }
 
-          /* >>> INI yang menentukan LEBAR SAAT PRINT <<< */
           .kta-card-frame {
             width: var(--card-width-print) !important;
           }
@@ -132,7 +129,8 @@ function KtaPageContent() {
         >
           {/* Depan */}
           <div className="kta-card-frame">
-            <KTACard memberId={numericId} onClickRoute="/admin/kta/[id]" />
+            {/* onClickRoute fleksibel: akan membentuk ?memberId=ID jika route tanpa [id] */}
+            <KTACard memberId={numericId} onClickRoute="/admin/kta" />
           </div>
           {/* Belakang */}
           <div className="kta-card-frame">

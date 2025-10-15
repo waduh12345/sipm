@@ -11,17 +11,16 @@ import {
   useImportAnggotaExcelMutation,
 } from "@/services/admin/anggota.service";
 import type { Anggota } from "@/types/admin/anggota";
-import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
 import ActionsGroup from "@/components/admin-components/actions-group";
-import { Plus, Loader2 } from "lucide-react"; 
+import { Plus, Loader2, Printer } from "lucide-react"; // ⬅️ Printer ditambahkan
 import useModal from "@/hooks/use-modal";
 import { Input } from "@/components/ui/input";
 import { useGetProvinsiListQuery } from "@/services/admin/master/provinsi.service";
 import { useGetKotaListQuery } from "@/services/admin/master/kota.service";
 import { useGetKecamatanListQuery } from "@/services/admin/master/kecamatan.service";
 import { useGetKelurahanListQuery } from "@/services/admin/master/kelurahan.service";
-import { useGetLevelListQuery } from "@/services/admin/master/level.service"; 
+import { useGetLevelListQuery } from "@/services/admin/master/level.service";
 
 export default function AnggotaPage() {
   const router = useRouter();
@@ -33,7 +32,6 @@ export default function AnggotaPage() {
   const { isOpen, openModal, closeModal } = useModal();
   const [mounted, setMounted] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  
 
   useEffect(() => setMounted(true), []);
 
@@ -49,8 +47,9 @@ export default function AnggotaPage() {
     village_id: undefined,
   });
 
-  // Level ID: Tipe number (sesuai API) atau undefined
-  const [filterLevelId, setFilterLevelId] = useState<number | undefined>(undefined);
+  const [filterLevelId, setFilterLevelId] = useState<number | undefined>(
+    undefined
+  );
 
   const { data, isLoading, refetch } = useGetAnggotaListQuery({
     page: currentPage,
@@ -60,8 +59,6 @@ export default function AnggotaPage() {
     district_id: filterRegion.district_id,
     village_id: filterRegion.village_id,
     level_id: filterLevelId,
-    // Note: Query dan status difilter di frontend pada `filteredList`,
-    // tetapi jika API mendukung, harusnya dimasukkan di sini.
   });
 
   const list = useMemo(() => data?.data ?? [], [data]);
@@ -70,13 +67,12 @@ export default function AnggotaPage() {
     let arr = list;
     if (status !== "all")
       arr = arr.filter((it) => it.status === Number(status));
-    
-    // NOTE: Filter by query dilakukan di frontend
+
     if (!query.trim()) return arr;
     const q = query.toLowerCase();
     return arr.filter((it) =>
-      [it.name, it.email, it.phone, it.address, it.ktp, ""].some(
-        (f) => f?.toLowerCase?.().includes?.(q)
+      [it.name, it.email, it.phone, it.address, it.ktp, ""].some((f) =>
+        f?.toLowerCase?.().includes?.(q)
       )
     );
   }, [list, query, status]);
@@ -85,7 +81,6 @@ export default function AnggotaPage() {
 
   const [deleteAnggota] = useDeleteAnggotaMutation();
 
-  // export/import hooks
   const [exportAnggotaExcel, { isLoading: isExporting }] =
     useExportAnggotaExcelMutation();
   const [importAnggotaExcel, { isLoading: isImporting }] =
@@ -110,222 +105,219 @@ export default function AnggotaPage() {
       }
     }
   };
-  
-  // =========================================================================
-  // LOGIKA FILTER WILAYAH
-  // =========================================================================
 
-    // provinsi
-    const [provinsiSearch, setProvinsiSearch] = useState("");
-    const { data: provinsiData, isLoading: isProvinsiLoading } =
-      useGetProvinsiListQuery({
-        page: 1,
-        paginate: 100,
-        search: provinsiSearch,
-      });
-    const [isDropdownProvinsiOpen, setDropdownProvinsiOpen] = useState(false);
-    const dropdownProvinsiRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-      setMounted(true);
-      if (filterRegion.province_id && provinsiData?.data) {
-        const selectedProvinsi = provinsiData.data.find(
-          (p) => p.id === filterRegion.province_id
-        );
-        if (selectedProvinsi) setProvinsiSearch(selectedProvinsi.name);
-      }
-    }, [filterRegion.province_id, provinsiData]);
-  
-    useEffect(() => {
-      function handleClickOutside(event: MouseEvent) {
-        if (
-          dropdownProvinsiRef.current &&
-          !dropdownProvinsiRef.current.contains(event.target as Node)
-        ) {
-          setDropdownProvinsiOpen(false);
-        }
-      }
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [dropdownProvinsiRef]);
-  
-    const filteredProvinsi = useMemo(() => {
-      if (!provinsiData?.data || provinsiSearch.length < 2) return [];
-      return provinsiData.data.filter((provinsi) =>
-        provinsi.name.toLowerCase().includes(provinsiSearch.toLowerCase())
-      );
-    }, [provinsiSearch, provinsiData]);
-  
-    const handleProvinsiSelect = (provinsi: { id: string; name: string }) => {
-      setFilterRegion({
-        province_id: provinsi.id,
-        regency_id: undefined,
-        district_id: undefined,
-        village_id: undefined,
-      });
-      setProvinsiSearch(provinsi.name);
-      setDropdownProvinsiOpen(false);
-      setKotaSearch("");
-      setKecamatanSearch("");
-      setKelurahanSearch("");
-    };
-  
-    // kota
-    const [kotaSearch, setKotaSearch] = useState("");
-    const { data: kotaData, isLoading: isKotaLoading } = useGetKotaListQuery({
+  // =======================
+  // FILTER WILAYAH (dipertahankan)
+  // =======================
+  const [provinsiSearch, setProvinsiSearch] = useState("");
+  const { data: provinsiData, isLoading: isProvinsiLoading } =
+    useGetProvinsiListQuery({
       page: 1,
       paginate: 100,
-      search: kotaSearch,
-      province_id: filterRegion.province_id || "",
+      search: provinsiSearch,
     });
-    const [isDropdownKotaOpen, setDropdownKotaOpen] = useState(false);
-    const dropdownKotaRef = useRef<HTMLDivElement>(null);
-  
-    useEffect(() => {
-      setMounted(true);
-      if (filterRegion.regency_id && kotaData?.data) {
-        const selectedKota = kotaData.data.find((p) => p.id === filterRegion.regency_id);
-        if (selectedKota) setKotaSearch(selectedKota.name);
-      }
-    }, [filterRegion.regency_id, kotaData]);
-  
-    useEffect(() => {
-      function handleClickOutside(event: MouseEvent) {
-        if (
-          dropdownKotaRef.current &&
-          !dropdownKotaRef.current.contains(event.target as Node)
-        ) {
-          setDropdownKotaOpen(false);
-        }
-      }
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [dropdownKotaRef]);
-  
-    const filteredKota = useMemo(() => {
-      if (!kotaData?.data || kotaSearch.length < 2) return [];
-      return kotaData.data.filter((kota) =>
-        kota.name.toLowerCase().includes(kotaSearch.toLowerCase())
-      );
-    }, [kotaSearch, kotaData]);
-  
-    const handleKotaSelect = (kota: { id: string; name: string }) => {
-      setFilterRegion((prev) => ({
-        ...prev,
-        regency_id: kota.id,
-        district_id: undefined,
-        village_id: undefined,
-      }));
-      setKotaSearch(kota.name);
-      setDropdownKotaOpen(false);
-      setKecamatanSearch("");
-      setKelurahanSearch("");
-    };
-  
-    // kecamatan
-    const [kecamatanSearch, setKecamatanSearch] = useState("");
-    const { data: kecamatanData, isLoading: isKecamatanLoading } =
-      useGetKecamatanListQuery({
-        page: 1,
-        paginate: 100,
-        search: kecamatanSearch,
-        regency_id: filterRegion.regency_id || "",
-      });
-    const [isDropdownKecamatanOpen, setDropdownKecamatanOpen] = useState(false);
-    const dropdownKecamatanRef = useRef<HTMLDivElement>(null);
-  
-    useEffect(() => {
-      setMounted(true);
-      if (filterRegion.district_id && kecamatanData?.data) {
-        const selectedKecamatan = kecamatanData.data.find(
-          (p) => p.id === filterRegion.district_id
-        );
-        if (selectedKecamatan) setKecamatanSearch(selectedKecamatan.name);
-      }
-    }, [filterRegion.district_id, kecamatanData]);
-  
-    useEffect(() => {
-      function handleClickOutside(event: MouseEvent) {
-        if (
-          dropdownKecamatanRef.current &&
-          !dropdownKecamatanRef.current.contains(event.target as Node)
-        ) {
-          setDropdownKecamatanOpen(false);
-        }
-      }
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [dropdownKecamatanRef]);
-  
-    const filteredKecamatan = useMemo(() => {
-      if (!kecamatanData?.data || kecamatanSearch.length < 2) return [];
-      return kecamatanData.data.filter((kecamatan) =>
-        kecamatan.name.toLowerCase().includes(kecamatanSearch.toLowerCase())
-      );
-    }, [kecamatanSearch, kecamatanData]);
-  
-    const handleKecamatanSelect = (kecamatan: { id: string; name: string }) => {
-      setFilterRegion((prev) => ({ 
-        ...prev, 
-        district_id: kecamatan.id, 
-        village_id: undefined 
-      }));
-      setKecamatanSearch(kecamatan.name);
-      setDropdownKecamatanOpen(false);
-      setKelurahanSearch("");
-    };
-  
-    // kelurahan
-    const [kelurahanSearch, setKelurahanSearch] = useState("");
-    const { data: kelurahanData, isLoading: isKelurahanLoading } =
-      useGetKelurahanListQuery({
-        page: 1,
-        paginate: 100,
-        search: kelurahanSearch,
-        district_id: filterRegion.district_id || "",
-      });
-    const [isDropdownKelurahanOpen, setDropdownKelurahanOpen] = useState(false);
-    const dropdownKelurahanRef = useRef<HTMLDivElement>(null);
-  
-    useEffect(() => {
-      setMounted(true);
-      if (filterRegion.village_id && kelurahanData?.data) {
-        const selectedKelurahan = kelurahanData.data.find(
-          (p) => p.id === filterRegion.village_id
-        );
-        if (selectedKelurahan) setKelurahanSearch(selectedKelurahan.name);
-      }
-    }, [filterRegion.village_id, kelurahanData]);
-  
-    useEffect(() => {
-      function handleClickOutside(event: MouseEvent) {
-        if (
-          dropdownKelurahanRef.current &&
-          !dropdownKelurahanRef.current.contains(event.target as Node)
-        ) {
-          setDropdownKelurahanOpen(false);
-        }
-      }
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [dropdownKelurahanRef]);
-  
-    const filteredKelurahan = useMemo(() => {
-      if (!kelurahanData?.data || kelurahanSearch.length < 2) return [];
-      return kelurahanData.data.filter((kelurahan) =>
-        kelurahan.name.toLowerCase().includes(kelurahanSearch.toLowerCase())
-      );
-    }, [kelurahanSearch, kelurahanData]);
-  
-    const handleKelurahanSelect = (kelurahan: { id: string; name: string }) => {
-      setFilterRegion((prev) => ({ ...prev, village_id: kelurahan.id }));
-      setKelurahanSearch(kelurahan.name);
-      setDropdownKelurahanOpen(false);
-    };
+  const [isDropdownProvinsiOpen, setDropdownProvinsiOpen] = useState(false);
+  const dropdownProvinsiRef = useRef<HTMLDivElement>(null);
 
-  // =========================================================================
-  // LOGIKA UNTUK FILTER LEVEL
-  // =========================================================================
+  useEffect(() => {
+    setMounted(true);
+    if (filterRegion.province_id && provinsiData?.data) {
+      const selectedProvinsi = provinsiData.data.find(
+        (p) => p.id === filterRegion.province_id
+      );
+      if (selectedProvinsi) setProvinsiSearch(selectedProvinsi.name);
+    }
+  }, [filterRegion.province_id, provinsiData]);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownProvinsiRef.current &&
+        !dropdownProvinsiRef.current.contains(event.target as Node)
+      ) {
+        setDropdownProvinsiOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [dropdownProvinsiRef]);
+
+  const filteredProvinsi = useMemo(() => {
+    if (!provinsiData?.data || provinsiSearch.length < 2) return [];
+    return provinsiData.data.filter((provinsi) =>
+      provinsi.name.toLowerCase().includes(provinsiSearch.toLowerCase())
+    );
+  }, [provinsiSearch, provinsiData]);
+
+  const handleProvinsiSelect = (provinsi: { id: string; name: string }) => {
+    setFilterRegion({
+      province_id: provinsi.id,
+      regency_id: undefined,
+      district_id: undefined,
+      village_id: undefined,
+    });
+    setProvinsiSearch(provinsi.name);
+    setDropdownProvinsiOpen(false);
+    setKotaSearch("");
+    setKecamatanSearch("");
+    setKelurahanSearch("");
+  };
+
+  const [kotaSearch, setKotaSearch] = useState("");
+  const { data: kotaData, isLoading: isKotaLoading } = useGetKotaListQuery({
+    page: 1,
+    paginate: 100,
+    search: kotaSearch,
+    province_id: filterRegion.province_id || "",
+  });
+  const [isDropdownKotaOpen, setDropdownKotaOpen] = useState(false);
+  const dropdownKotaRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+    if (filterRegion.regency_id && kotaData?.data) {
+      const selectedKota = kotaData.data.find(
+        (p) => p.id === filterRegion.regency_id
+      );
+      if (selectedKota) setKotaSearch(selectedKota.name);
+    }
+  }, [filterRegion.regency_id, kotaData]);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownKotaRef.current &&
+        !dropdownKotaRef.current.contains(event.target as Node)
+      ) {
+        setDropdownKotaOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [dropdownKotaRef]);
+
+  const filteredKota = useMemo(() => {
+    if (!kotaData?.data || kotaSearch.length < 2) return [];
+    return kotaData.data.filter((kota) =>
+      kota.name.toLowerCase().includes(kotaSearch.toLowerCase())
+    );
+  }, [kotaSearch, kotaData]);
+
+  const handleKotaSelect = (kota: { id: string; name: string }) => {
+    setFilterRegion((prev) => ({
+      ...prev,
+      regency_id: kota.id,
+      district_id: undefined,
+      village_id: undefined,
+    }));
+    setKotaSearch(kota.name);
+    setDropdownKotaOpen(false);
+    setKecamatanSearch("");
+    setKelurahanSearch("");
+  };
+
+  const [kecamatanSearch, setKecamatanSearch] = useState("");
+  const { data: kecamatanData, isLoading: isKecamatanLoading } =
+    useGetKecamatanListQuery({
+      page: 1,
+      paginate: 100,
+      search: kecamatanSearch,
+      regency_id: filterRegion.regency_id || "",
+    });
+  const [isDropdownKecamatanOpen, setDropdownKecamatanOpen] = useState(false);
+  const dropdownKecamatanRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+    if (filterRegion.district_id && kecamatanData?.data) {
+      const selectedKecamatan = kecamatanData.data.find(
+        (p) => p.id === filterRegion.district_id
+      );
+      if (selectedKecamatan) setKecamatanSearch(selectedKecamatan.name);
+    }
+  }, [filterRegion.district_id, kecamatanData]);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownKecamatanRef.current &&
+        !dropdownKecamatanRef.current.contains(event.target as Node)
+      ) {
+        setDropdownKecamatanOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [dropdownKecamatanRef]);
+
+  const filteredKecamatan = useMemo(() => {
+    if (!kecamatanData?.data || kecamatanSearch.length < 2) return [];
+    return kecamatanData.data.filter((kecamatan) =>
+      kecamatan.name.toLowerCase().includes(kecamatanSearch.toLowerCase())
+    );
+  }, [kecamatanSearch, kecamatanData]);
+
+  const handleKecamatanSelect = (kecamatan: { id: string; name: string }) => {
+    setFilterRegion((prev) => ({
+      ...prev,
+      district_id: kecamatan.id,
+      village_id: undefined,
+    }));
+    setKecamatanSearch(kecamatan.name);
+    setDropdownKecamatanOpen(false);
+    setKelurahanSearch("");
+  };
+
+  const [kelurahanSearch, setKelurahanSearch] = useState("");
+  const { data: kelurahanData, isLoading: isKelurahanLoading } =
+    useGetKelurahanListQuery({
+      page: 1,
+      paginate: 100,
+      search: kelurahanSearch,
+      district_id: filterRegion.district_id || "",
+    });
+  const [isDropdownKelurahanOpen, setDropdownKelurahanOpen] = useState(false);
+  const dropdownKelurahanRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+    if (filterRegion.village_id && kelurahanData?.data) {
+      const selectedKelurahan = kelurahanData.data.find(
+        (p) => p.id === filterRegion.village_id
+      );
+      if (selectedKelurahan) setKelurahanSearch(selectedKelurahan.name);
+    }
+  }, [filterRegion.village_id, kelurahanData]);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownKelurahanRef.current &&
+        !dropdownKelurahanRef.current.contains(event.target as Node)
+      ) {
+        setDropdownKelurahanOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [dropdownKelurahanRef]);
+
+  const filteredKelurahan = useMemo(() => {
+    if (!kelurahanData?.data || kelurahanSearch.length < 2) return [];
+    return kelurahanData.data.filter((kelurahan) =>
+      kelurahan.name.toLowerCase().includes(kelurahanSearch.toLowerCase())
+    );
+  }, [kelurahanSearch, kelurahanData]);
+
+  const handleKelurahanSelect = (kelurahan: { id: string; name: string }) => {
+    setFilterRegion((prev) => ({ ...prev, village_id: kelurahan.id }));
+    setKelurahanSearch(kelurahan.name);
+    setDropdownKelurahanOpen(false);
+  };
+
+  // =======================
+  // FILTER LEVEL
+  // =======================
   const [levelSearch, setLevelSearch] = useState("");
   const { data: levelData, isLoading: isLevelLoading } = useGetLevelListQuery({
     page: 1,
@@ -342,7 +334,7 @@ export default function AnggotaPage() {
       );
       if (selectedLevel) setLevelSearch(selectedLevel.name);
     } else if (!filterLevelId) {
-        setLevelSearch("");
+      setLevelSearch("");
     }
   }, [filterLevelId, levelData]);
 
@@ -367,22 +359,20 @@ export default function AnggotaPage() {
   }, [levelSearch, levelData]);
 
   const handleLevelSelect = (level: { id: number; name: string }) => {
-    // Pastikan ID level dikonversi ke Number karena state filterLevelId bertipe number
     setFilterLevelId(Number(level.id));
     setLevelSearch(level.name);
     setDropdownLevelOpen(false);
   };
-  
+
   const handleClearLevel = () => {
     setFilterLevelId(undefined);
     setLevelSearch("");
     setDropdownLevelOpen(false);
-  }
+  };
 
-  // =========================================================================
-  // LOGIKA IMPORT / EXPORT (sudah benar, hanya perlu didefinisikan)
-  // =========================================================================
-  // === Import handler ===
+  // =======================
+  // IMPORT / EXPORT
+  // =======================
   const handleImportExcel = async (file?: File) => {
     try {
       if (!file) return Swal.fire("Gagal", "File tidak ditemukan", "error");
@@ -398,33 +388,30 @@ export default function AnggotaPage() {
     }
   };
 
-  // === Export handler ===
   const handleExportExcel = async () => {
-    // 1. Tentukan tanggal sesuai permintaan
     const fmt = (d: Date) =>
       `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
         d.getDate()
       ).padStart(2, "0")}`;
-    
-    // Tentukan from_date
+
     const from_date = "2020-01-01";
-    
-    // Tentukan to_date (Hari ini + 1 hari)
     const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
     const to_date = fmt(tomorrow);
 
-    // 2. Kumpulkan semua filter yang aktif (hanya jika ada nilainya)
     const exportPayload = {
-      from_date: from_date,
-      to_date: to_date,
-      ...(filterRegion.province_id && { province_id: filterRegion.province_id }),
+      from_date,
+      to_date,
+      ...(filterRegion.province_id && {
+        province_id: filterRegion.province_id,
+      }),
       ...(filterRegion.regency_id && { regency_id: filterRegion.regency_id }),
-      ...(filterRegion.district_id && { district_id: filterRegion.district_id }),
+      ...(filterRegion.district_id && {
+        district_id: filterRegion.district_id,
+      }),
       ...(filterRegion.village_id && { village_id: filterRegion.village_id }),
-      // level_id dikirim sebagai string atau number, disesuaikan dengan API
-      ...(filterLevelId && { level_id: String(filterLevelId) }), 
+      ...(filterLevelId && { level_id: String(filterLevelId) }),
     };
 
     try {
@@ -433,22 +420,17 @@ export default function AnggotaPage() {
         allowOutsideClick: false,
         didOpen: () => Swal.showLoading(),
         showConfirmButton: false,
-        customClass: { popup: "sae-popup", title: "sae-title" },
       });
-      
-      // Mengirim payload ke mutasi
-      const res = await exportAnggotaExcel(exportPayload).unwrap(); 
+
+      const res = await exportAnggotaExcel(exportPayload).unwrap();
 
       Swal.fire({
         icon: "success",
         title: "Export diproses",
-        text: res.message ?? "Permintaan export diterima. Silahkan cek di notifikasi.",
+        text:
+          res.message ??
+          "Permintaan export diterima. Silahkan cek di notifikasi.",
         confirmButtonText: "Oke",
-        customClass: {
-          popup: "sae-popup",
-          title: "sae-title",
-          confirmButton: "sae-btn-confirm",
-        },
       });
     } catch (e) {
       Swal.fire({
@@ -456,53 +438,53 @@ export default function AnggotaPage() {
         title: "Gagal",
         text: "Export gagal diproses.",
         confirmButtonText: "Tutup",
-        customClass: {
-          popup: "sae-popup",
-          title: "sae-title",
-          confirmButton: "sae-btn-cancel",
-        },
       });
       console.error(e);
     }
   };
-  
-  // =========================================================================
-  // ✅ DEFINISI VARIABEL IMPORT/EXPORT
-  // =========================================================================
-  const templateCsvUrl = "https://api-koperasi.inovasidigitalpurwokerto.id/template-import-anggota.csv"; // Contoh URL
+
+  const templateCsvUrl =
+    "https://api-koperasi.inovasidigitalpurwokerto.id/template-import-anggota.csv";
   const templateCsvLabel = "Template CSV";
   const exportLabel = isExporting ? "Exporting..." : "Export Excel";
   const importLabel = isImporting ? "Importing..." : "Import Excel";
   const exportDisabled = isExporting;
   const importAccept = ".xlsx,.xls,.csv";
-  const readonly = false; // Definisikan readonly untuk JSX
+  const readonly = false;
 
+  // =======================
+  // PRINT KTA
+  // =======================
+  const handlePrintKTA = (id: number) => {
+    // mengikuti pola onClickRoute="/admin/kta" pada form:
+    router.push(`/admin/kta?memberId=${id}`);
+  };
 
-    if (!mounted) {
-      return (
-        <div className="bg-white dark:bg-zinc-900 rounded-lg w-full max-h-[90vh] flex flex-col">
-          <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-zinc-700 flex-shrink-0">
-            <h2 className="text-lg font-semibold">Loading...</h2>
-          </div>
-          <div className="flex-1 overflow-y-auto p-6">
-            <div className="animate-pulse">
-              <div className="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
-              <div className="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
-              <div className="h-4 bg-gray-200 rounded w-5/6"></div>
-            </div>
+  if (!mounted) {
+    return (
+      <div className="bg-white dark:bg-zinc-900 rounded-lg w-full max-h-[90vh] flex flex-col">
+        <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-zinc-700 flex-shrink-0">
+          <h2 className="text-lg font-semibold">Loading...</h2>
+        </div>
+        <div className="flex-1 overflow-y-auto p-6">
+          <div className="animate-pulse">
+            <div className="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
+            <div className="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
+            <div className="h-4 bg-gray-200 rounded w-5/6"></div>
           </div>
         </div>
-      );
+      </div>
+    );
   }
-  
+
   return (
     <div className="p-6 space-y-6">
       <div className="rounded-md bg-white p-4 border border-gray-100 shadow-sm">
-        {/* Baris 1: Filter Geografis dan Level */}
+        {/* Filter baris-1 */}
         <div className="flex flex-col gap-3 md:flex-row md:items-center">
           {/* Provinsi */}
           <div className="w-full flex flex-col">
-             <div className="relative" ref={dropdownProvinsiRef}>
+            <div className="relative" ref={dropdownProvinsiRef}>
               <Input
                 id="province_id"
                 placeholder="Filter Provinsi..."
@@ -635,30 +617,32 @@ export default function AnggotaPage() {
                 autoComplete="off"
                 disabled={!filterRegion.regency_id || readonly}
               />
-              {isDropdownKecamatanOpen && !readonly && filterRegion.regency_id && (
-                <div className="absolute z-10 w-full mt-1 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-md shadow-lg max-h-60 overflow-y-auto">
-                  {isKecamatanLoading ? (
-                    <div className="flex items-center justify-center p-4">
-                      <Loader2 className="h-5 w-5 animate-spin" />
-                    </div>
-                  ) : filteredKecamatan.length > 0 ? (
-                    filteredKecamatan.map((kecamatan) => (
-                      <button
-                        type="button"
-                        key={kecamatan.id}
-                        onClick={() => handleKecamatanSelect(kecamatan)}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700"
-                      >
-                        {kecamatan.name}
-                      </button>
-                    ))
-                  ) : (
-                    <p className="text-sm text-gray-500 p-3">
-                      Kecamatan tidak ditemukan.
-                    </p>
-                  )}
-                </div>
-              )}
+              {isDropdownKecamatanOpen &&
+                !readonly &&
+                filterRegion.regency_id && (
+                  <div className="absolute z-10 w-full mt-1 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                    {isKecamatanLoading ? (
+                      <div className="flex items-center justify-center p-4">
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                      </div>
+                    ) : filteredKecamatan.length > 0 ? (
+                      filteredKecamatan.map((kecamatan) => (
+                        <button
+                          type="button"
+                          key={kecamatan.id}
+                          onClick={() => handleKecamatanSelect(kecamatan)}
+                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700"
+                        >
+                          {kecamatan.name}
+                        </button>
+                      ))
+                    ) : (
+                      <p className="text-sm text-gray-500 p-3">
+                        Kecamatan tidak ditemukan.
+                      </p>
+                    )}
+                  </div>
+                )}
             </div>
           </div>
           {/* Kelurahan */}
@@ -676,7 +660,10 @@ export default function AnggotaPage() {
                   setKelurahanSearch(e.target.value);
                   setDropdownKelurahanOpen(true);
                   if (filterRegion.village_id)
-                    setFilterRegion((prev) => ({ ...prev, village_id: undefined }));
+                    setFilterRegion((prev) => ({
+                      ...prev,
+                      village_id: undefined,
+                    }));
                 }}
                 onFocus={() => {
                   if (filterRegion.district_id) setDropdownKelurahanOpen(true);
@@ -686,162 +673,158 @@ export default function AnggotaPage() {
                 autoComplete="off"
                 disabled={!filterRegion.district_id || readonly}
               />
-              {isDropdownKelurahanOpen && !readonly && filterRegion.district_id && (
+              {isDropdownKelurahanOpen &&
+                !readonly &&
+                filterRegion.district_id && (
+                  <div className="absolute z-10 w-full mt-1 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                    {isKelurahanLoading ? (
+                      <div className="flex items-center justify-center p-4">
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                      </div>
+                    ) : filteredKelurahan.length > 0 ? (
+                      filteredKelurahan.map((kelurahan) => (
+                        <button
+                          type="button"
+                          key={kelurahan.id}
+                          onClick={() => handleKelurahanSelect(kelurahan)}
+                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700"
+                        >
+                          {kelurahan.name}
+                        </button>
+                      ))
+                    ) : (
+                      <p className="text-sm text-gray-500 p-3">
+                        Kelurahan tidak ditemukan.
+                      </p>
+                    )}
+                  </div>
+                )}
+            </div>
+          </div>
+
+          {/* Level Filter */}
+          <div className="w-full flex flex-col">
+            <div className="relative" ref={dropdownLevelRef}>
+              <Input
+                id="level_id"
+                placeholder="Filter Level..."
+                value={levelSearch}
+                onChange={(e) => {
+                  setLevelSearch(e.target.value);
+                  setDropdownLevelOpen(true);
+                  if (filterLevelId) handleClearLevel();
+                }}
+                onFocus={() => setDropdownLevelOpen(true)}
+                readOnly={readonly}
+                autoComplete="off"
+              />
+              {isDropdownLevelOpen && !readonly && (
                 <div className="absolute z-10 w-full mt-1 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-md shadow-lg max-h-60 overflow-y-auto">
-                  {isKelurahanLoading ? (
+                  {isLevelLoading ? (
                     <div className="flex items-center justify-center p-4">
                       <Loader2 className="h-5 w-5 animate-spin" />
                     </div>
-                  ) : filteredKelurahan.length > 0 ? (
-                    filteredKelurahan.map((kelurahan) => (
+                  ) : filteredLevel.length > 0 ? (
+                    <>
                       <button
                         type="button"
-                        key={kelurahan.id}
-                        onClick={() => handleKelurahanSelect(kelurahan)}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700"
+                        onClick={handleClearLevel}
+                        className="block w-full text-left px-4 py-2 text-sm font-semibold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900 border-b"
                       >
-                        {kelurahan.name}
+                        (Semua Level)
                       </button>
-                    ))
+                      {filteredLevel.map((level) => (
+                        <button
+                          type="button"
+                          key={level.id}
+                          onClick={() => handleLevelSelect(level)}
+                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700"
+                        >
+                          {level.name}
+                        </button>
+                      ))}
+                    </>
                   ) : (
                     <p className="text-sm text-gray-500 p-3">
-                      Kelurahan tidak ditemukan.
+                      Level tidak ditemukan.
                     </p>
                   )}
                 </div>
               )}
             </div>
           </div>
-          {/* Level Filter */}
-          <div className="w-full flex flex-col">
-            <div className="relative" ref={dropdownLevelRef}>
-                <Input
-                    id="level_id"
-                    placeholder="Filter Level..."
-                    value={levelSearch}
-                    onChange={(e) => {
-                      setLevelSearch(e.target.value);
-                      setDropdownLevelOpen(true);
-                      if (filterLevelId) handleClearLevel();
-                    }}
-                    onFocus={() => setDropdownLevelOpen(true)}
-                    readOnly={readonly}
-                    autoComplete="off"
-                />
-                {isDropdownLevelOpen && !readonly && (
-                    <div className="absolute z-10 w-full mt-1 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-md shadow-lg max-h-60 overflow-y-auto">
-                        {isLevelLoading ? (
-                            <div className="flex items-center justify-center p-4">
-                                <Loader2 className="h-5 w-5 animate-spin" />
-                            </div>
-                        ) : filteredLevel.length > 0 ? (
-                            <>
-                                {/* Opsi Bersihkan Filter */}
-                                <button
-                                    type="button"
-                                    onClick={handleClearLevel}
-                                    className="block w-full text-left px-4 py-2 text-sm font-semibold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900 border-b"
-                                >
-                                    (Semua Level)
-                                </button>
-                                {filteredLevel.map((level) => (
-                                    <button
-                                        type="button"
-                                        key={level.id}
-                                        onClick={() => handleLevelSelect(level)}
-                                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700"
-                                    >
-                                        {level.name}
-                                    </button>
-                                ))}
-                            </>
-                        ) : (
-                            <p className="text-sm text-gray-500 p-3">
-                                Level tidak ditemukan.
-                            </p>
-                        )}
-                    </div>
-                )}
-            </div>
+        </div>
+
+        {/* Baris 2: Search & Actions */}
+        <div className="flex flex-col md:flex-row items-center gap-3 mt-4">
+          <div className="w-full md:w-2/5 lg:w-1/3 shrink-0">
+            <Input
+              placeholder="Cari anggota..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2 justify-start md:justify-end w-full md:w-3/5 lg:w-2/3">
+            <a
+              href={templateCsvUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              download
+            >
+              <Button variant="outline" className="h-10 w-full sm:w-auto">
+                {templateCsvLabel}
+              </Button>
+            </a>
+
+            <Button
+              className="h-10 w-full sm:w-auto"
+              onClick={handleExportExcel}
+              disabled={exportDisabled}
+              variant="outline"
+            >
+              {exportLabel}
+            </Button>
+
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept={importAccept}
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  handleImportExcel(file);
+                  e.currentTarget.value = "";
+                }
+              }}
+            />
+            <Button
+              variant="outline"
+              className="h-10 w-full sm:w-auto"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isImporting}
+            >
+              {importLabel}
+            </Button>
+
+            <Button
+              className="h-10 w-full sm:w-auto"
+              onClick={handleExportExcel}
+              disabled={exportDisabled}
+              variant="outline"
+            >
+              Generate KTA
+            </Button>
+
+            {openModal && (
+              <Button onClick={openModal} className="h-10 w-full sm:w-auto">
+                <Plus /> Tambah Anggota
+              </Button>
+            )}
           </div>
         </div>
-        
-        {/* Baris 2: Actions */}
-        {/* BARIS BARU UNTUK SEARCH DAN ACTIONS */}
-        <div className="flex flex-col md:flex-row items-center gap-3 mt-4">
-            {/* Input Cari Anggota (Diperpanjang) */}
-            <div className="w-full md:w-2/5 lg:w-1/3 shrink-0"> 
-                <Input
-                    placeholder="Cari anggota..."
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                />
-            </div>
-
-            {/* Tombol Aksi (TIDAK ADA PERUBAHAN LEBAR DI SINI) */}
-            <div className="flex flex-wrap items-center gap-2 justify-start md:justify-end w-full md:w-3/5 lg:w-2/3">
-                {/* Download Template CSV */}
-                <a
-                    href={templateCsvUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    download
-                >
-                    <Button variant="outline" className="h-10 w-full sm:w-auto">
-                        {templateCsvLabel}
-                    </Button>
-                </a>
-            
-                {/* Export Excel */}
-                <Button
-                    className="h-10 w-full sm:w-auto"
-                    onClick={handleExportExcel}
-                    disabled={exportDisabled}
-                    variant="outline"
-                >
-                    {exportLabel}
-                </Button>
-                
-                {/* Import Excel */}
-                <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept={importAccept}
-                    className="hidden"
-                    onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                            handleImportExcel(file);
-                            e.currentTarget.value = "";
-                        }
-                    }}
-                />
-                <Button
-                    variant="outline"
-                    className="h-10 w-full sm:w-auto"
-                    onClick={() => fileInputRef.current?.click()}
-                    disabled={isImporting}
-                >
-                    {importLabel}
-                </Button>
-
-                {/* Export Excel */}
-                <Button
-                    className="h-10 w-full sm:w-auto"
-                    onClick={handleExportExcel}
-                    disabled={exportDisabled}
-                    variant="outline"
-                >
-                  Generate KTA
-                </Button>
-
-                {/* Button Tambah Anggota */}
-                {/* Menggunakan w-full sm:w-auto untuk konsistensi */}
-                {openModal && <Button onClick={openModal} className="h-10 w-full sm:w-auto"><Plus /> Tambah Anggota</Button>}
-            </div>
-        </div>
       </div>
-
 
       <Card>
         <CardContent className="p-0 overflow-x-auto">
@@ -849,6 +832,7 @@ export default function AnggotaPage() {
             <thead className="bg-muted text-left">
               <tr>
                 <th className="px-4 py-2">Aksi</th>
+                <th className="px-4 py-2">Print</th> {/* ⬅️ Kolom baru */}
                 <th className="px-4 py-2">No. Anggota</th>
                 <th className="px-4 py-2">Nama</th>
                 <th className="px-4 py-2">Email</th>
@@ -862,20 +846,20 @@ export default function AnggotaPage() {
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan={8} className="text-center p-4">
+                  <td colSpan={10} className="text-center p-4">
                     Memuat data...
                   </td>
                 </tr>
               ) : filteredList.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="text-center p-4">
+                  <td colSpan={10} className="text-center p-4">
                     Tidak ada data
                   </td>
                 </tr>
               ) : (
                 filteredList.map((item) => (
                   <tr key={item.id} className="border-t">
-                    <td className="px-4 py-2">
+                    <td className="px-4 py-2 whitespace-nowrap flex gap-2">
                       <ActionsGroup
                         handleDetail={() =>
                           router.push(
@@ -889,8 +873,19 @@ export default function AnggotaPage() {
                         }
                         handleDelete={() => handleDelete(item)}
                       />
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handlePrintKTA(item.id)}
+                        className="gap-2"
+                        title="Print KTA"
+                      >
+                        <Printer className="h-4 w-4" />
+                      </Button>
                     </td>
-                    <td className="px-4 py-2 whitespace-nowrap">{item.reference}</td>
+                    <td className="px-4 py-2 whitespace-nowrap">
+                      {item.reference}
+                    </td>
                     <td className="px-4 py-2 whitespace-nowrap">{item.name}</td>
                     <td className="px-4 py-2 whitespace-nowrap">
                       {item.email}

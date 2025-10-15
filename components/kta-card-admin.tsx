@@ -8,7 +8,6 @@ import { useGetCurrentUserQuery } from "@/services/auth.service";
 import { useGetAnggotaByIdQuery } from "@/services/admin/anggota.service";
 import { skipToken } from "@reduxjs/toolkit/query";
 
-// ---- Helpers ---------------------------------------------------------------
 function fmtDate(value?: string | null): string | undefined {
   if (!value) return undefined;
   const d = new Date(value);
@@ -32,6 +31,28 @@ type KtaMemberView = {
   memberSince?: string;
 };
 
+type NestedNamed = { id?: string; name?: string } | null | undefined;
+
+type AnggotaLike = Partial<Anggota> & {
+  reference?: string;
+  ref_number?: number;
+  member_id?: string | number;
+  memberId?: string | number;
+  kta_number?: string;
+  card_number?: string;
+  province?: NestedNamed;
+  regency?: NestedNamed;
+  district?: NestedNamed;
+  village?: NestedNamed;
+  created_at?: string;
+  member_since?: string;
+};
+
+type MeAnggota = { id?: number | string } | null | undefined;
+type MeData =
+  | { name?: string; anggota_id?: number | string; anggota?: MeAnggota }
+  | undefined;
+
 function pickString(...candidates: Array<unknown>): string | undefined {
   for (const c of candidates) {
     if (typeof c === "string" && c.trim().length > 0) return c;
@@ -39,36 +60,41 @@ function pickString(...candidates: Array<unknown>): string | undefined {
   }
   return undefined;
 }
-function pickNamed(obj: Record<string, unknown> | undefined, key: string) {
+function pickNamed(obj: NestedNamed, key: "name"): string | undefined {
   if (!obj) return undefined;
   const v = obj[key];
   return typeof v === "string" ? v : undefined;
 }
 
-// Build route with id: support "/admin/kta/[id]" or append "?id=..."
-function buildRouteWithId(route: string, id?: number | string) {
+/** Build route using [id] or append query (?memberId=). */
+function buildRouteWithId(
+  route: string,
+  id?: number | string,
+  queryKey: "memberId" | "id" = "memberId"
+): string {
   if (!id) return route;
+
   if (route.includes("[id]")) return route.replace("[id]", String(id));
-  // append query param id, keeping existing query/hash
+
   const [pathAndQuery, hash = ""] = route.split("#");
+  const hasQueryKey = new RegExp(`[?&]${queryKey}(=|$)`).test(pathAndQuery);
   const joiner = pathAndQuery.includes("?") ? "&" : "?";
-  const finalPath = `${pathAndQuery}${joiner}id=${encodeURIComponent(
-    String(id)
-  )}`;
+  const finalPath = hasQueryKey
+    ? `${pathAndQuery}${String(id)}`
+    : `${pathAndQuery}${joiner}${queryKey}=${encodeURIComponent(String(id))}`;
   return hash ? `${finalPath}#${hash}` : finalPath;
 }
 
 // ---- Props ----------------------------------------------------------------
 type KTACardProps = {
-  /** Jika tidak diisi, component akan coba ambil dari session (user login) */
+  /** Jika tidak diisi, component akan coba ambil dari session (user login). */
   memberId?: number | string;
-  /** Route tujuan saat card di-click (default: "/admin/kta") */
+  /** Route tujuan saat card di-click. Bisa "/admin/kta/[id]" atau "/admin/kta" (nanti jadi ?memberId=). */
   onClickRoute?: string;
-  /** Override data (kalau sudah punya object-nya) — opsional */
-  dataOverride?: Partial<Anggota>;
+  /** Override data (opsional). */
+  dataOverride?: Partial<AnggotaLike>;
 };
 
-// ---- Component -------------------------------------------------------------
 export function KTACard({
   memberId,
   onClickRoute = "/admin/kta",
@@ -81,25 +107,18 @@ export function KTACard({
   const { data: meData } = useGetCurrentUserQuery(
     meShouldSkip ? skipToken : undefined
   );
+  const me = (meData as MeData) ?? undefined;
 
-  // Cari "anggota id" dari response meData secara defensif
-  const meRaw = (meData ?? {}) as Record<string, unknown>;
-  const meAnggotaId =
-    typeof meRaw["anggota_id"] === "number" ||
-    typeof meRaw["anggota_id"] === "string"
-      ? (meRaw["anggota_id"] as number | string)
-      : typeof meRaw["anggota"] === "object" && meRaw["anggota"] !== null
-      ? (() => {
-          const a = meRaw["anggota"] as Record<string, unknown>;
-          return typeof a["id"] === "number" || typeof a["id"] === "string"
-            ? (a["id"] as number | string)
-            : undefined;
-        })()
+  const meAnggotaId: number | string | undefined =
+    typeof me?.anggota_id === "number" || typeof me?.anggota_id === "string"
+      ? me.anggota_id
+      : typeof me?.anggota?.id === "number" ||
+        typeof me?.anggota?.id === "string"
+      ? me?.anggota?.id
       : undefined;
 
   const resolvedId = memberId ?? meAnggotaId;
 
-  // Ubah ke number (sesuai tipe service) atau undefined bila tidak valid
   const anggotaId: number | undefined =
     typeof resolvedId === "number"
       ? resolvedId
@@ -109,82 +128,57 @@ export function KTACard({
 
   const shouldSkip = !anggotaId || Boolean(dataOverride);
 
-  // 2) Ambil detail anggota bila ada id (kecuali kita sudah diberi dataOverride)
+  // 2) Ambil detail anggota bila ada id (kecuali sudah diberi dataOverride)
   const { data: anggotaData, isLoading } = useGetAnggotaByIdQuery(
     shouldSkip ? skipToken : anggotaId
   );
 
-  // 3) Tentukan sumber data akhir
-  const raw: Record<string, unknown> | undefined = useMemo(() => {
+  // 3) Sumber data akhir
+  const raw: AnggotaLike | undefined = useMemo(() => {
     if (dataOverride && Object.keys(dataOverride).length > 0) {
-      return dataOverride as unknown as Record<string, unknown>;
+      return dataOverride as AnggotaLike;
     }
-    if (anggotaData) return anggotaData as unknown as Record<string, unknown>;
-    return undefined;
+    return (anggotaData as AnggotaLike | undefined) ?? undefined;
   }, [anggotaData, dataOverride]);
 
-  // 3b) Fallback id dari payload jika ada
   const rawId: number | undefined =
-    typeof raw?.["id"] === "number"
-      ? (raw["id"] as number)
-      : typeof raw?.["id"] === "string" && /^\d+$/.test(raw["id"] as string)
-      ? Number(raw?.["id"] as string)
+    typeof raw?.id === "number"
+      ? raw.id
+      : typeof raw?.id === "string" && /^\d+$/.test(raw.id)
+      ? Number(raw.id)
       : undefined;
+
   const idToSend = anggotaId ?? rawId;
 
-  // 4) Bentuk view model kartu KTA
+  // 4) View model kartu
   const view: KtaMemberView = useMemo(() => {
     const idStr = pickString(
-      raw?.["member_id"],
-      raw?.["memberId"],
-      raw?.["kta_number"],
-      raw?.["card_number"],
-      raw?.["reference"],
-      raw?.["ref_number"] && `KTA-${raw?.["ref_number"] as number}`
+      raw?.member_id,
+      raw?.memberId,
+      raw?.kta_number,
+      raw?.card_number,
+      raw?.reference,
+      raw?.ref_number && `KTA-${raw.ref_number}`
     );
-    const nameStr = pickString(
-      raw?.["name"],
-      raw?.["member_name"],
-      meRaw["name"]
-    );
-    const pob = pickString(raw?.["birth_place"], raw?.["place_of_birth"]);
-    const dob = pickString(raw?.["birth_date"], raw?.["date_of_birth"]);
-    const addr = pickString(raw?.["address"], raw?.["alamat"]);
+    const nameStr = pickString(raw?.name, (meData as MeData)?.name);
+    const pob = pickString(raw?.birth_place);
+    const dob = pickString(raw?.birth_date);
+    const addr = pickString(raw?.address);
 
     const provinceName =
-      pickString(
-        pickNamed(raw, "province_name"),
-        pickNamed(
-          raw?.["province"] as Record<string, unknown> | undefined,
-          "name"
-        )
-      ) ?? undefined;
+      pickString(raw?.province_name, pickNamed(raw?.province, "name")) ??
+      undefined;
     const regencyName =
-      pickString(
-        pickNamed(raw, "regency_name"),
-        pickNamed(
-          raw?.["regency"] as Record<string, unknown> | undefined,
-          "name"
-        )
-      ) ?? undefined;
+      pickString(raw?.regency_name, pickNamed(raw?.regency, "name")) ??
+      undefined;
     const districtName =
-      pickString(
-        pickNamed(raw, "district_name"),
-        pickNamed(
-          raw?.["district"] as Record<string, unknown> | undefined,
-          "name"
-        )
-      ) ?? undefined;
+      pickString(raw?.district_name, pickNamed(raw?.district, "name")) ??
+      undefined;
     const villageName =
-      pickString(
-        pickNamed(raw, "village_name"),
-        pickNamed(
-          raw?.["village"] as Record<string, unknown> | undefined,
-          "name"
-        )
-      ) ?? undefined;
+      pickString(raw?.village_name, pickNamed(raw?.village, "name")) ??
+      undefined;
 
-    const since = pickString(raw?.["member_since"], raw?.["created_at"]);
+    const since = pickString(raw?.member_since, raw?.created_at);
 
     return {
       memberId: idStr,
@@ -197,7 +191,7 @@ export function KTACard({
       province: provinceName ?? regencyName,
       memberSince: fmtDate(since),
     };
-  }, [raw, meRaw]);
+  }, [raw, meData]);
 
   // 5) Loading skeleton
   if (!raw && isLoading) {
@@ -222,7 +216,9 @@ export function KTACard({
 
   return (
     <Card
-      onClick={() => router.push(buildRouteWithId(onClickRoute, idToSend))}
+      onClick={() =>
+        router.push(buildRouteWithId(onClickRoute, idToSend, "memberId"))
+      }
       role="button"
       aria-label="Buka Kartu Anggota"
       className="relative w-full overflow-hidden rounded-xl shadow-xl border-0 text-[13px] p-6 cursor-pointer"
@@ -241,11 +237,9 @@ export function KTACard({
       <div className="relative flex flex-col justify-between space-y-4 text-white">
         {/* Header */}
         <div className="flex justify-between items-center">
-          <div>
-            <p className="text-sm font-medium opacity-90 tracking-widest">
-              KARTU TANDA ANGGOTA
-            </p>
-          </div>
+          <p className="text-sm font-medium opacity-90 tracking-widest">
+            KARTU TANDA ANGGOTA
+          </p>
           <div className="w-10 h-7 bg-yellow-300 rounded-md relative shadow-inner">
             <div className="absolute inset-1 border border-yellow-600 rounded-md" />
             <div className="absolute inset-x-2 top-1/2 h-[1px] bg-yellow-600 opacity-60" />
@@ -267,7 +261,7 @@ export function KTACard({
             <span className="font-semibold ">{view.memberName ?? "-"}</span>
 
             <span className="opacity-90">Tempat/Tgl Lahir</span>
-            <span className="">
+            <span>
               {view.placeOfBirth ?? "-"}
               {view.dateOfBirth ? `, ${view.dateOfBirth}` : ""}
             </span>
@@ -276,13 +270,13 @@ export function KTACard({
             <span className="leading-snug">{view.address ?? "-"}</span>
 
             <span className="opacity-90">Kelurahan</span>
-            <span className="">{view.kelurahan ?? "-"}</span>
+            <span>{view.kelurahan ?? "-"}</span>
 
             <span className="opacity-90">Kecamatan</span>
-            <span className="">{view.kecamatan ?? "-"}</span>
+            <span>{view.kecamatan ?? "-"}</span>
 
             <span className="opacity-90">Provinsi</span>
-            <span className="">{view.province ?? "-"}</span>
+            <span>{view.province ?? "-"}</span>
           </div>
         )}
 

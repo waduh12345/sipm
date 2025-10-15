@@ -1,91 +1,58 @@
-import "server-only";
+import { webcrypto } from "node:crypto";
 
-function fromBase64Url(input: string): Uint8Array {
-  const pad = input.length % 4 === 0 ? "" : "=".repeat(4 - (input.length % 4));
-  const b64 = input.replace(/-/g, "+").replace(/_/g, "/") + pad;
-  const bin =
-    typeof atob !== "undefined"
-      ? atob(b64)
-      : Buffer.from(b64, "base64").toString("binary");
-  const out = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
-  return out;
+const subtle = webcrypto.subtle;
+const te = new TextEncoder();
+const td = new TextDecoder();
+
+function b64urlEncode(bytes: Uint8Array): string {
+  // Node friendly
+  return Buffer.from(bytes).toString("base64url");
+}
+function b64urlDecode(s: string): Uint8Array {
+  return new Uint8Array(Buffer.from(s, "base64url"));
 }
 
-function toArrayBuffer(view: Uint8Array): ArrayBuffer {
-  const ab = new ArrayBuffer(view.byteLength);
-  new Uint8Array(ab).set(view);
-  return ab;
+async function deriveKey(secret: string): Promise<CryptoKey> {
+  const hash = await subtle.digest("SHA-256", te.encode(secret));
+  return subtle.importKey("raw", hash, { name: "AES-GCM" }, false, [
+    "encrypt",
+    "decrypt",
+  ]);
 }
 
-async function sha256ArrayBuffer(text: string): Promise<ArrayBuffer> {
-  const enc = new TextEncoder().encode(text);
-  return crypto.subtle.digest("SHA-256", toArrayBuffer(enc));
-}
-
-async function importAesKey(
-  secret: string,
-  usage: KeyUsage[]
-): Promise<CryptoKey> {
-  const keyAB = await sha256ArrayBuffer(secret);
-  return crypto.subtle.importKey(
-    "raw",
-    keyAB,
-    { name: "AES-GCM" },
-    false,
-    usage
-  );
-}
-
-/** Coba decrypt dengan 2 format:
- *  A) ciphertext||tag  (standar WebCrypto)
- *  B) tag||ciphertext  (kalau token lama)
- */
-async function tryDecryptWithFormat(
-  buf: Uint8Array,
+/** Enkripsi -> token base64url(iv | ctTag) */
+export async function encryptKtaToken(
+  plain: string,
   secret: string
 ): Promise<string> {
-  if (buf.length < 12 + 16 + 1) throw new Error("Token too short");
+  const key = await deriveKey(secret);
+  const iv = webcrypto.getRandomValues(new Uint8Array(12));
+  const enc = await subtle.encrypt(
+    { name: "AES-GCM", iv },
+    key,
+    te.encode(plain)
+  );
+  const ctTag = new Uint8Array(enc as ArrayBuffer);
 
-  const iv = buf.slice(0, 12);
-  const tag = buf.slice(12, 28);
-  const rest = buf.slice(28);
+  const out = new Uint8Array(iv.length + ctTag.length);
+  out.set(iv, 0);
+  out.set(ctTag, iv.length);
 
-  const key = await importAesKey(secret, ["decrypt"]);
-
-  // Format A: CT||TAG
-  const ctTagA = new Uint8Array(rest.length + tag.length);
-  ctTagA.set(rest, 0);
-  ctTagA.set(tag, rest.length);
-
-  try {
-    const plainAB = await crypto.subtle.decrypt(
-      { name: "AES-GCM", iv, tagLength: 128 },
-      key,
-      toArrayBuffer(ctTagA)
-    );
-    return new TextDecoder().decode(plainAB);
-  } catch {
-    // Format B: TAG||CT
-    const ctTagB = new Uint8Array(tag.length + rest.length);
-    ctTagB.set(tag, 0);
-    ctTagB.set(rest, tag.length);
-
-    const plainAB = await crypto.subtle.decrypt(
-      { name: "AES-GCM", iv, tagLength: 128 },
-      key,
-      toArrayBuffer(ctTagB)
-    );
-    return new TextDecoder().decode(plainAB);
-  }
+  return b64urlEncode(out);
 }
 
+/** Dekripsi token base64url(iv | ctTag) -> plain string */
 export async function decryptKtaToken(
   token: string,
   secret: string
 ): Promise<string> {
-  const trimmed = secret.trim();
-  if (!trimmed) throw new Error("Missing secret");
-  const buf = fromBase64Url(token);
-  return tryDecryptWithFormat(buf, trimmed);
+  const all = b64urlDecode(token);
+  if (all.length < 13) throw new Error("bad-token");
+
+  const iv = all.slice(0, 12);
+  const ctTag = all.slice(12);
+
+  const key = await deriveKey(secret);
+  const dec = await subtle.decrypt({ name: "AES-GCM", iv }, key, ctTag);
+  return td.decode(dec);
 }

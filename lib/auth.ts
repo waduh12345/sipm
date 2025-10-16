@@ -42,7 +42,7 @@ export const authOptions: AuthOptions = {
 
         // Step 2: Ambil data user dari /me
         const meRes = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/me`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/me?forceRefresh=1`,
           {
             method: "GET",
             headers: {

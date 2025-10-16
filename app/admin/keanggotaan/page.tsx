@@ -10,10 +10,11 @@ import {
   useExportAnggotaExcelMutation,
   useImportAnggotaExcelMutation,
 } from "@/services/admin/anggota.service";
+import { useGetCurrentUserQuery } from "@/services/auth.service";
 import type { Anggota } from "@/types/admin/anggota";
 import { useRouter } from "next/navigation";
 import ActionsGroup from "@/components/admin-components/actions-group";
-import { Plus, Loader2, Printer } from "lucide-react"; // ⬅️ Printer ditambahkan
+import { Plus, Loader2, Printer } from "lucide-react";
 import useModal from "@/hooks/use-modal";
 import { Input } from "@/components/ui/input";
 import { useGetProvinsiListQuery } from "@/services/admin/master/provinsi.service";
@@ -24,17 +25,22 @@ import { useGetLevelListQuery } from "@/services/admin/master/level.service";
 
 export default function AnggotaPage() {
   const router = useRouter();
-
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
+  
+  // Menggunakan alias untuk hook levelData
+  const profileMe = useGetCurrentUserQuery();
+  const profileMeLevel = (profileMe.data?.anggota as { level_id?: number })?.level_id;
+  const profileMeProvince = (profileMe.data?.anggota as { province_id?: string })?.province_id;
+  const profileMeRegency = (profileMe.data?.anggota as { regency_id?: string })?.regency_id;
+
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState<"all" | "0" | "1" | "2">("all");
   const { isOpen, openModal, closeModal } = useModal();
   const [mounted, setMounted] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  useEffect(() => setMounted(true), []);
-
+  // States untuk filter wilayah
   const [filterRegion, setFilterRegion] = useState<{
     province_id: string | undefined;
     regency_id: string | undefined;
@@ -51,6 +57,15 @@ export default function AnggotaPage() {
     undefined
   );
 
+  // =======================
+  // HOOKS FETCH DATA PENDUKUNG
+  // =======================
+
+  // Hooks untuk mendapatkan daftar wilayah / level (digunakan untuk dropdown dan mencari nama)
+  const { data: provinsiAll, isFetching: isProvinsiFetchingAll, isSuccess: isProvinsiSuccessAll } = useGetProvinsiListQuery({ page: 1, paginate: 500 });
+  const { data: kotaAll, isFetching: isKotaFetchingAll, isSuccess: isKotaSuccessAll } = useGetKotaListQuery({ page: 1, paginate: 500 });
+
+  // Hook untuk data anggota
   const { data, isLoading, refetch } = useGetAnggotaListQuery(
     {
       page: currentPage,
@@ -62,11 +77,96 @@ export default function AnggotaPage() {
       level_id: filterLevelId,
     },
     {
-      refetchOnMountOrArgChange: true, // selalu refetch saat mount / arg berubah
-      refetchOnFocus: true, // refetch saat tab kembali fokus
-      refetchOnReconnect: true, // refetch saat koneksi kembali
+      refetchOnMountOrArgChange: true,
+      refetchOnFocus: true,
+      refetchOnReconnect: true,
     }
   );
+
+  // =======================
+  // LOGIKA LOCKING FILTER BERDASARKAN LEVEL (PERBAIKAN)
+  // =======================
+
+  const isProfileDataReady = !profileMe.isLoading && profileMe.data;
+  const areAllRegionDataReady = isProvinsiSuccessAll && isKotaSuccessAll;
+  
+  // State untuk melacak apakah filter sudah dikunci
+  const [isFilterLocked, setIsFilterLocked] = useState(false);
+
+  useEffect(() => {
+    if (mounted && isProfileDataReady && areAllRegionDataReady && !isFilterLocked) {
+      const level = Number(profileMeLevel);
+      
+      let newProvinceId = profileMeProvince;
+      let newRegencyId = profileMeRegency;
+      let shouldLock = false;
+      
+      // Level 2: Lock Provinsi
+      if (level === 2 && profileMeProvince) {
+        shouldLock = true;
+        setFilterRegion((prev) => ({
+            ...prev,
+            province_id: profileMeProvince,
+            regency_id: undefined,
+            district_id: undefined,
+            village_id: undefined,
+        }));
+        
+        const provName = provinsiAll?.data.find(p => p.id === profileMeProvince)?.name;
+        if (provName) setProvinsiSearch(provName);
+
+        setKotaSearch("");
+        setKecamatanSearch("");
+        setKelurahanSearch("");
+        
+      } 
+      // Level 3: Lock Provinsi & Kota/Kabupaten
+      else if (level === 3 && profileMeProvince && profileMeRegency) {
+        shouldLock = true;
+        setFilterRegion((prev) => ({
+            ...prev,
+            province_id: profileMeProvince,
+            regency_id: profileMeRegency,
+            district_id: undefined,
+            village_id: undefined,
+        }));
+
+        const provName = provinsiAll?.data.find(p => p.id === profileMeProvince)?.name;
+        const regencyName = kotaAll?.data.find(k => k.id === profileMeRegency)?.name;
+        
+        if (provName) setProvinsiSearch(provName);
+        if (regencyName) setKotaSearch(regencyName);
+        
+        setKecamatanSearch("");
+        setKelurahanSearch("");
+      }
+
+      if (shouldLock) {
+          setIsFilterLocked(true);
+      } else if (level === 1 && isFilterLocked) {
+          // Jika sudah di-lock sebelumnya tapi sekarang Level 1 (Full Access), buka kunci
+          setIsFilterLocked(false);
+          setProvinsiSearch("");
+          setKotaSearch("");
+      }
+    }
+  }, [
+    mounted, 
+    isProfileDataReady, 
+    areAllRegionDataReady, 
+    profileMeLevel, 
+    profileMeProvince, 
+    profileMeRegency, 
+    provinsiAll, 
+    kotaAll,
+    isFilterLocked
+  ]);
+
+  // =======================
+  // LOGIKA REFETCH DAN DATA MURNI (dipertahankan)
+  // =======================
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     const onVisible = () => {
@@ -116,7 +216,6 @@ export default function AnggotaPage() {
       sessionStorage.setItem("batch_kta_village_id", filterRegion.village_id);
       sessionStorage.setItem("batch_kta_village_name", kelurahanSearch || "");
     }
-    // params URL: hanya page & paginate (sesuai permintaan)
     router.push(`/admin/kta/print-multiple?page=1&paginate=100`);
   };
 
@@ -144,24 +243,28 @@ export default function AnggotaPage() {
   // FILTER WILAYAH (dipertahankan)
   // =======================
   const [provinsiSearch, setProvinsiSearch] = useState("");
-  const { data: provinsiData, isLoading: isProvinsiLoading } =
-    useGetProvinsiListQuery({
-      page: 1,
-      paginate: 100,
-      search: provinsiSearch,
-    });
+  const { data: provinsiData, isLoading: isProvinsiLoading } = useGetProvinsiListQuery({ page: 1, paginate: 100, search: provinsiSearch });
   const [isDropdownProvinsiOpen, setDropdownProvinsiOpen] = useState(false);
   const dropdownProvinsiRef = useRef<HTMLDivElement>(null);
 
+  // NEW: Gunakan variabel isFilterLocked dan profileMeLevel untuk disabled
+  const isProvinsiDisabled = Number(profileMeLevel) >= 2 && isFilterLocked;
+
   useEffect(() => {
-    setMounted(true);
+    // Logika ini hanya untuk mengupdate search state jika ada perubahan filterRegion,
+    // TIDAK BOLEH mengubah filterRegion jika filter terkunci
     if (filterRegion.province_id && provinsiData?.data) {
       const selectedProvinsi = provinsiData.data.find(
         (p) => p.id === filterRegion.province_id
       );
       if (selectedProvinsi) setProvinsiSearch(selectedProvinsi.name);
+    } 
+    // Jika filterRegion.province_id dihapus oleh user level 1, search juga dihapus.
+    else if (!filterRegion.province_id && Number(profileMeLevel) === 1) {
+        setProvinsiSearch("");
     }
-  }, [filterRegion.province_id, provinsiData]);
+  }, [filterRegion.province_id, provinsiData, profileMeLevel]);
+
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -206,16 +309,22 @@ export default function AnggotaPage() {
   });
   const [isDropdownKotaOpen, setDropdownKotaOpen] = useState(false);
   const dropdownKotaRef = useRef<HTMLDivElement>(null);
+  
+  // NEW: Gunakan variabel isFilterLocked dan profileMeLevel untuk disabled
+  const isKotaDisabled = Number(profileMeLevel) >= 3 && isFilterLocked;
+
 
   useEffect(() => {
-    setMounted(true);
     if (filterRegion.regency_id && kotaData?.data) {
       const selectedKota = kotaData.data.find(
         (p) => p.id === filterRegion.regency_id
       );
       if (selectedKota) setKotaSearch(selectedKota.name);
     }
-  }, [filterRegion.regency_id, kotaData]);
+    else if (!filterRegion.regency_id && Number(profileMeLevel) <= 2) {
+
+    }
+  }, [filterRegion.regency_id, kotaData, profileMeLevel]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -262,7 +371,6 @@ export default function AnggotaPage() {
   const dropdownKecamatanRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setMounted(true);
     if (filterRegion.district_id && kecamatanData?.data) {
       const selectedKecamatan = kecamatanData.data.find(
         (p) => p.id === filterRegion.district_id
@@ -314,7 +422,6 @@ export default function AnggotaPage() {
   const dropdownKelurahanRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setMounted(true);
     if (filterRegion.village_id && kelurahanData?.data) {
       const selectedKelurahan = kelurahanData.data.find(
         (p) => p.id === filterRegion.village_id
@@ -350,7 +457,7 @@ export default function AnggotaPage() {
   };
 
   // =======================
-  // FILTER LEVEL
+  // FILTER LEVEL (dipertahankan)
   // =======================
   const [levelSearch, setLevelSearch] = useState("");
   const { data: levelData, isLoading: isLevelLoading } = useGetLevelListQuery({
@@ -360,7 +467,9 @@ export default function AnggotaPage() {
   });
   const [isDropdownLevelOpen, setDropdownLevelOpen] = useState(false);
   const dropdownLevelRef = useRef<HTMLDivElement>(null);
-
+  
+  // ... (Logika Level Filter dipertahankan) ...
+  
   useEffect(() => {
     if (filterLevelId && levelData?.data) {
       const selectedLevel = levelData.data.find(
@@ -405,12 +514,16 @@ export default function AnggotaPage() {
   };
 
   // =======================
-  // IMPORT / EXPORT
+  // IMPORT / EXPORT / PRINT (dipertahankan)
   // =======================
+  const [deleteAnggotaMutation] = useDeleteAnggotaMutation();
+  const [exportAnggotaExcelMutation, { isLoading: isExportingMutation }] = useExportAnggotaExcelMutation();
+  const [importAnggotaExcelMutation, { isLoading: isImportingMutation }] = useImportAnggotaExcelMutation();
+
   const handleImportExcel = async (file?: File) => {
     try {
       if (!file) return Swal.fire("Gagal", "File tidak ditemukan", "error");
-      const res = await importAnggotaExcel({ file }).unwrap();
+      const res = await importAnggotaExcelMutation({ file }).unwrap();
       Swal.fire(
         "Import Dikirim",
         res.message ?? "Berhasil mengunggah file",
@@ -456,7 +569,7 @@ export default function AnggotaPage() {
         showConfirmButton: false,
       });
 
-      const res = await exportAnggotaExcel(exportPayload).unwrap();
+      const res = await exportAnggotaExcelMutation(exportPayload).unwrap();
 
       Swal.fire({
         icon: "success",
@@ -480,17 +593,13 @@ export default function AnggotaPage() {
   const templateCsvUrl =
     "https://api-koperasi.inovasidigitalpurwokerto.id/template-import-anggota.csv";
   const templateCsvLabel = "Template CSV";
-  const exportLabel = isExporting ? "Exporting..." : "Export Excel";
-  const importLabel = isImporting ? "Importing..." : "Import Excel";
-  const exportDisabled = isExporting;
+  const exportLabel = isExportingMutation ? "Exporting..." : "Export Excel";
+  const importLabel = isImportingMutation ? "Importing..." : "Import Excel";
+  const exportDisabled = isExportingMutation;
   const importAccept = ".xlsx,.xls,.csv";
-  const readonly = false;
+  const readonly = false; 
 
-  // =======================
-  // PRINT KTA
-  // =======================
   const handlePrintKTA = (id: number) => {
-    // mengikuti pola onClickRoute="/admin/kta" pada form:
     router.push(`/admin/kta?memberId=${id}`);
   };
 
@@ -498,7 +607,7 @@ export default function AnggotaPage() {
     return (
       <div className="bg-white dark:bg-zinc-900 rounded-lg w-full max-h-[90vh] flex flex-col">
         <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-zinc-700 flex-shrink-0">
-          <h2 className="text-lg font-semibold">Loading...</h2>
+          <h2 className="text-lg font-semibold">Memuat Halaman Keanggotaan...</h2>
         </div>
         <div className="flex-1 overflow-y-auto p-6">
           <div className="animate-pulse">
@@ -508,6 +617,15 @@ export default function AnggotaPage() {
           </div>
         </div>
       </div>
+    );
+  }
+  
+  if (profileMe.isLoading) {
+    return (
+        <div className="flex items-center justify-center p-12">
+            <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+            <span className="ml-3 text-lg text-gray-600">Memuat data profil...</span>
+        </div>
     );
   }
 
@@ -536,11 +654,12 @@ export default function AnggotaPage() {
                   }
                 }}
                 onFocus={() => setDropdownProvinsiOpen(true)}
-                readOnly={readonly}
+                readOnly={readonly || isProvinsiDisabled}
                 required
                 autoComplete="off"
+                disabled={isProvinsiDisabled} // Disabled jika Level >= 2 dan sudah di lock
               />
-              {isDropdownProvinsiOpen && !readonly && (
+              {isDropdownProvinsiOpen && !isProvinsiDisabled && ( 
                 <div className="absolute z-10 w-full mt-1 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-md shadow-lg max-h-60 overflow-y-auto">
                   {isProvinsiLoading ? (
                     <div className="flex items-center justify-center p-4">
@@ -591,12 +710,12 @@ export default function AnggotaPage() {
                 onFocus={() => {
                   if (filterRegion.province_id) setDropdownKotaOpen(true);
                 }}
-                readOnly={readonly}
+                readOnly={readonly || isKotaDisabled} 
                 required
                 autoComplete="off"
-                disabled={!filterRegion.province_id || readonly}
+                disabled={!filterRegion.province_id || isKotaDisabled} // Disabled jika Level >= 3 dan sudah di lock
               />
-              {isDropdownKotaOpen && !readonly && filterRegion.province_id && (
+              {isDropdownKotaOpen && filterRegion.province_id && !isKotaDisabled && ( 
                 <div className="absolute z-10 w-full mt-1 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-md shadow-lg max-h-60 overflow-y-auto">
                   {isKotaLoading ? (
                     <div className="flex items-center justify-center p-4">

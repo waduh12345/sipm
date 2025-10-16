@@ -56,6 +56,19 @@ export const anggotaApi = apiSlice.injectEndpoints({
       }) => response.data,
     }),
 
+    // 🔍 Get Anggota by ID
+    getAnggotaByReference: builder.query<Anggota, string>({
+      query: (reference) => ({
+        url: `/public/anggotas/${reference}`,
+        method: "GET",
+      }),
+      transformResponse: (response: {
+        code: number;
+        message: string;
+        data: Anggota;
+      }) => response.data,
+    }),
+
     // ➕ Create Anggota
     createAnggota: builder.mutation<Anggota, FormData>({
       query: (payload) => ({
@@ -163,6 +176,7 @@ export const anggotaApi = apiSlice.injectEndpoints({
 export const {
   useGetAnggotaListQuery,
   useGetAnggotaByIdQuery,
+  useGetAnggotaByReferenceQuery,
   useCreateAnggotaMutation,
   useUpdateAnggotaMutation,
   useDeleteAnggotaMutation,

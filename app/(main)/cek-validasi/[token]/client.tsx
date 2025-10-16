@@ -3,7 +3,7 @@
 import { useMemo, useRef } from "react";
 import { KTACard } from "@/components/kta-card-admin";
 import KTACardBack from "@/components/kta-card-back-admin";
-import { useGetAnggotaByIdQuery } from "@/services/admin/anggota.service";
+import { useGetAnggotaByReferenceQuery } from "@/services/admin/anggota.service";
 import type { Anggota } from "@/types/admin/anggota";
 
 /** sensor nomor: tampil 5 digit terakhir */
@@ -35,8 +35,11 @@ export default function CekValidasiClient({
     [memberIdDecrypted]
   );
 
-  const { data } = useGetAnggotaByIdQuery(numericId as number, {
-    skip: typeof numericId !== "number",
+  const { data } = useGetAnggotaByReferenceQuery(numericId?.toString() ?? "", {
+    skip: !numericId,
+    refetchOnMountOrArgChange: true,
+    refetchOnFocus: false,
+    refetchOnReconnect: false,
   });
 
   const override:

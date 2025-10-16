@@ -47,7 +47,7 @@ export default function KTACardBack({ memberId }: Props) {
   const origin = useMemo(() => {
     if (SITE_URL) return SITE_URL;
     if (typeof window !== "undefined") return window.location.origin;
-    return "http://localhost:3000";
+    return process.env.NEXTAUTH_URL ?? "http://localhost:3000";
   }, []);
 
   const [qrSrc, setQrSrc] = useState<string>("");

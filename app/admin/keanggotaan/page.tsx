@@ -97,8 +97,6 @@ export default function AnggotaPage() {
     if (mounted && isProfileDataReady && areAllRegionDataReady && !isFilterLocked) {
       const level = Number(profileMeLevel);
       
-      let newProvinceId = profileMeProvince;
-      let newRegencyId = profileMeRegency;
       let shouldLock = false;
       
       // Level 2: Lock Provinsi

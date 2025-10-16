@@ -1,29 +1,72 @@
 import { apiSlice } from "../base-query";
 import type { Anggota } from "@/types/admin/anggota";
 
+type SearchBySpecific =
+  | "reference"
+  | "user_id"
+  | "name"
+  | "email"
+  | "phone"
+  | "ktp"
+  | string;
+
+type GetAnggotaListArgs = {
+  page: number;
+  paginate: number;
+  status?: number;
+  province_id?: string;
+  regency_id?: string;
+  district_id?: string;
+  village_id?: string;
+  level_id?: number;
+  searchBySpecific?: SearchBySpecific;
+  search?: string;
+};
+
+type GetAnggotaListResp = {
+  data: Anggota[];
+  last_page: number;
+  current_page: number;
+  total: number;
+  per_page: number;
+};
+
 export const anggotaApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    // 🔍 Get All Anggota (with pagination)
-    getAnggotaList: builder.query<
-      {
-        data: Anggota[];
-        last_page: number;
-        current_page: number;
-        total: number;
-        per_page: number;
-        province_id?: string;
-        regency_id?: string;
-        district_id?: string;
-        village_id?: string;
-        level_id?: number;
+    // 🔍 Get All Anggota (with pagination + searchBySpecific + search)
+    getAnggotaList: builder.query<GetAnggotaListResp, GetAnggotaListArgs>({
+      query: ({
+        page,
+        paginate,
+        status,
+        province_id,
+        regency_id,
+        district_id,
+        village_id,
+        level_id,
+        searchBySpecific,
+        search,
+      }) => {
+        // pastikan "" tetap terkirim: gunakan cek !== undefined, bukan truthy
+        const params: Record<string, string | number | undefined> = {
+          page,
+          paginate,
+          ...(status !== undefined ? { status } : {}),
+          ...(province_id !== undefined ? { province_id } : {}),
+          ...(regency_id !== undefined ? { regency_id } : {}),
+          ...(district_id !== undefined ? { district_id } : {}),
+          ...(village_id !== undefined ? { village_id } : {}),
+          ...(level_id !== undefined ? { level_id } : {}),
+          ...(searchBySpecific !== undefined ? { searchBySpecific } : {}),
+          ...(search !== undefined ? { search } : {}),
+        };
+
+        return {
+          url: `/anggota/anggotas`,
+          method: "GET",
+          params,
+        };
       },
-      { page: number; paginate: number; status?: number; province_id?: string; regency_id?: string; district_id?: string; village_id?: string; level_id?: number; }
-    >({
-      query: ({ page, paginate, status, province_id, regency_id, district_id, village_id, level_id }) => ({
-        url: `/anggota/anggotas`,
-        method: "GET",
-        params: { page, paginate, ...(status && { status }), ...(province_id && { province_id }), ...(regency_id && { regency_id }), ...(district_id && { district_id }), ...(village_id && { village_id }), ...(level_id && { level_id }) },
-      }),
       transformResponse: (response: {
         code: number;
         message: string;
@@ -34,7 +77,7 @@ export const anggotaApi = apiSlice.injectEndpoints({
           total: number;
           per_page: number;
         };
-      }) => ({
+      }): GetAnggotaListResp => ({
         data: response.data.data,
         last_page: response.data.last_page,
         current_page: response.data.current_page,
@@ -56,7 +99,7 @@ export const anggotaApi = apiSlice.injectEndpoints({
       }) => response.data,
     }),
 
-    // 🔍 Get Anggota by ID
+    // 🔍 Get Anggota by Reference (public)
     getAnggotaByReference: builder.query<Anggota, string>({
       query: (reference) => ({
         url: `/public/anggotas/${reference}`,
@@ -69,7 +112,7 @@ export const anggotaApi = apiSlice.injectEndpoints({
       }) => response.data,
     }),
 
-    // ➕ Create Anggota
+    // ➕ Create
     createAnggota: builder.mutation<Anggota, FormData>({
       query: (payload) => ({
         url: `/anggota/anggotas`,
@@ -83,7 +126,7 @@ export const anggotaApi = apiSlice.injectEndpoints({
       }) => response.data,
     }),
 
-    // ✏️ Update Anggota by ID
+    // ✏️ Update
     updateAnggota: builder.mutation<Anggota, { id: number; payload: FormData }>(
       {
         query: ({ id, payload }) => ({
@@ -99,7 +142,7 @@ export const anggotaApi = apiSlice.injectEndpoints({
       }
     ),
 
-    // ❌ Delete Anggota by ID
+    // ❌ Delete
     deleteAnggota: builder.mutation<{ code: number; message: string }, number>({
       query: (id) => ({
         url: `/anggota/anggotas/${id}`,
@@ -112,7 +155,7 @@ export const anggotaApi = apiSlice.injectEndpoints({
       }) => ({ code: response.code, message: response.message }),
     }),
 
-    // ✅ EXPORT Excel (body JSON: { from_date, to_date })
+    // ✅ EXPORT Excel
     exportAnggotaExcel: builder.mutation<
       { code: number; message: string },
       { from_date: string; to_date: string }
@@ -122,17 +165,13 @@ export const anggotaApi = apiSlice.injectEndpoints({
         method: "POST",
         body: { from_date, to_date },
       }),
-      transformResponse: (response: {
-        code: number;
-        message: string;
-        data?: string; // e.g. "Processing export request..."
-      }) => ({
+      transformResponse: (response: { code: number; message: string }) => ({
         code: response.code,
         message: response.message,
       }),
     }),
 
-    // ✅ IMPORT Excel (body FormData: { file })
+    // ✅ IMPORT Excel
     importAnggotaExcel: builder.mutation<
       { code: number; message: string },
       { file: File }
@@ -146,17 +185,13 @@ export const anggotaApi = apiSlice.injectEndpoints({
           body: formData,
         };
       },
-      transformResponse: (response: {
-        code: number;
-        message: string;
-        data?: unknown;
-      }) => ({
+      transformResponse: (response: { code: number; message: string }) => ({
         code: response.code,
         message: response.message,
       }),
     }),
 
-    // 🆕 Public Register (mirip createAnggota, endpoint: /register)
+    // 🆕 Public Register
     register: builder.mutation<Anggota, FormData>({
       query: (payload) => ({
         url: `/register`,

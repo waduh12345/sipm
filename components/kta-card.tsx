@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { Card } from "@/components/ui/card";
 import { useGetAnggotaListQuery } from "@/services/admin/anggota.service";
 import { Anggota } from "@/types/admin/anggota";
+import Image from "next/image";
 
 function formatTanggal(iso?: string | null) {
   if (!iso) return "-";
@@ -185,9 +186,12 @@ export function KTACard() {
           <span className="text-xs opacity-85">
             {/* {formatTanggal(anggota.registered_at)} */}
           </span>
-          <span className="font-bold text-base italic text-white">
-            🇮🇩 e-KTA
-          </span>
+          <div className="flex items-center gap-2">
+            <Image src="/icon-flag.png" alt="Logo KTA" width={20} height={20} />
+            <span className="font-bold text-base italic text-white">
+              🇮🇩 e-KTA
+            </span>
+          </div>
         </div>
       </div>
     </Card>

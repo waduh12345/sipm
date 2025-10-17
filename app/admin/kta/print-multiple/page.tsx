@@ -85,36 +85,53 @@ function BatchKtaContent() {
       {/* PRINT CSS */}
       <style jsx global>{`
         :root {
-          --card-width-screen: 120mm;
-          --card-width-print: 140mm;
-          --page-margin: 10mm;
-          --gap-screen: 8mm;
-          --gap-print: 8mm;
+          /* Lebar pratinjau & cetak per kartu */
+          --card-width-screen: 130mm; /* preview */
+          --card-width-print: 130mm; /* print (muat 2 kartu di A4 landscape) */
+          --page-margin: 8mm;
+          --gap-screen: 10mm;
+          --gap-print: 10mm;
         }
 
-        /* ===== PREVIEW (layar) ===== */
+        /* ======== PREVIEW (LAYAR) ======== */
+        /* Frame pembungkus yang MENENTUKAN ukuran kartu */
         .kta-card-frame {
           width: var(--card-width-screen);
-          max-width: 100%;
-          margin-left: auto;
-          margin-right: auto;
-        }
-        /* satu anggota (front + back) */
-        .kta-sheet {
+          aspect-ratio: 120 / 54; /* ukuran ID-1 → tinggi selalu sama */
           display: grid;
-          row-gap: var(--gap-screen);
-          justify-items: center;
-          margin-bottom: var(--gap-screen);
+          place-items: stretch;
+          overflow: hidden;
+          border-radius: 0.75rem;
+          break-inside: avoid;
+          page-break-inside: avoid;
         }
 
-        /* ===== PRINT ===== */
+        /* Satu anggota = 2 kartu (depan & belakang) */
+        .kta-sheet {
+          display: grid;
+          grid-template-columns: 1fr;
+          justify-items: center;
+          row-gap: var(--gap-screen);
+          margin: 0 0 var(--gap-screen) 0;
+        }
+
+        /* Lebar besar → tampil side-by-side juga saat preview */
+        @media (min-width: 1024px) {
+          .kta-sheet {
+            grid-template-columns: 1fr 1fr;
+            column-gap: var(--gap-screen);
+            row-gap: 0;
+          }
+        }
+
+        /* ======== PRINT ======== */
         @media print {
           @page {
-            size: A4 portrait;
+            size: A4 landscape; /* dua kartu berdampingan */
             margin: var(--page-margin);
           }
 
-          /* Lepas semua pembatas tinggi/scroll di shell app */
+          /* Lepas batas height/scroll di shell app */
           html,
           body,
           #__next,
@@ -133,7 +150,7 @@ function BatchKtaContent() {
             max-height: none !important;
           }
 
-          /* hanya area print yang terlihat */
+          /* Hanya area print yang terlihat */
           body * {
             visibility: hidden !important;
           }
@@ -143,33 +160,40 @@ function BatchKtaContent() {
           }
 
           #kta-print-root {
-            display: block !important;
             position: static !important;
+            display: block !important;
             overflow: visible !important;
           }
 
-          /* Flow otomatis + jangan potong 1 sheet di tengah */
+          /* Setiap pasangan kartu tetap satu baris & tak terbelah halaman */
           .kta-sheet {
-            display: block !important; /* jangan grid saat print */
-            break-inside: avoid-page;
-            page-break-inside: avoid;
+            display: flex !important;
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            gap: var(--gap-print);
             margin: 0 0 var(--gap-print) 0 !important;
             padding: 0 !important;
+            break-inside: avoid-page;
+            page-break-inside: avoid;
           }
 
-          /* jarak antara front & back */
-          .kta-card-frame + .kta-card-frame {
-            margin-top: var(--gap-print);
-          }
-
-          /* lebar kartu saat cetak */
+          /* Frame kartu saat cetak */
           .kta-card-frame {
             width: var(--card-width-print) !important;
-            margin-left: auto !important;
-            margin-right: auto !important;
+            aspect-ratio: 120 / 54;
+            margin: 0 !important;
+            break-inside: avoid;
+            page-break-inside: avoid;
           }
 
-          /* sembunyikan kontrol UI */
+          /* Warna full saat print */
+          body {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+          }
+
+          /* Sembunyikan kontrol UI */
           .no-print {
             display: none !important;
           }
@@ -217,14 +241,14 @@ function BatchKtaContent() {
       <div id="kta-print-root" ref={printRef}>
         {acc.map((m) => (
           <section key={m.id} className="kta-sheet">
+            {/* Depan (kiri) */}
             <div className="kta-card-frame">
               <KTACard memberId={m.id} onClickRoute="/admin/kta/[id]" />
             </div>
+
+            {/* Belakang (kanan) */}
             <div className="kta-card-frame">
-              <KTACardBack
-                reference={m.reference ?? undefined}
-                userId={m.id}
-              />
+              <KTACardBack reference={m.reference ?? undefined} userId={m.id} />
             </div>
           </section>
         ))}

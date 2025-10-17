@@ -138,18 +138,17 @@ export default function KTACardBack({ reference, userId, qrPayload }: Props) {
           "linear-gradient(145deg, var(--secondary) 0%, var(--primary) 95%)",
       }}
     >
-      <div className="h-full flex text-white">
+      <div className="flex text-white">
         <div className="w-2/3 pr-3 overflow-hidden">
           <h3 className="font-semibold mb-2">Ketentuan Keanggotaan</h3>
           <ul className="text-xs leading-snug list-disc pl-5 opacity-90 space-y-1">
             <li>Anggota wajib menjaga kerahasiaan data Digital KTA.</li>
             <li>Kartu hanya digunakan untuk keperluan resmi Digital KTA.</li>
             <li>Segera laporkan kehilangan atau penyalahgunaan ke admin.</li>
-            <li>Hak dan kewajiban anggota mengikuti ketentuan Digital KTA.</li>
           </ul>
         </div>
 
-        <div className="w-1/3 flex items-center justify-center">
+        <div className="w-1/3 flex flex-col items-start justify-start self-start">
           <div className="bg-white p-2 rounded-md">
             {qrSrc ? (
               <Image src={qrSrc} alt="QR KTA" width={160} height={160} />
@@ -162,9 +161,14 @@ export default function KTACardBack({ reference, userId, qrPayload }: Props) {
         </div>
       </div>
 
-      <div className="flex justify-between items-center pt-2 border-t border-white/20">
+      <div className="flex justify-between items-center border-t border-white/20">
         <span className="text-xs opacity-85" />
-        <span className="font-bold text-base italic text-white">🇮🇩 e-KTA</span>
+        <div className="flex items-center gap-2">
+          <Image src="/icon-flag.png" alt="Logo KTA" width={20} height={20} />
+          <span className="font-bold text-base italic text-white">
+            🇮🇩 e-KTA
+          </span>
+        </div>
       </div>
     </div>
   );

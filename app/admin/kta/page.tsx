@@ -19,14 +19,10 @@ function KtaPageFallback() {
   );
 }
 
-// ... (imports remain the same)
-
 function KtaPageContent() {
   const searchParams = useSearchParams();
   const params = useParams();
 
-  // Ambil id dari: /admin/kta/[id]  → params.id
-  // atau query:     ?id= / ?memberId=
   const rawId: string | undefined =
     (typeof params?.id === "string" ? (params.id as string) : undefined) ??
     searchParams?.get("id") ??
@@ -45,24 +41,49 @@ function KtaPageContent() {
 
   return (
     <div className="min-h-screen bg-background p-4">
-      {/* Global print styles */}
+      {/* Global styles: samakan tinggi via aspect-ratio + ukuran print konsisten */}
       <style jsx global>{`
         :root {
-          /* Disesuaikan untuk dua kartu berdampingan */
-          --card-width-preview: 90mm; /* Lebar pratinjau yang lebih kecil */
-          --card-width-print: 90mm; /* Lebar kartu di cetakan */
+          /* Lebar pratinjau & cetak */
+          --card-width-preview: 130mm; /* tampil di layar */
+          --card-width-print: 130mm; /* ukuran tetap saat print */
           --page-margin: 8mm;
-          --card-gap: 10mm; /* Jarak antar kartu */
+          --card-gap: 10mm;
         }
 
+        /* Frame pembungkus yang MENENTUKAN ukuran kartu.
+           Gunakan rasio kartu ISO ID-1 (85.6mm x 54mm) agar tinggi selalu sama. */
         .kta-card-frame {
           width: var(--card-width-preview);
-          max-width: 100%;
+          aspect-ratio: 120 / 54; /* <- samakan tinggi otomatis */
+          display: grid; /* biar inner bisa stretch full */
+          place-items: stretch;
+          break-inside: avoid;
+          page-break-inside: avoid;
+          overflow: hidden; /* antisipasi konten overflow */
+          border-radius: 0.75rem; /* opsional: sudut konsisten */
+        }
+
+        /* Inner memastikan child mengisi penuh frame */
+        .kta-card-inner {
+          width: 100%;
+          height: 100%;
+          display: block;
+        }
+
+        /* Area print bersebelahan */
+        .print-area {
+          display: flex;
+          flex-direction: row;
+          align-items: flex-start;
+          justify-content: center;
+          gap: var(--card-gap);
+          flex-wrap: nowrap;
         }
 
         @media print {
           @page {
-            size: A4 portrait; /* **PENTING: Gunakan landscape untuk 2 kartu** */
+            size: A4 landscape; /* 2 kartu berdampingan */
             margin: var(--page-margin);
           }
 
@@ -89,21 +110,18 @@ function KtaPageContent() {
             position: fixed;
             inset: 0;
             margin: var(--page-margin);
-            display: flex; /* **UBAH: Gunakan flex untuk satu baris** */
-            flex-direction: row; /* **UBAH: Atur tata letak horizontal** */
-            justify-content: center; /* Posisikan kartu di tengah */
-            align-items: flex-start; /* Posisikan kartu di bagian atas */
-            gap: var(--card-gap); /* Jarak antar kartu */
+            gap: var(--card-gap);
           }
 
+          /* Saat print, kunci lebar & rasio sama → tinggi otomatis identik */
           .kta-card-frame {
             width: var(--card-width-print) !important;
-            /* Pastikan kartu tidak mengambil seluruh tinggi kolom flex */
-            height: fit-content;
-            /* Tambahkan property untuk memastikan setiap kartu tidak terpotong */
+            aspect-ratio: 120 / 54;
             break-inside: avoid;
+            page-break-inside: avoid;
           }
 
+          /* Warna full saat print */
           body {
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
@@ -117,7 +135,6 @@ function KtaPageContent() {
 
       <div className="space-y-6">
         {/* Header (hilang saat print) */}
-        {/* ... (rest of the header remains the same) */}
         <div className="pt-2 flex gap-3 no-print">
           <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
             <IdCard className="w-6 h-6 text-primary" />
@@ -127,31 +144,35 @@ function KtaPageContent() {
               Kartu Anggota
             </h1>
             <p className="text-sm text-muted-foreground">
-              Tampilan depan dan belakang kartu, siap cetak
+              Tampilan depan & belakang kartu, tinggi selalu sama, siap cetak
             </p>
           </div>
         </div>
 
-        {/* === Area yang dicetak (dua kartu) === */}
+        {/* === Area yang dicetak (dua kartu berdampingan) === */}
         <div
           ref={printRef}
-          // Hapus kelas flex-col karena sudah diatur oleh CSS print
-          className="print-area flex items-center gap-[var(--card-gap)] md:flex-row flex-col"
+          className="print-area flex md:flex-row flex-col items-stretch gap-[var(--card-gap)]"
         >
           {/* Depan */}
-          <div className="kta-card-frame">
-            <KTACard memberId={numericId} onClickRoute="/admin/kta" />
+          <div className="kta-card-frame shadow-sm bg-transparent">
+            <div className="kta-card-inner">
+              <KTACard memberId={numericId} onClickRoute="/admin/kta" />
+            </div>
           </div>
+
           {/* Belakang */}
-          <div className="kta-card-frame">
-            <KTACardBack
-              userId={numericId}
-              reference={
-                typeof backId === "string" && !/^\d+$/.test(backId)
-                  ? backId
-                  : undefined
-              }
-            />
+          <div className="kta-card-frame shadow-sm bg-transparent">
+            <div className="kta-card-inner">
+              <KTACardBack
+                userId={numericId}
+                reference={
+                  typeof backId === "string" && !/^\d+$/.test(backId)
+                    ? backId
+                    : undefined
+                }
+              />
+            </div>
           </div>
         </div>
 
@@ -159,15 +180,13 @@ function KtaPageContent() {
         <div className="no-print">
           <Button className="w-full" onClick={handlePrint} size="lg">
             <PrinterIcon className="mr-2 h-4 w-4" />
-            <span> Print / Download PDF</span>
+            <span>Print / Download PDF</span>
           </Button>
         </div>
       </div>
     </div>
   );
 }
-
-// ... (KtaPage fallback and default export remain the same)
 
 export default function KtaPage() {
   return (

@@ -7,6 +7,7 @@ import type { Anggota } from "@/types/admin/anggota";
 import { useGetCurrentUserQuery } from "@/services/auth.service";
 import { useGetAnggotaByIdQuery } from "@/services/admin/anggota.service";
 import { skipToken } from "@reduxjs/toolkit/query";
+import Image from "next/image";
 
 function fmtDate(value?: string | null): string | undefined {
   if (!value) return undefined;
@@ -261,9 +262,7 @@ export function KTACard({
             <span className="font-semibold ">{view.memberName ?? "-"}</span>
 
             <span className="opacity-90">Tgl Lahir</span>
-            <span>
-              {view.dateOfBirth ? `${view.dateOfBirth}` : ""}
-            </span>
+            <span>{view.dateOfBirth ? `${view.dateOfBirth}` : ""}</span>
 
             <span className="opacity-90">Alamat</span>
             <span className="leading-snug">{view.address ?? "-"}</span>
@@ -284,9 +283,12 @@ export function KTACard({
           <span className="text-xs opacity-85">
             {view.memberSince ? `Anggota sejak ${view.memberSince}` : ""}
           </span>
-          <span className="font-bold text-base italic text-white">
-            🇮🇩 e-KTA
-          </span>
+          <div className="flex items-center gap-2">
+            <Image src="/icon-flag.png" alt="Logo KTA" width={20} height={20} />
+            <span className="font-bold text-base italic text-white">
+              🇮🇩 e-KTA
+            </span>
+          </div>
         </div>
       </div>
     </Card>

@@ -152,7 +152,7 @@ export default function KTACardBack({ reference, userId, qrPayload }: Props) {
         <div className="w-1/3 flex items-center justify-center">
           <div className="bg-white p-2 rounded-md">
             {qrSrc ? (
-              <Image src={qrSrc} alt="QR KTA" width={220} height={220} />
+              <Image src={qrSrc} alt="QR KTA" width={160} height={160} />
             ) : (
               <div className="w-[220px] h-[220px] bg-white/60 rounded flex items-center justify-center text-xs text-black/60">
                 QR tidak tersedia

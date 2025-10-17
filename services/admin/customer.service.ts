@@ -30,7 +30,7 @@ export const customerApi = apiSlice.injectEndpoints({
     // 🔍 Get Income Category by ID
     getCustomerById: builder.query<Customer, number>({
       query: (id) => ({
-        url: `/user/${id}`,
+        url: `/user/users/${id}`,
         method: "GET",
       }),
       transformResponse: (response: CustomerApiResponse<Customer>) => response.data,
@@ -42,7 +42,7 @@ export const customerApi = apiSlice.injectEndpoints({
       CreateCustomerRequest
     >({
       query: (payload) => ({
-        url: `/user`,
+        url: `/user/users`,
         method: "POST",
         body: payload,
         headers: {
@@ -58,7 +58,7 @@ export const customerApi = apiSlice.injectEndpoints({
       { id: number; payload: UpdateCustomerRequest }
     >({
       query: ({ id, payload }) => ({
-        url: `/user/${id}`,
+        url: `/user/users/${id}`,
         method: "PUT",
         body: payload,
         headers: {
@@ -74,7 +74,7 @@ export const customerApi = apiSlice.injectEndpoints({
       number
     >({
       query: (id) => ({
-        url: `/user/${id}`,
+        url: `/user/users/${id}`,
         method: "DELETE",
       }),
       transformResponse: (response: CustomerApiResponse<null>) => ({

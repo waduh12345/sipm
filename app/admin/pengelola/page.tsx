@@ -81,7 +81,7 @@ export default function CustomerPage() {
   const customerList = useMemo(() => {
     const customers = data?.data || [];
     return customers.filter((customer: Customer) =>
-      customer.roles && customer.roles.some((role: { name: string }) => role.name !== "user")
+      customer.roles
     );
   }, [data]);
 
@@ -394,9 +394,9 @@ export default function CustomerPage() {
                     <SelectValue placeholder="Pilih Role" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="1" aria-selected={form.role_id === 1}>Owner</SelectItem>
+                    <SelectItem value="1" aria-selected={form.role_id === 1}>Superadmin</SelectItem>
                     <SelectItem value="3" aria-selected={form.role_id === 3}>Admin</SelectItem>
-                    <SelectItem value="4" aria-selected={form.role_id === 4}>CS</SelectItem>
+                    <SelectItem value="2" aria-selected={form.role_id === 2}>User</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

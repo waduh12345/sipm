@@ -254,29 +254,28 @@ export function KTACard({
           </div>
         ) : (
           <div className="grid grid-cols-[auto_1fr] gap-x-10 sm:gap-x-14 gap-y-1">
-            <span className="opacity-90">No. Anggota</span>
+            <span className="opacity-90">No</span>
             <span className="font-semibold ">{view.memberId ?? "-"}</span>
 
             <span className="opacity-90">Nama</span>
             <span className="font-semibold ">{view.memberName ?? "-"}</span>
 
-            <span className="opacity-90">Tempat/Tgl Lahir</span>
+            <span className="opacity-90">Tgl Lahir</span>
             <span>
-              {view.placeOfBirth ?? "-"}
-              {view.dateOfBirth ? `, ${view.dateOfBirth}` : ""}
+              {view.dateOfBirth ? `${view.dateOfBirth}` : ""}
             </span>
 
             <span className="opacity-90">Alamat</span>
             <span className="leading-snug">{view.address ?? "-"}</span>
 
-            <span className="opacity-90">Kelurahan</span>
+            {/* <span className="opacity-90">Kelurahan</span>
             <span>{view.kelurahan ?? "-"}</span>
 
             <span className="opacity-90">Kecamatan</span>
             <span>{view.kecamatan ?? "-"}</span>
 
             <span className="opacity-90">Provinsi</span>
-            <span>{view.province ?? "-"}</span>
+            <span>{view.province ?? "-"}</span> */}
           </div>
         )}
 

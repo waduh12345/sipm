@@ -136,7 +136,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => {
         },
         {
           id: "konfigurasi/pengelola",
-          label: "Pengelola",
+          label: "Data Pengguna",
           icon: <UserCog className="h-4 w-4" />,
           href: "/admin/pengelola",
         },

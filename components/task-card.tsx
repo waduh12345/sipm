@@ -41,7 +41,7 @@ export function TaskCard({
     categoryColors[category] ?? "bg-primary text-primary-foreground";
 
   return (
-    <Link href={`/task/detail?id=${id}`}>
+    <Link href={`/task/${id}`}>
       <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full bg-card">
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between gap-2 mb-2">

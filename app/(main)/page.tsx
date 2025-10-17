@@ -4,62 +4,64 @@ import { KTACard } from "@/components/kta-card";
 import { AnnouncementCarousel } from "@/components/announcement-carousel";
 import { TaskCard } from "@/components/task-card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Megaphone, Briefcase, LayoutGrid } from "lucide-react";
+import { ArrowRight, Megaphone, Briefcase, LayoutGrid, Loader2 } from "lucide-react";
 import Link from "next/link";
+import {
+  useGetTugasListQuery,
+} from "@/services/admin/tugas.service";
+import { Tugas } from "@/types/admin/tugas";
 
-const popularTasks = [
-  {
-    id: "1",
-    category: "Rekrutment" as const,
-    title: "Rekrutmen Anggota Baru Wilayah Jakarta",
-    description:
-      "Bantu kami merekrut anggota baru di wilayah Jakarta dan sekitarnya",
-    progress: 65,
-    target: 100,
-    achieved: 65,
-    startDate: "1 Jan",
-    endDate: "31 Jan",
-    bonus: 50000,
-  },
-  {
-    id: "2",
-    category: "Simpatisan" as const,
-    title: "Pendataan Simpatisan Daerah",
-    description: "Lakukan pendataan simpatisan di daerah masing-masing",
-    progress: 45,
-    target: 200,
-    achieved: 90,
-    startDate: "5 Jan",
-    endDate: "28 Feb",
-    bonus: 35000,
-  },
-  {
-    id: "3",
-    category: "Lainnya" as const,
-    title: "Dokumentasi Kegiatan Sosial",
-    description: "Upload dokumentasi kegiatan sosial yang telah dilaksanakan",
-    progress: 80,
-    target: 50,
-    achieved: 40,
-    startDate: "10 Jan",
-    endDate: "20 Jan",
-    bonus: 25000,
-  },
-  {
-    id: "4",
-    category: "Rekrutment" as const,
-    title: "Sosialisasi Program Keanggotaan",
-    description: "Lakukan sosialisasi program keanggotaan di komunitas lokal",
-    progress: 30,
-    target: 75,
-    achieved: 23,
-    startDate: "15 Jan",
-    endDate: "15 Feb",
-    bonus: 40000,
-  },
-];
+// Definisikan tipe untuk props TaskCard yang sudah dimodifikasi
+type TaskCardProps = {
+  id: string;
+  category: string;
+  title: string;
+  description: string;
+  progress: number;
+  target: number;
+  achieved: number;
+  startDate: string;
+  endDate: string;
+  bonus: number;
+};
+
+// Fungsi helper untuk memformat data Tugas API ke TaskCardProps
+function formatTugasToTaskCardProps(tugas: Tugas): TaskCardProps {
+  // Asumsi: Karena API tidak menyediakan data 'achieved'/'progress', kita gunakan 0.
+  const achieved = 0;
+  const progress = tugas.target > 0 ? Math.round((achieved / tugas.target) * 100) : 0;
+  
+  return {
+    id: String(tugas.id),
+    category: tugas.task_category_name || "Lainnya",
+    title: tugas.name || "Nama Tugas Tidak Tersedia",
+    description: tugas.description || "Tidak ada deskripsi.",
+    progress: progress,
+    target: tugas.target || 0,
+    achieved: achieved,
+    // Format tanggal ISO string ke format yang lebih singkat (misal: "1 Jan")
+    startDate: tugas.start_date ? new Date(tugas.start_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }) : 'N/A',
+    endDate: tugas.end_date ? new Date(tugas.end_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }) : 'N/A',
+    bonus: tugas.bonus || 0,
+  };
+}
 
 export default function HomePage() {
+  const currentPage = 1;
+  const itemsPerPage = 4; // Ambil 4 tugas teratas/pertama
+  const query = "";
+  
+  // Ambil data Tugas
+  const { data, isLoading, isError } = useGetTugasListQuery({
+      page: currentPage,
+      paginate: itemsPerPage, // Minta hanya 4 item dari API
+      search: query,
+  });
+
+  // Konversi data API ke format TaskCardProps
+  const popularTasks: TaskCardProps[] = (data?.data || [])
+    .slice(0, 4) // Batasi maksimal 4 untuk tampilan homepage
+    .map(formatTugasToTaskCardProps);
 
   return (
     <div className="space-y-6 p-4 safe-area-top">
@@ -132,11 +134,24 @@ export default function HomePage() {
             </Button>
           </Link>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {popularTasks.map((task) => (
-            <TaskCard key={task.id} {...task} />
-          ))}
-        </div>
+        
+        {/* Konten Task */}
+        {isLoading ? (
+          <div className="flex justify-center items-center h-24">
+            <Loader2 className="h-6 w-6 animate-spin text-primary" />
+            <p className="ml-2 text-sm text-muted-foreground">Memuat tugas...</p>
+          </div>
+        ) : isError || popularTasks.length === 0 ? (
+          <div className="p-4 text-center text-muted-foreground border rounded-lg">
+            {isError ? "Gagal memuat data tugas." : "Belum ada tugas yang tersedia saat ini."}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {popularTasks.map((task) => (
+              <TaskCard key={task.id} {...task} />
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );

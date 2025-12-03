@@ -243,55 +243,6 @@ export default function OurFirmPage() {
         </AnimatePresence>
       </section>
 
-      {/* --- AWARDS & ACCOLADES --- */}
-      <section className="pb-24 bg-[#f7fbff]">
-        <div className="container mx-auto px-6">
-            <div className="flex flex-col lg:flex-row justify-between items-end mb-12 border-b border-[#2f4e9b]/20 pb-8">
-                <div>
-                    <div className="flex items-center gap-3 mb-4 uppercase text-sm tracking-[0.15em] font-semibold text-[#2f4e9b]">
-                        <span className="w-1 h-3 bg-[#50b848] -skew-x-12 inline-block"></span>
-                        Awards & Accolades
-                    </div>
-                    <p className="text-2xl lg:text-3xl text-[#2f4e9b] font-light max-w-xl">
-                        We are recognized as a top-tier firm across multiple practice areas.
-                    </p>
-                </div>
-                <div className="mt-6 lg:mt-0 min-w-[200px]">
-                    <Select defaultValue="2025">
-                        <SelectTrigger className="w-full border-0 border-b border-gray-300 rounded-none bg-transparent focus:ring-0 text-[#2f4e9b] text-xl">
-                            <SelectValue placeholder="Select Year" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="2025">2025</SelectItem>
-                            <SelectItem value="2024">2024</SelectItem>
-                            <SelectItem value="2023">2023</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
-            </div>
-
-            <div className="grid grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
-                {AWARDS.map((award) => (
-                    <div key={award.id} className="h-32 flex flex-col justify-between group cursor-pointer">
-                        <div className="relative h-20 w-full">
-                            <Image src={award.image} alt={award.title} fill className="object-contain object-left" />
-                        </div>
-                        <div className="border-b border-gray-200 group-hover:border-[#2f4e9b] pb-2 transition-colors">
-                            <span className="text-xs text-gray-500 group-hover:text-[#2f4e9b]">{award.title}</span>
-                        </div>
-                    </div>
-                ))}
-            </div>
-            
-            <div className="flex justify-center mt-12">
-                <div className="flex flex-col items-center gap-2 cursor-pointer text-[#2f4e9b] opacity-80 hover:opacity-100">
-                    <span className="uppercase text-xs tracking-widest">Load More</span>
-                    <div className="w-[1px] h-10 bg-[#2f4e9b]"></div>
-                </div>
-            </div>
-        </div>
-      </section>
-
       {/* --- CO-FOUNDER TRIBUTE --- */}
       <section className="py-24 bg-[#f7fbff]">
         <div className="container mx-auto px-6">
@@ -299,7 +250,7 @@ export default function OurFirmPage() {
                 <div className="lg:w-1/2">
                     <div className="relative aspect-[1.3] w-full">
                         <Image 
-                            src="http://ssek.com/wp-content/uploads/2022/07/co-founder-image.png"
+                            src="https://jonb-lawfirm.com/wp-content/uploads/2017/04/foto.png"
                             alt="Dyah Soewito"
                             fill
                             className="object-contain object-left"
@@ -309,13 +260,13 @@ export default function OurFirmPage() {
                 <div className="lg:w-1/2">
                     <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#2f4e9b]">
                         <span className="w-1 h-3 bg-[#a3238e] -skew-x-12 inline-block"></span>
-                        JONB Co-Founder Dyah Soewito
+                        Jon Bernard Pasaribu
                     </div>
                     <h3 className="text-3xl text-[#2f4e9b] font-light mb-6">
                         A friend and mentor for countless lawyers over thirty-plus years.
                     </h3>
-                    <p className="text-[#57595f] font-light mb-8">
-                        JONB remembers Dyah Soewito, a founding partner, one of the country’s leading corporate lawyers and a mentor to generations of lawyers.
+                    <p className="text-[#57595f] font-light mb-8 text-justify leading-relaxed">
+                        Pendiri dan Managing Partners pada Firma Hukum Jon Bernard & Associates, memperoleh gelar Sarjana Hukum dari Universitas Sumatera Utara (USU), Medan dan meraih gelar Magister Hukum pada Universitas Pancasila, Jakarta. Jon Bernard Pasaribu memulai karier hukum dan pengacara sebagai Associates pada Hendro Kanon & Partners kemudian berubah menjadi Kanon Arruanpitu Lawfirm dengan jabatan terakhir sebagai Senior Lawyer, kemudian mendirikan firma hukumnya sendiri bernama Jon Bernard & Associates pada tahun 2008.
                     </p>
                     <Link href="#">
                         <Button variant="outline" className="border-[#2f4e9b] text-[#2f4e9b] hover:bg-[#2f4e9b] hover:text-white rounded-full px-8 py-6 uppercase text-xs tracking-wider">

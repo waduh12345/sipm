@@ -140,40 +140,44 @@ export default function HomePage() {
                 
                 {/* Left Text */}
                 <div className="lg:w-7/12 mb-10 lg:mb-0">
-                    <div className="flex items-center gap-3 mb-4 text-white uppercase text-xs tracking-[0.15em] font-semibold">
+                    <div className="flex items-center gap-3 mb-4 text-[#FCD400] uppercase text-md tracking-[0.15em] font-semibold">
                         <span className="w-1 h-3 bg-[#a3238e] -skew-x-12 inline-block"></span>
-                        Shaping Tomorrow, Today
+                        Solusi Hukum Terpercaya untuk Setiap Permasalahan Anda
                     </div>
-                    <h2 className="text-4xl lg:text-6xl font-light text-white leading-tight">
-                        EXPERIENCE AND INNOVATION TO NAVIGATE A CHANGING WORLD
+                    <h2 className="text-4xl lg:text-5xl font-light text-white leading-tight">
+                        LAYANAN HUKUM PROFESIONAL, RESPONSIF &  BERORIENTASI PADA HASIL TERBAIK
                     </h2>
                 </div>
 
                 {/* Right Slider (News Widget) */}
-                <div className="w-full lg:w-4/12 bg-white/10 backdrop-blur-md rounded-lg p-4 lg:p-6 border border-white/20">
+                <div className="w-full lg:w-4/12 bg-white/10 backdrop-blur-md rounded-lg p-3 lg:p-6 border border-white/20">
                     <div className="relative overflow-hidden">
                         <AnimatePresence mode="wait">
-                            <motion.div 
+                            <motion.div
                                 key={currentHeroSlide}
                                 initial={{ opacity: 0, x: 20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -20 }}
                                 transition={{ duration: 0.4 }}
-                                className="flex flex-col gap-4"
+                                className="flex flex-col gap-3"
                             >
-                                <div className="relative h-48 w-full rounded overflow-hidden">
-                                    <Image 
+                                <div className="relative h-40 sm:h-48 w-full rounded overflow-hidden">
+                                    <Image
                                         src={HERO_SLIDES[currentHeroSlide].image}
                                         alt="Slide"
                                         fill
                                         className="object-cover"
+                                        sizes="(max-width: 640px) 100vw, 33vw"
                                     />
                                 </div>
                                 <div>
-                                    <h3 className="text-white text-lg font-medium leading-snug mb-4 line-clamp-3">
+                                    <h3 className="text-white text-base sm:text-lg font-medium leading-snug mb-3 sm:mb-4 line-clamp-3">
                                         {HERO_SLIDES[currentHeroSlide].title}
                                     </h3>
-                                    <Button variant="outline" className="border-white text-white hover:bg-white hover:text-[#2f4e9b] rounded-full text-xs uppercase tracking-wider h-8 px-4 bg-transparent transition-all">
+                                    <Button
+                                        variant="outline"
+                                        className="border-white text-white hover:bg-white hover:text-[#2f4e9b] rounded-full text-xs uppercase tracking-wider h-8 px-3 sm:px-4 bg-transparent transition-all w-full sm:w-auto"
+                                    >
                                         Read Article
                                     </Button>
                                 </div>
@@ -181,13 +185,21 @@ export default function HomePage() {
                         </AnimatePresence>
 
                         {/* Navigation Arrows */}
-                        <div className="flex justify-end gap-3 mt-4">
-                             <button onClick={prevHeroSlide} className="w-10 h-10 rounded-full border border-white/60 flex items-center justify-center text-white hover:bg-white/20 transition-all">
+                        <div className="flex justify-between sm:justify-end gap-2 sm:gap-3 mt-3 sm:mt-4">
+                            <button
+                                onClick={prevHeroSlide}
+                                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-white/60 flex items-center justify-center text-white hover:bg-white/20 transition-all"
+                                aria-label="Previous Slide"
+                            >
                                 <ChevronLeft size={16} />
-                             </button>
-                             <button onClick={nextHeroSlide} className="w-10 h-10 rounded-full border border-white/60 flex items-center justify-center text-white hover:bg-white/20 transition-all">
+                            </button>
+                            <button
+                                onClick={nextHeroSlide}
+                                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-white/60 flex items-center justify-center text-white hover:bg-white/20 transition-all"
+                                aria-label="Next Slide"
+                            >
                                 <ChevronRight size={16} />
-                             </button>
+                            </button>
                         </div>
                     </div>
                 </div>

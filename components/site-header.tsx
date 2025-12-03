@@ -5,10 +5,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export function SiteHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/" || pathname === "/home";
 
   // Scroll effect for Navbar
   useEffect(() => {
@@ -29,40 +32,49 @@ export function SiteHeader() {
         <div className="container mx-auto px-6 flex justify-between items-center">
           <Link href="/" className="relative z-50 block">
              {isScrolled ? (
-                <div className="flex flex-col leading-none text-white">
-                    <h1 className="text-2xl font-bold tracking-widest">JONB</h1>
-                    <span className="text-[10px] tracking-[0.3em] uppercase">Law Firm</span>
+                <div className="relative w-48 h-20 mt-[-10px] mb-[-10px]">
+                  <Image 
+                    src="https://jonb-lawfirm.com/wp-content/uploads/2017/03/JB-new-logo.png" 
+                    alt="JONB Logo" 
+                    fill 
+                    className="object-contain" 
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
                 </div>
              ) : (
-                <div className="relative w-32 h-12">
-                    <Image 
-                        src="https://jonb-lawfirm.com/wp-content/uploads/2017/03/JB-new-logo.png" 
-                        alt="JONB Logo" 
-                        fill 
-                        className="object-contain" 
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                    />
+                <div className="relative w-48 h-20 mt-[-20px] mb-[-20px]">
+                  <Image 
+                    src="https://jonb-lawfirm.com/wp-content/uploads/2017/03/JB-new-logo.png" 
+                    alt="JONB Logo" 
+                    fill 
+                    className="object-contain" 
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
                 </div>
              )}
           </Link>
 
           {/* Desktop Menu */}
           <div className="hidden lg:flex items-center gap-8">
-            <nav className={`flex items-center gap-8 uppercase text-[11px] tracking-[0.15em] font-medium ${isScrolled ? 'text-white/80' : 'text-[#2f4e9b]/80'}`}>
-            {[
-                { name: "Our Firm", href: "/our-firm" },
+            <nav className={`flex items-center gap-8 uppercase text-[11px] tracking-[0.15em] font-medium ${
+              isHome ? 'text-white' : (isScrolled ? 'text-white/80' : 'text-[#2f4e9b]/80')
+            }`}>
+              {[
+                { name: "About Us", href: "/about-us" },
                 { name: "Our Attorneys", href: "/our-attorneys" },
-                { name: "Our Expertise", href: "/our-expertise" },
-                { name: "Indonesia Law Blog", href: "/blog" },
-            ].map((item) => (
+                { name: "Practice Areas", href: "/practise-areas" },
+                { name: "Article", href: "/blog" },
+              ].map((item) => (
                 <Link
-                    key={item.name}
-                    href={item.href}
-                    className={`transition-all duration-300 ${isScrolled ? 'hover:text-white' : 'hover:text-[#2f4e9b] hover:font-bold'}`}
+                  key={item.name}
+                  href={item.href}
+                  className={`transition-all duration-300 ${
+                    isHome ? 'hover:text-white' : (isScrolled ? 'hover:text-white' : 'hover:text-[#2f4e9b] hover:font-bold')
+                  }`}
                 >
-                    {item.name}
+                  {item.name}
                 </Link>
-            ))}
+              ))}
             </nav>
 
             <div className="flex items-center gap-6">
@@ -103,11 +115,19 @@ export function SiteHeader() {
               exit={{ opacity: 0 }}
               className="absolute top-0 left-0 w-full h-screen bg-[#2f4e9b] pt-24 px-6 flex flex-col z-40"
             >
-               <nav className="flex flex-col gap-6 text-white text-2xl font-light">
-                {["Home", "Our Firm", "Our Attorneys", "Our Expertise", "Indonesia Law Blog"].map((item) => (
-                    <Link key={item} href="#" onClick={() => setMobileMenuOpen(false)}>{item}</Link>
+                <nav className="flex flex-col gap-6 text-white text-2xl font-light">
+                {[
+                  { name: "Home", href: "/" },
+                  { name: "About Us", href: "/about-us" },
+                  { name: "Our Attorneys", href: "/our-attorneys" },
+                  { name: "Practise Areas", href: "/practise-areas" },
+                  { name: "Article", href: "/blog" },
+                ].map((item) => (
+                  <Link key={item.name} href={item.href} onClick={() => setMobileMenuOpen(false)}>
+                  {item.name}
+                  </Link>
                 ))}
-               </nav>
+                </nav>
             </motion.div>
           )}
         </AnimatePresence>

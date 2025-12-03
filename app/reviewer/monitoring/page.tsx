@@ -341,17 +341,17 @@ export default function MonevReviewerPage() {
 
                                     <div className="flex flex-col justify-center items-end gap-3 min-w-[150px] border-l pl-4 border-gray-100">
                                         <div className="text-right">
-                                            <p className="text-xs text-gray-500 uppercase font-semibold mb-1">Status Luaran</p>
-                                            {getStatusBadge(item.status_luaran)}
+                                          <p className="text-xs text-gray-500 uppercase font-semibold mb-1">Status Luaran</p>
+                                          {getStatusBadge(item.status_luaran)}
                                         </div>
                                         <Button 
-                                            size="sm" 
-                                            variant="outline"
-                                            className="w-full"
-                                            disabled={item.status_luaran === "Belum Upload"}
-                                            onClick={() => handleOpenReview(item, "luaran")}
+                                          size="sm" 
+                                          variant="outline"
+                                          className="w-full"
+                                          disabled={item.status_luaran === "Belum Upload"}
+                                          onClick={() => handleOpenReview(item, "luaran")}
                                         >
-                                            <BookOpen className="h-4 w-4 mr-2" /> Cek Luaran
+                                          <BookOpen className="h-4 w-4 mr-2" /> Cek Luaran
                                         </Button>
                                     </div>
                                 </div>

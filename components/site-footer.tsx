@@ -39,13 +39,13 @@ export function SiteFooter() {
 
             <div className="flex flex-col lg:w-1/6 gap-4 text-sm uppercase tracking-widest font-light">
                 <Link href="/" className="hover:opacity-60 transition-opacity">Home</Link>
-                <Link href="/our-firm" className="hover:opacity-60 transition-opacity">Our Firm</Link>
+                <Link href="/about-us" className="hover:opacity-60 transition-opacity">About Us</Link>
                 <Link href="/our-attorneys" className="hover:opacity-60 transition-opacity">Our Attorneys</Link>
-                <Link href="/our-expertise" className="hover:opacity-60 transition-opacity">Our Expertise</Link>
+                <Link href="/practise-areas" className="hover:opacity-60 transition-opacity">Practise Areas</Link>
             </div>
 
              <div className="flex flex-col lg:w-1/6 gap-4 text-sm uppercase tracking-widest font-light mt-8 lg:mt-0">
-                <Link href="/blog" className="hover:opacity-60 transition-opacity">Indonesia Law Blog</Link>
+                <Link href="/blog" className="hover:opacity-60 transition-opacity">Article</Link>
                 <Link href="/csr" className="hover:opacity-60 transition-opacity">CSR</Link>
                 <Link href="/work-with-us" className="hover:opacity-60 transition-opacity">Work With Us</Link>
                 <Link href="/lets-talk" className="hover:opacity-60 transition-opacity">Let&apos;s Talk</Link>

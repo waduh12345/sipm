@@ -1,6 +1,6 @@
 {
-  "name": "Digital KTA - Digitalisasi Manajemen Keanggotaan",
-  "short_name": "Digital KTA",
+  "name": "Aplikasi SIPPM - Digitalisasi Manajemen Keanggotaan",
+  "short_name": "Aplikasi SIPPM",
   "description": "Aplikasi untuk digitalisasi manajemen keanggotaan koperasi: pendaftaran, transaksi, dan dashboard.",
   "start_url": "/",
   "display": "standalone",

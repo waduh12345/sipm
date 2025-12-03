@@ -14,12 +14,12 @@ const run = async () => {
   const iconsDir = path.join(publicDir, 'icons');
   if (!fs.existsSync(iconsDir)) fs.mkdirSync(iconsDir, { recursive: true });
 
-  // Prefer `digital-kta.png` else fallback to `digital-kta-logo.png` or others
-  const candidates = ['digital-kta.png', 'digital-kta-logo.png', 'logo.webp'];
+  // Prefer `aplikasi-sippm.png` else fallback to `aplikasi-sippm-logo.png` or others
+  const candidates = ['aplikasi-sippm.png', 'aplikasi-sippm-logo.png', 'logo.webp'];
   const source = candidates.map((c) => path.join(publicDir, c)).find((p) => fs.existsSync(p));
 
   if (!source) {
-    console.error('No source logo found. Put your logo in `public/digital-kta.png` or `public/digital-kta-logo.png`.');
+    console.error('No source logo found. Put your logo in `public/aplikasi-sippm.png` or `public/aplikasi-sippm-logo.png`.');
     process.exit(1);
   }
 

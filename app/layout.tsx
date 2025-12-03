@@ -17,11 +17,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Digital KTA",
+  title: "Aplikasi SIPPM",
   description:
     "Aplikasi keanggotaan digital untuk mengelola data anggota, status keanggotaan, dan berbagai layanan koperasi secara online.",
   icons: {
-    icon: "/digital-kta-logo.png",
+    icon: "/aplikasi-sippm-logo.png",
   },
 };
 

@@ -1,156 +1,71 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   Users,
-  Building2,
-  ClipboardCheck,
-  Megaphone,
+  FileText,
+  CalendarDays,
+  Database,
+  BookOpen,
+  CheckSquare,
+  FileBarChart,
   Settings,
-  MapPin,
-  Network,
-  UserCog,
-  ShieldCheck,
-  Wallet,
+  UserCircle,
+  Upload,
+  Layers,
+  ClipboardList
 } from "lucide-react";
 import Header from "@/components/admin-components/header";
 import Sidebar from "@/components/admin-components/sidebar";
-import { AdminLayoutProps, MenuItem } from "@/types";
+import { MenuItem } from "@/types";
 import { useSession } from "next-auth/react";
 import type { User } from "@/types/user";
 import ClientAuthGuard from "@/components/client-guards";
 
-// Fungsi pembantu untuk cek role (memperhatikan struktur roles[0].name)
+// Fungsi pembantu untuk cek role
 const userHasRole = (user: User | undefined, roleName: string): boolean => {
   if (!user || !user.roles || user.roles.length === 0) {
     return false;
   }
-  // Cek apakah role pertama (asumsi role utama) sesuai, atau cek seluruh array roles jika perlu
+  // Sesuaikan logika ini dengan struktur role di database/auth Anda
+  // Contoh: user.roles[0].name atau user.role === 'admin'
   return user.roles[0].name?.toLowerCase() === roleName.toLowerCase();
 };
 
-const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => {
+// Fungsi untuk mendapatkan judul berdasarkan path aktif
+const getPageTitle = (menuItems: MenuItem[], pathname: string): string => {
+  for (const item of menuItems) {
+    if (item.href === pathname) return item.label;
+    if (item.children) {
+      const childMatch = item.children.find((c) => c.href === pathname);
+      if (childMatch) return childMatch.label;
+    }
+  }
+  return "Sistem Informasi PPM"; // Default title
+};
+
+// Hapus AdminLayoutProps, gunakan standar layout props Next.js
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { data: session } = useSession();
   const user = session?.user as User | undefined;
+  const pathname = usePathname();
   
-  // Menutup sidebar saat ukuran layar berubah ke desktop
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
         setSidebarOpen(false);
       }
     };
-
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Definisi menu untuk superadmin (SEMUA MENU)
-  const superadminMenuItems: MenuItem[] = [
-    {
-      id: "dashboard",
-      label: "Dashboard",
-      icon: <LayoutDashboard className="h-5 w-5" />,
-      href: "/admin/dashboard",
-    },
-    {
-      id: "keanggotaan",
-      label: "Keanggotaan",
-      icon: <Users className="h-5 w-5" />,
-      href: "/admin/keanggotaan",
-    },
-    {
-      id: "kantor",
-      label: "Kantor",
-      icon: <Building2 className="h-5 w-5" />,
-      href: "/admin/kantor",
-    },
-    // {
-    //   id: "wallet",
-    //   label: "Wallet",
-    //   icon: <Wallet className="h-5 w-5" />,
-    //   href: "/admin/wallet",
-    // },
-    {
-      id: "task",
-      label: "Tugas",
-      icon: <ClipboardCheck className="h-5 w-5" />,
-      href: "/admin/tugas",
-      // ... (children task)
-    },
-    {
-      id: "pengumuman",
-      label: "Pengumuman",
-      icon: <Megaphone className="h-5 w-5" />,
-      href: "/admin/pengumuman",
-    },
-    {
-      id: "konfigurasi",
-      label: "Konfigurasi",
-      icon: <Settings className="h-5 w-5" />,
-      href: "#",
-      children: [
-        {
-          id: "konfigurasi/provinsi",
-          label: "Provinsi",
-          icon: <MapPin className="h-4 w-4" />,
-          href: "/admin/master/provinsi",
-        },
-        {
-          id: "konfigurasi/kota",
-          label: "Kota",
-          icon: <MapPin className="h-4 w-4" />,
-          href: "/admin/master/kota",
-        },
-        {
-          id: "konfigurasi/kecamatan",
-          label: "Kecamatan",
-          icon: <MapPin className="h-4 w-4" />,
-          href: "/admin/master/kecamatan",
-        },
-        {
-          id: "konfigurasi/kelurahan",
-          label: "Kelurahan",
-          icon: <MapPin className="h-4 w-4" />,
-          href: "/admin/master/kelurahan",
-        },
-        {
-          id: "konfigurasi/level",
-          label: "Struktur Partai",
-          icon: <Network className="h-4 w-4" />,
-          href: "/admin/master/level",
-        },
-        {
-          id: "konfigurasi/kategori-tugas",
-          label: "Kategori Tugas",
-          icon: <Network className="h-4 w-4" />,
-          href: "/admin/master/kategori-tugas",
-        },
-        {
-          id: "konfigurasi/jenis-kantor",
-          label: "Jenis Kantor",
-          icon: <Network className="h-4 w-4" />,
-          href: "/admin/master/jenis-kantor",
-        },
-        {
-          id: "konfigurasi/pengelola",
-          label: "Data Pengguna",
-          icon: <UserCog className="h-4 w-4" />,
-          href: "/admin/pengelola",
-        },
-        {
-          id: "konfigurasi/role",
-          label: "Role",
-          icon: <ShieldCheck className="h-4 w-4" />,
-          href: "/admin/role",
-        },
-      ],
-    },
-  ];
-
-  // ✅ DEFINISI MENU KHUSUS UNTUK ADMIN
+  // =================================================================
+  // 1. MENU ADMIN (LPPM)
+  // =================================================================
   const adminMenuItems: MenuItem[] = [
     {
       id: "dashboard",
@@ -159,41 +74,181 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => {
       href: "/admin/dashboard",
     },
     {
-      id: "keanggotaan",
-      label: "Keanggotaan",
-      icon: <Users className="h-5 w-5" />,
-      href: "/admin/keanggotaan",
+      id: "master-data",
+      label: "Master Data",
+      icon: <Database className="h-5 w-5" />,
+      href: "#",
+      children: [
+        {
+          id: "master/users",
+          label: "Data User",
+          icon: <Users className="h-4 w-4" />,
+          href: "/admin/master/users",
+        },
+        {
+          id: "master/fakultas",
+          label: "Fakultas & Prodi",
+          icon: <BookOpen className="h-4 w-4" />,
+          href: "/admin/master/fakultas",
+        },
+        {
+          id: "master/bidang-ilmu",
+          label: "Bidang Ilmu",
+          icon: <Layers className="h-4 w-4" />,
+          href: "/admin/master/bidang-ilmu",
+        },
+        {
+          id: "master/template",
+          label: "Template Dokumen",
+          icon: <FileText className="h-4 w-4" />,
+          href: "/admin/master/template",
+        },
+      ],
     },
     {
-      id: "kantor",
-      label: "Kantor",
-      icon: <Building2 className="h-5 w-5" />,
-      href: "/admin/kantor",
+      id: "konfigurasi",
+      label: "Konfigurasi Penelitian",
+      icon: <Settings className="h-5 w-5" />,
+      href: "#",
+      children: [
+        {
+          id: "config/jadwal",
+          label: "Jadwal Usulan",
+          icon: <CalendarDays className="h-4 w-4" />,
+          href: "/admin/config/jadwal",
+        },
+        {
+          id: "config/klaster",
+          label: "Skema & Klaster",
+          icon: <Layers className="h-4 w-4" />,
+          href: "/admin/config/klaster",
+        },
+        {
+          id: "config/tema",
+          label: "Data Tema Riset",
+          icon: <BookOpen className="h-4 w-4" />,
+          href: "/admin/config/tema",
+        },
+      ],
     },
     {
-      id: "task",
-      label: "Tugas",
-      icon: <ClipboardCheck className="h-5 w-5" />,
-      href: "/admin/tugas",
-      // Jika Anda ingin Admin melihat submenu tugas, tambahkan children di sini:
-      // children: [ ... ]
+      id: "seleksi",
+      label: "Seleksi & Plotting",
+      icon: <CheckSquare className="h-5 w-5" />,
+      href: "/admin/seleksi",
+    },
+    {
+      id: "monitoring",
+      label: "Laporan & Monev",
+      icon: <FileBarChart className="h-5 w-5" />,
+      href: "/admin/monitoring",
     },
   ];
 
-  // ✅ Tentukan menu items berdasarkan role pengguna
+  // =================================================================
+  // 2. MENU PENELITI (DOSEN)
+  // =================================================================
+  const penelitiMenuItems: MenuItem[] = [
+    {
+      id: "dashboard",
+      label: "Dashboard",
+      icon: <LayoutDashboard className="h-5 w-5" />,
+      href: "/peneliti/dashboard",
+    },
+    {
+      id: "profil",
+      label: "Profil Peneliti",
+      icon: <UserCircle className="h-5 w-5" />,
+      href: "/peneliti/profil",
+    },
+    {
+      id: "usulan",
+      label: "Data Usulan",
+      icon: <FileText className="h-5 w-5" />,
+      href: "#",
+      children: [
+        {
+          id: "usulan/baru",
+          label: "Pengajuan Baru",
+          icon: <Upload className="h-4 w-4" />,
+          href: "/peneliti/usulan/baru",
+        },
+        {
+          id: "usulan/riwayat",
+          label: "Riwayat Usulan",
+          icon: <ClipboardList className="h-4 w-4" />,
+          href: "/peneliti/usulan/riwayat",
+        },
+      ]
+    },
+    {
+      id: "laporan",
+      label: "Laporan Kegiatan",
+      icon: <FileBarChart className="h-5 w-5" />,
+      href: "#",
+      children: [
+        {
+          id: "laporan/kemajuan",
+          label: "Laporan Kemajuan",
+          icon: <FileText className="h-4 w-4" />,
+          href: "/peneliti/laporan/kemajuan",
+        },
+        {
+          id: "laporan/akhir",
+          label: "Laporan Akhir",
+          icon: <FileText className="h-4 w-4" />,
+          href: "/peneliti/laporan/akhir",
+        },
+      ]
+    },
+  ];
+
+  // =================================================================
+  // 3. MENU REVIEWER
+  // =================================================================
+  const reviewerMenuItems: MenuItem[] = [
+    {
+      id: "dashboard",
+      label: "Dashboard",
+      icon: <LayoutDashboard className="h-5 w-5" />,
+      href: "/reviewer/dashboard",
+    },
+    {
+      id: "profil",
+      label: "Profil Reviewer",
+      icon: <UserCircle className="h-5 w-5" />,
+      href: "/reviewer/profil",
+    },
+    {
+      id: "penilaian",
+      label: "Penilaian Usulan",
+      icon: <CheckSquare className="h-5 w-5" />,
+      href: "/reviewer/penilaian",
+    },
+    {
+      id: "monev",
+      label: "Monitoring (Monev)",
+      icon: <FileBarChart className="h-5 w-5" />,
+      href: "/reviewer/monev",
+    },
+  ];
+
+  // ✅ LOGIKA PENENTUAN MENU BERDASARKAN ROLE
   let menuItems: MenuItem[] = [];
   
   if (user) {
-    if (userHasRole(user, "superadmin")) {
-      menuItems = superadminMenuItems;
-    } else if (userHasRole(user, "admin")) {
+    if (userHasRole(user, "admin")) {
       menuItems = adminMenuItems;
+    } else if (userHasRole(user, "peneliti")) {
+      menuItems = penelitiMenuItems;
+    } else if (userHasRole(user, "reviewer")) {
+      menuItems = reviewerMenuItems;
     }
   }
 
-  // Jika tidak ada user atau role tidak dikenali, menu akan kosong (sesuai let menuItems = [])
-  // Ini membantu mencegah akses ke menu jika otentikasi belum selesai.
-  
+  // Tentukan judul header secara dinamis
+  const dynamicTitle = getPageTitle(menuItems, pathname);
+
   return (
     <div className="h-screen flex overflow-hidden bg-gray-100">
       {/* Sidebar */}
@@ -205,8 +260,8 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => {
 
       {/* Konten Utama */}
       <div className="flex flex-col w-0 flex-1 overflow-hidden">
-        {/* Header */}
-        <Header onMenuClick={() => setSidebarOpen(true)} title={title} />
+        {/* Header dengan Dynamic Title */}
+        <Header onMenuClick={() => setSidebarOpen(true)} title={dynamicTitle} />
 
         {/* Konten Halaman */}
         <main className="flex-1 relative overflow-y-auto focus:outline-none">
@@ -225,5 +280,3 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => {
     </div>
   );
 };
-
-export default AdminLayout;

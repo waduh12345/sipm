@@ -26,7 +26,7 @@ export default function Footer() {
 
   const faqs = [
     {
-      question: "Bagaimana cara menjadi anggota Digital KTA?",
+      question: "Bagaimana cara menjadi anggota Aplikasi SIPPM?",
       answer:
         "Anda dapat mendaftar melalui aplikasi internal kami atau menghubungi tim kami. Prosesnya cepat dan mudah!",
     },
@@ -60,14 +60,14 @@ export default function Footer() {
                 <div className="flex items-center gap-4 mb-4">
                   <Image
                     src="/logo.webp"
-                    alt="Digital KTA Logo"
+                    alt="Aplikasi SIPPM Logo"
                     width={75}
                     height={75}
                     className="flex-shrink-0 object-contain"
                   />
                   <div>
                     <h2 className="text-lg font-semibold text-gray-800">
-                      Digital KTA
+                      Aplikasi SIPPM
                     </h2>
                     <p className="text-sm text-gray-600">
                       Koperasi Keanggotaan #AntiRibet untuk UMKM
@@ -194,7 +194,7 @@ export default function Footer() {
           <div className="container mx-auto px-6 lg:px-12 py-6">
             <div className="flex flex-col lg:flex-row justify-between items-center gap-6">
               <p>
-                © {new Date().getFullYear()} Digital KTA. All rights reserved.
+                © {new Date().getFullYear()} Aplikasi SIPPM. All rights reserved.
               </p>
 
               {/* Social Media */}

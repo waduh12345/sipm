@@ -21,14 +21,14 @@ import {
   FaEnvelope,
   FaPhone,
   FaArrowRight,
-  FaCoins,
-  FaHandshake,
-  FaChartLine,
-  FaPiggyBank,
-  FaUsers,
-  FaBuilding,
-  FaCalculator,
-  FaShieldAlt,
+  FaUniversity,
+  FaMicroscope,
+  FaBook,
+  FaLightbulb,
+  FaHandHoldingHeart,
+  FaFileContract,
+  FaChalkboardTeacher,
+  FaGraduationCap,
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 
@@ -49,10 +49,12 @@ const variants = {
   visible: { opacity: 1, y: 0 },
 };
 
+// Pastikan Anda memiliki gambar-gambar ini di folder public/images/
+// atau ganti dengan gambar placeholder universitas/penelitian
 const carouselImages = [
-  "/images/koperasi-1.jpg",
-  "/images/koperasi-2.jpg",
-  "/images/koperasi-3.jpg",
+  "/images/research-1.jpg", // Gambar kegiatan penelitian lab
+  "/images/seminar-1.jpg",  // Gambar seminar/pengabdian
+  "/images/campus-1.jpg",   // Gambar gedung kampus
 ];
 
 export default function AuthForm({ mode }: AuthFormProps) {
@@ -103,11 +105,11 @@ export default function AuthForm({ mode }: AuthFormProps) {
         if (signInRes?.ok) {
           router.push("/admin/dashboard");
         } else {
-          setError("Gagal masuk. Email atau password salah.");
+          setError("Gagal masuk. Email atau NIDN/Password salah.");
         }
       } catch (err: unknown) {
         console.error("Login error:", err);
-        setError("Login gagal. Cek kembali email dan password.");
+        setError("Login gagal. Cek kembali kredensial Anda.");
       } finally {
         setIsLoading(false);
       }
@@ -129,8 +131,8 @@ export default function AuthForm({ mode }: AuthFormProps) {
         }).unwrap();
 
         await Swal.fire({
-          title: "Pendaftaran berhasil",
-          text: "Silakan cek email kamu untuk verifikasi sebelum login.",
+          title: "Registrasi Berhasil",
+          text: "Silakan cek email institusi Anda untuk verifikasi.",
           icon: "success",
         });
 
@@ -146,7 +148,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
         if (showResend) {
           const result = await Swal.fire({
             title: "Email belum diverifikasi",
-            text: "Apakah kamu ingin mengirim ulang email verifikasi?",
+            text: "Apakah Anda ingin mengirim ulang email verifikasi?",
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "Kirim Ulang",
@@ -158,7 +160,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
               await resendVerification({ email }).unwrap();
               await Swal.fire({
                 title: "Terkirim!",
-                text: "Email verifikasi berhasil dikirim ulang.",
+                text: "Link verifikasi telah dikirim ulang.",
                 icon: "success",
               });
             } catch {
@@ -179,221 +181,138 @@ export default function AuthForm({ mode }: AuthFormProps) {
   };
 
   return (
-    <div className="w-full min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-gradient-to-br from-red-50 to-white">
-      {/* Left Pane - Digital KTA Theme with Carousel */}
-      <div className="relative hidden lg:flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0" ref={emblaRef}>
-          <div className="embla__container flex h-full">
-            {carouselImages.map((src, index) => (
-              <div
-                key={index}
-                className="embla__slide relative flex-none w-full h-full"
-              >
-                <Image
-                  src={src}
-                  alt={`Digital KTA ${index + 1}`}
-                  fill
-                  style={{ objectFit: "cover" }}
-                  quality={100}
-                  className="select-none pointer-events-none"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Overlay hitam transparan */}
-        <div className="absolute inset-0 z-10 bg-black/40 flex flex-col items-center justify-center p-8 text-white text-center">
-          {/* Floating Icons - Koperasi Theme */}
+    <div className="w-full min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-gradient-to-br from-blue-50 to-white">
+      {/* Left Pane - SIPPM Theme with Carousel */}
+      <div className="relative hidden lg:flex items-center justify-center overflow-hidden bg-blue-900">
+        
+        {/* Overlay Biru Akademik */}
+        <div className="absolute inset-0 z-10 bg-gradient-to-t from-blue-900/90 via-blue-800/60 to-transparent flex flex-col items-center justify-center p-8 text-white text-center">
+          
+          {/* Floating Icons - Academic/Research Theme */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {/* Top Left Icons */}
+            {/* Top Left */}
             <motion.div
-              animate={{
-                y: [0, -20, 0],
-                rotate: [0, 5, 0],
-              }}
-              transition={{
-                duration: 6,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              className="absolute top-20 left-16 text-red-300/60"
+              animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute top-20 left-16 text-blue-300/40"
             >
-              <FaCoins size={32} />
+              <FaUniversity size={32} />
             </motion.div>
 
             <motion.div
-              animate={{
-                y: [0, 15, 0],
-                rotate: [0, -3, 0],
-              }}
-              transition={{
-                duration: 8,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 1,
-              }}
-              className="absolute top-32 left-8 text-red-200/50"
+              animate={{ y: [0, 15, 0], rotate: [0, -3, 0] }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+              className="absolute top-32 left-8 text-blue-200/30"
             >
-              <FaPiggyBank size={24} />
+              <FaMicroscope size={24} />
             </motion.div>
 
-            {/* Top Right Icons */}
+            {/* Top Right */}
             <motion.div
-              animate={{
-                y: [0, -15, 0],
-                rotate: [0, -5, 0],
-              }}
-              transition={{
-                duration: 7,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 2,
-              }}
-              className="absolute top-24 right-20 text-red-300/60"
+              animate={{ y: [0, -15, 0], rotate: [0, -5, 0] }}
+              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+              className="absolute top-24 right-20 text-blue-300/40"
             >
-              <FaHandshake size={28} />
+              <FaBook size={28} />
             </motion.div>
 
             <motion.div
-              animate={{
-                y: [0, 20, 0],
-                rotate: [0, 3, 0],
-              }}
-              transition={{
-                duration: 9,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 0.5,
-              }}
-              className="absolute top-40 right-12 text-red-200/50"
+              animate={{ y: [0, 20, 0], rotate: [0, 3, 0] }}
+              transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+              className="absolute top-40 right-12 text-blue-200/30"
             >
-              <FaChartLine size={26} />
+              <FaLightbulb size={26} />
             </motion.div>
 
-            {/* Bottom Left Icons */}
+            {/* Bottom Left */}
             <motion.div
-              animate={{
-                y: [0, -10, 0],
-                rotate: [0, 4, 0],
-              }}
-              transition={{
-                duration: 6.5,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 1.5,
-              }}
-              className="absolute bottom-32 left-12 text-red-300/60"
+              animate={{ y: [0, -10, 0], rotate: [0, 4, 0] }}
+              transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+              className="absolute bottom-32 left-12 text-blue-300/40"
             >
-              <FaUsers size={30} />
+              <FaHandHoldingHeart size={30} />
             </motion.div>
 
             <motion.div
-              animate={{
-                y: [0, 18, 0],
-                rotate: [0, -2, 0],
-              }}
-              transition={{
-                duration: 8.5,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 3,
-              }}
-              className="absolute bottom-20 left-24 text-red-200/50"
+              animate={{ y: [0, 18, 0], rotate: [0, -2, 0] }}
+              transition={{ duration: 8.5, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+              className="absolute bottom-20 left-24 text-blue-200/30"
             >
-              <FaBuilding size={22} />
+              <FaFileContract size={22} />
             </motion.div>
 
-            {/* Bottom Right Icons */}
+            {/* Bottom Right */}
             <motion.div
-              animate={{
-                y: [0, -12, 0],
-                rotate: [0, -4, 0],
-              }}
-              transition={{
-                duration: 7.5,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 2.5,
-              }}
-              className="absolute bottom-28 right-16 text-red-300/60"
+              animate={{ y: [0, -12, 0], rotate: [0, -4, 0] }}
+              transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut", delay: 2.5 }}
+              className="absolute bottom-28 right-16 text-blue-300/40"
             >
-              <FaCalculator size={28} />
-            </motion.div>
-
-            <motion.div
-              animate={{
-                y: [0, 16, 0],
-                rotate: [0, 2, 0],
-              }}
-              transition={{
-                duration: 9.5,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 1,
-              }}
-              className="absolute bottom-16 right-8 text-red-200/50"
-            >
-              <FaShieldAlt size={24} />
+              <FaChalkboardTeacher size={28} />
             </motion.div>
           </div>
 
-          {/* Logo dan Branding Koperasi */}
+          {/* Glass Card Content */}
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.8 }}
-            className="z-20 p-8 rounded-2xl backdrop-blur-sm bg-white/95 border-2 border-red-600 shadow-2xl"
+            className="z-20 p-8 rounded-2xl backdrop-blur-md bg-white/10 border border-blue-200/30 shadow-2xl max-w-lg"
           >
             {/* Logo Area */}
             <div className="flex items-center justify-center mb-6">
-              <div className="flex items-center gap-1">
-                <Image
-                  src="/logo.webp"
-                  alt="Digital KTA Logo"
-                  width={50}
-                  height={50}
-                  className="flex-shrink-0 object-contain"
-                />
-                <div>
-                  <h2 className="text-lg font-semibold text-gray-800">
-                    Digital KTA
+              <div className="flex flex-col items-center gap-2">
+                <div className="p-3 bg-white rounded-full shadow-lg">
+                    {/* Ganti dengan Image logo kampus jika ada */}
+                    <FaUniversity className="text-blue-700 text-3xl" />
+                </div>
+                <div className="text-center">
+                  <h2 className="text-2xl font-bold text-white tracking-wide">
+                    SIPPM
                   </h2>
-                  <p className="text-xs text-gray-600 mt-[-5px]">
-                    Keanggotaan #AntiRibet
+                  <p className="text-xs text-blue-100 uppercase tracking-widest mt-1">
+                    Research & Community Service
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="w-16 h-1 bg-gradient-to-r from-red-600 to-red-400 mx-auto mb-4"></div>
+            <div className="w-16 h-1 bg-gradient-to-r from-blue-400 to-cyan-300 mx-auto mb-6 rounded-full"></div>
 
-            <p className="text-base font-medium text-gray-700 max-w-sm mx-auto leading-relaxed">
-              Kartu Anggota Anda, kini di dalam ponsel. Akses semua identitas dan manfaat keanggotaan Anda dengan praktis, aman, dan modern. Ucapkan selamat tinggal pada kartu fisik!
+            <h3 className="text-xl font-semibold text-white mb-2">
+                Inovasi untuk Negeri
+            </h3>
+            <p className="text-sm font-light text-blue-50 leading-relaxed mb-6">
+              Platform terintegrasi untuk pengelolaan proposal penelitian, hibah, 
+              laporan kemajuan, dan publikasi ilmiah civitas akademika. 
+              Mewujudkan tridharma perguruan tinggi yang transparan dan akuntabel.
             </p>
 
-            <div className="mt-6 flex justify-center space-x-4 text-sm text-gray-600">
-              <div className="flex items-center">
-                <div className="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
-                Keanggotaan
+            <div className="flex justify-center gap-6 text-xs text-blue-100 font-medium">
+              <div className="flex flex-col items-center gap-1">
+                <FaMicroscope className="text-lg" />
+                <span>Penelitian</span>
               </div>
-              <div className="flex items-center">
-                <div className="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
-                Digital KTA
+              <div className="flex flex-col items-center gap-1">
+                <FaHandHoldingHeart className="text-lg" />
+                <span>Pengabdian</span>
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <FaBook className="text-lg" />
+                <span>Publikasi</span>
               </div>
             </div>
           </motion.div>
         </div>
 
         {/* Indikator Slide */}
-        <div className="absolute bottom-6 z-20 flex gap-2">
+        <div className="absolute bottom-8 z-20 flex gap-2">
           {carouselImages.map((_, index) => (
             <div
               key={index}
-              className={`h-2 rounded-full transition-all duration-300 ${
+              className={`h-1.5 rounded-full transition-all duration-300 ${
                 index === selectedIndex
-                  ? "w-8 bg-white shadow-lg"
-                  : "w-2 bg-white/60"
+                  ? "w-8 bg-blue-400 shadow-[0_0_10px_rgba(96,165,250,0.8)]"
+                  : "w-2 bg-white/40"
               }`}
             />
           ))}
@@ -401,17 +320,13 @@ export default function AuthForm({ mode }: AuthFormProps) {
       </div>
 
       {/* Right Pane - Form Section */}
-      <div className="relative flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8 bg-gradient-to-br from-white to-red-50 transition-colors duration-500 overflow-hidden">
-        {/* Static Icons for Form Area */}
+      <div className="relative flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8 bg-white transition-colors duration-500 overflow-hidden">
+        {/* Background Patterns */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-2/12 right-4 text-red-300/50 z-0">
-            <FaPiggyBank size={120} />
-          </div>
-
-          <div className="absolute bottom-0 -translate-y-1/2 -left-4 text-red-300/50 z-0">
-            <FaHandshake size={110} />
-          </div>
+            <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-50 rounded-full blur-3xl opacity-60"></div>
+            <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-indigo-50 rounded-full blur-3xl opacity-60"></div>
         </div>
+
         <motion.div
           className="w-full max-w-md space-y-8 relative z-10"
           initial="hidden"
@@ -419,75 +334,60 @@ export default function AuthForm({ mode }: AuthFormProps) {
           variants={variants}
           transition={{ duration: 0.5, staggerChildren: 0.1 }}
         >
-          {/* Header dengan Logo Koperasi */}
+          {/* Header Mobile Logo (Only visible on small screens usually, but kept for consistency) */}
           <motion.div variants={variants} className="text-center">
-            <div className="flex items-center justify-center mb-4 gap-1">
-              <Image
-                src="/logo.webp"
-                alt="Digital KTA Logo"
-                width={50}
-                height={50}
-                className="flex-shrink-0 object-contain"
-              />
-              <div>
-                <h2 className="text-lg font-semibold text-gray-800">
-                  Digital KTA
-                </h2>
-                <p className="text-xs text-gray-600 mt-[-5px]">
-                  Keanggotaan #AntiRibet
-                </p>
-              </div>
+            <div className="lg:hidden flex justify-center mb-4">
+               <div className="p-3 bg-blue-50 rounded-full">
+                    <FaUniversity className="text-blue-700 text-2xl" />
+                </div>
             </div>
-            <p className="text-sm text-gray-600 mt-2">
+            <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">
+              {isLogin ? "Selamat Datang" : "Registrasi Peneliti"}
+            </h2>
+            <p className="text-sm text-gray-500 mt-2">
               {isLogin
-                ? "Akses dashboard admin untuk mengelola operasional koperasi"
-                : "Bergabunglah sebagai anggota koperasi untuk memulai"}
+                ? "Masuk untuk mengelola proposal dan laporan Anda"
+                : "Daftar untuk mengajukan proposal hibah baru"}
             </p>
           </motion.div>
 
           <motion.form
             variants={variants}
             onSubmit={handleSubmit}
-            className="space-y-6 bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-red-100"
+            className="space-y-5"
           >
             {!isLogin && (
               <>
-                <motion.div variants={variants} className="space-y-2">
-                  <Label
-                    htmlFor="name"
-                    className="text-sm font-semibold text-gray-700"
-                  >
-                    Nama Lengkap
+                <motion.div variants={variants} className="space-y-1.5">
+                  <Label htmlFor="name" className="text-sm font-medium text-gray-700">
+                    Nama Lengkap & Gelar
                   </Label>
                   <div className="relative">
-                    <FaUser className="absolute left-3 top-1/2 -translate-y-1/2 text-red-500" />
+                    <FaUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
                     <Input
                       id="name"
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       required
-                      className="pl-10 pr-4 py-3 border-red-200 focus:border-red-500 focus:ring-red-500/20 rounded-lg transition-all duration-200"
-                      placeholder="Masukkan nama lengkap"
+                      className="pl-10 h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg"
+                      placeholder="Contoh: Dr. Budi Santoso, M.Kom"
                     />
                   </div>
                 </motion.div>
-                <motion.div variants={variants} className="space-y-2">
-                  <Label
-                    htmlFor="phone"
-                    className="text-sm font-semibold text-gray-700"
-                  >
-                    Nomor Telepon
+                <motion.div variants={variants} className="space-y-1.5">
+                  <Label htmlFor="phone" className="text-sm font-medium text-gray-700">
+                    Nomor WhatsApp / HP
                   </Label>
                   <div className="relative">
-                    <FaPhone className="absolute left-3 top-1/2 -translate-y-1/2 text-red-500" />
+                    <FaPhone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
                     <Input
                       id="phone"
                       type="tel"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       required
-                      className="pl-10 pr-4 py-3 border-red-200 focus:border-red-500 focus:ring-red-500/20 rounded-lg transition-all duration-200"
+                      className="pl-10 h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg"
                       placeholder="08xxxxxxxxxx"
                     />
                   </div>
@@ -495,66 +395,57 @@ export default function AuthForm({ mode }: AuthFormProps) {
               </>
             )}
 
-            <motion.div variants={variants} className="space-y-2">
-              <Label
-                htmlFor="email"
-                className="text-sm font-semibold text-gray-700"
-              >
-                Email
+            <motion.div variants={variants} className="space-y-1.5">
+              <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                Email Institusi / Pribadi
               </Label>
               <div className="relative">
-                <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-red-500" />
+                <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
                 <Input
                   id="email"
                   type="email"
-                  placeholder="email@example.com"
+                  placeholder="dosen@universitas.ac.id"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="pl-10 pr-4 py-3 border-red-200 focus:border-red-500 focus:ring-red-500/20 rounded-lg transition-all duration-200"
+                  className="pl-10 h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg"
                 />
               </div>
             </motion.div>
 
-            <motion.div variants={variants} className="space-y-2">
-              <Label
-                htmlFor="password"
-                className="text-sm font-semibold text-gray-700"
-              >
+            <motion.div variants={variants} className="space-y-1.5">
+              <Label htmlFor="password" className="text-sm font-medium text-gray-700">
                 Password
               </Label>
               <div className="relative">
-                <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-red-500" />
+                <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
                 <Input
                   id="password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="pl-10 pr-4 py-3 border-red-200 focus:border-red-500 focus:ring-red-500/20 rounded-lg transition-all duration-200"
-                  placeholder="Masukkan password"
+                  className="pl-10 h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg"
+                  placeholder="••••••••"
                 />
               </div>
             </motion.div>
 
             {!isLogin && (
-              <motion.div variants={variants} className="space-y-2">
-                <Label
-                  htmlFor="password_confirmation"
-                  className="text-sm font-semibold text-gray-700"
-                >
+              <motion.div variants={variants} className="space-y-1.5">
+                <Label htmlFor="password_confirmation" className="text-sm font-medium text-gray-700">
                   Konfirmasi Password
                 </Label>
                 <div className="relative">
-                  <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-red-500" />
+                  <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
                   <Input
                     id="password_confirmation"
                     type="password"
                     value={passwordConfirmation}
                     onChange={(e) => setPasswordConfirmation(e.target.value)}
                     required
-                    className="pl-10 pr-4 py-3 border-red-200 focus:border-red-500 focus:ring-red-500/20 rounded-lg transition-all duration-200"
-                    placeholder="Konfirmasi password"
+                    className="pl-10 h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg"
+                    placeholder="••••••••"
                   />
                 </div>
               </motion.div>
@@ -563,18 +454,21 @@ export default function AuthForm({ mode }: AuthFormProps) {
             {error && (
               <motion.div
                 variants={variants}
-                className="bg-red-50 border border-red-200 rounded-lg p-3"
+                className="bg-red-50 border border-red-200 rounded-md p-3 flex items-start gap-2"
               >
-                <p className="text-sm text-red-600 text-center font-medium">
-                  {error}
-                </p>
+                <div className="mt-0.5 text-red-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clipRule="evenodd" />
+                    </svg>
+                </div>
+                <p className="text-sm text-red-600 font-medium">{error}</p>
               </motion.div>
             )}
 
-            <motion.div variants={variants}>
+            <motion.div variants={variants} className="pt-2">
               <Button
                 type="submit"
-                className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl py-3 rounded-lg font-semibold"
+                className="w-full h-11 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white transition-all shadow-md hover:shadow-lg rounded-lg font-semibold text-base"
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -584,7 +478,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
                   </div>
                 ) : (
                   <>
-                    {isLogin ? "Masuk ke Dashboard" : "Daftar sebagai Anggota"}
+                    {isLogin ? "Masuk" : "Daftar Akun"}
                     <FaArrowRight className="text-sm" />
                   </>
                 )}
@@ -592,20 +486,32 @@ export default function AuthForm({ mode }: AuthFormProps) {
             </motion.div>
           </motion.form>
 
-          {/* <motion.div
+           <motion.div
             variants={variants}
-            className="text-center text-sm bg-white/60 backdrop-blur-sm rounded-lg p-4 border border-red-100"
+            className="text-center text-sm"
           >
-            <span className="text-gray-600">
-              {isLogin ? "Belum memiliki akun admin?" : "Sudah memiliki akun?"}{" "}
+            <span className="text-gray-500">
+              {isLogin ? "Belum terdaftar sebagai peneliti?" : "Sudah memiliki akun?"}{" "}
             </span>
             <a
               href={isLogin ? "/auth/register" : "/auth/login"}
-              className="font-semibold text-red-600 hover:text-red-700 hover:underline transition-colors duration-200"
+              className="font-semibold text-blue-600 hover:text-blue-700 hover:underline transition-colors"
             >
-              {isLogin ? "Daftar sekarang" : "Masuk ke sistem"}
+              {isLogin ? "Registrasi di sini" : "Login sekarang"}
             </a>
-          </motion.div> */}
+          </motion.div>
+
+          {/* Footer Info */}
+          <motion.div variants={variants} className="mt-8 border-t pt-6 text-center">
+             <div className="flex justify-center gap-4 text-gray-400 mb-2">
+                <FaUniversity className="hover:text-blue-600 transition-colors cursor-pointer" />
+                <FaBook className="hover:text-blue-600 transition-colors cursor-pointer" />
+                <FaGraduationCap className="hover:text-blue-600 transition-colors cursor-pointer" />
+             </div>
+             <p className="text-xs text-gray-400">
+                &copy; {new Date().getFullYear()} Solocoding. All rights reserved.
+             </p>
+          </motion.div>
         </motion.div>
       </div>
     </div>

@@ -7,8 +7,7 @@ import { getSession } from "next-auth/react";
 // Daftar route publik yang boleh tanpa login
 const PUBLIC_ALLOW: string[] = [
   "/auth/login",
-  "/anggota/login",
-  "/anggota/register",
+  "/",
   "/cek-validasi",
   "/api",
   "/_next",
@@ -17,7 +16,7 @@ const PUBLIC_ALLOW: string[] = [
   "/favicon.ico",
   "/manifest.json",
   "/apple-touch-icon.png",
-  "/digital-kta-logo.png",
+  "/aplikasi-sippm-logo.png",
 ];
 
 function isPublicPath(pathname: string) {

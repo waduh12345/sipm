@@ -13,7 +13,7 @@ import { SiteHeader } from "@/components/site-header"; // Import komponen baru
 const BLOG_POSTS = [
   {
     id: 1,
-    title: "JONB Founding Partner Speaks at BANI Anniversary Seminar",
+    title: "Jon Bernard & Associates Founding Partner Speaks at BANI Anniversary Seminar",
     category: "Events",
     date: "3 December 2025",
     image: "https://www.ssek.com/wp-content/uploads/2025/12/IEA-Hut-BANI-Blog-Image.jpg",
@@ -21,7 +21,7 @@ const BLOG_POSTS = [
   },
   {
     id: 2,
-    title: "JONB Partner Winnie Y. Rolindrawan Receives Lexology Client Choice Award for Fintech",
+    title: "Jon Bernard & Associates Partner Winnie Y. Rolindrawan Receives Lexology Client Choice Award for Fintech",
     category: "Firm News",
     date: "2 December 2025",
     image: "https://www.ssek.com/wp-content/uploads/2025/12/WYR-Lexology-Client-Choice-2026-Blog-Image.jpg",
@@ -37,7 +37,7 @@ const BLOG_POSTS = [
   },
   {
     id: 4,
-    title: "JONB Named to GRR 100 Again in 2025 – Leading Restructuring & Insolvency Practice",
+    title: "Jon Bernard & Associates Named to GRR 100 Again in 2025 – Leading Restructuring & Insolvency Practice",
     category: "Firm News",
     date: "25 November 2025",
     image: "https://www.ssek.com/wp-content/uploads/2025/11/GRR_100_2025-Blog-Image.jpg",
@@ -45,15 +45,15 @@ const BLOG_POSTS = [
   },
   {
     id: 5,
-    title: "Doing Business in Indonesia: ICCC–JONB Webinar Highlights Market Entry and Investment Guidance for Canadians",
+    title: "Doing Business in Indonesia: ICCC–Jon Bernard & Associates Webinar Highlights Market Entry and Investment Guidance for Canadians",
     category: "Events",
     date: "24 November 2025",
-    image: "https://www.ssek.com/wp-content/uploads/2025/11/ICCC-JONB-Webinar-Blog-Image.jpg",
+    image: "https://www.ssek.com/wp-content/uploads/2025/11/ICCC-Jon Bernard & Associates-Webinar-Blog-Image.jpg",
     link: "#"
   },
   {
     id: 6,
-    title: "JONB Hosts Briefing on Indonesia’s Updated Risk-Based Business Licensing Framework",
+    title: "Jon Bernard & Associates Hosts Briefing on Indonesia’s Updated Risk-Based Business Licensing Framework",
     category: "Events",
     date: "20 November 2025",
     image: "https://www.ssek.com/wp-content/uploads/2025/11/SSEK-Hosts-Briefing-on-Indonesias-Updated-Risk-Based-Business-Licensing-Framework-Blog-Image.jpg",
@@ -223,7 +223,7 @@ export default function BlogPage() {
 
             <div className="flex flex-col lg:flex-row justify-between border-t border-white/20 pt-12 pb-20">
                 <div className="mb-10 lg:mb-0 lg:w-1/3">
-                    <h5 className="font-bold text-lg mb-6 tracking-widest">JONB LAW FIRM</h5>
+                    <h5 className="font-bold text-lg mb-6 tracking-widest">Jon Bernard & Associates LAW FIRM</h5>
                     <div className="font-light text-sm leading-relaxed text-white/80">
                         <p>Mayapada Tower I, 12th and 14th Floor</p>
                         <p>Jl. Jend. Sudirman Kav. 28</p>
@@ -269,7 +269,7 @@ export default function BlogPage() {
                 </div>
 
                 <div className="text-white/40 text-xs font-light">
-                    &copy; {new Date().getFullYear()} JONB Law Firm. All Rights Reserved.
+                    &copy; {new Date().getFullYear()} Jon Bernard & Associates Law Firm. All Rights Reserved.
                 </div>
             </div>
         </div>

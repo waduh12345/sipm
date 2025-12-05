@@ -48,7 +48,7 @@ export default function LetsTalkPage() {
                     {/* Right: Form & Text */}
                     <div className="lg:w-2/3">
                         <h2 className="text-3xl lg:text-4xl font-light text-[#2f4e9b] leading-snug mb-12">
-                            Should you require any additional information regarding JONB or any aspect of our practice, please do not hesitate to contact us at ssek@ssek.com
+                            Should you require any additional information regarding Jon Bernard & Associates or any aspect of our practice, please do not hesitate to contact us at ssek@ssek.com
                         </h2>
 
                         {/* Recreated Form (Design System Style) */}
@@ -120,7 +120,7 @@ export default function LetsTalkPage() {
                             Our Location
                         </div>
                         
-                        <h3 className="text-4xl font-light text-[#2f4e9b] mb-8">JONB LAW FIRM</h3>
+                        <h3 className="text-4xl font-light text-[#2f4e9b] mb-8">Jon Bernard & Associates LAW FIRM</h3>
                         
                         <div className="flex flex-col md:flex-row gap-10 text-[#57595f] font-light text-sm leading-relaxed mb-10">
                             <div className="md:w-3/5">

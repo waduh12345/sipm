@@ -17,16 +17,16 @@ import Footer from "@/components/footer/footer";
 // --- DATA DUMMY (Sesuai Konten HTML) ---
 
 const JOURNEY_DATA = [
-  { year: "'92", title: "1992", text: "JONB is founded by four women, including Dyah Soewito and Ira A. Eddymurthy, and moves into Mayapada Tower, in the heart of Jakarta’s business district." },
-  { year: "'97", title: "1997", text: "During the Asian economic crisis, JONB participates in the Initiative Group and contributes ideas on ways to deal with unsettled debt, including Indonesia’s new Bankruptcy Law." },
-  { year: "'98-'00", title: "1998-2000", text: "JONB advises several clients with assets held by the Indonesian Bank Restructuring Agency (IBRA)." },
-  { year: "'02", title: "2002", text: "JONB celebrates its 10th anniversary at Gedung Arsip Jakarta (National Archives Building) with more than 1,000 guests." },
-  { year: "'03", title: "2003", text: "JONB appoints new partners for the first time, welcoming Rusmaini Lenggogeni, among others, to the firm’s partnership team." },
-  { year: "'04", title: "2004", text: "JONB advises the creditor group on the restructuring of Asian Pulp & Paper, the largest debt restructuring in Asian history." },
-  { year: "'06", title: "2006", text: "JONB is named Indonesia Law Firm of the Year by Who’s Who Legal. JONB is the first Indonesian law firm to receive this recognition." },
-  { year: "'09", title: "2009", text: "JONB introduces three new partners, including Fitriana Mahiddin, and becomes the largest independent law firm in Indonesia." },
-  { year: "'17", title: "2017", text: "JONB celebrates its 25th anniversary with a gala event at Grand Hyatt Jakarta and a cocktail party in Sydney." },
-  { year: "'22", title: "2022", text: "JONB celebrates its 30th anniversary and unveils a new-look logo." },
+  { year: "'92", title: "1992", text: "Jon Bernard & Associates is founded by four women, including Dyah Soewito and Ira A. Eddymurthy, and moves into Mayapada Tower, in the heart of Jakarta’s business district." },
+  { year: "'97", title: "1997", text: "During the Asian economic crisis, Jon Bernard & Associates participates in the Initiative Group and contributes ideas on ways to deal with unsettled debt, including Indonesia’s new Bankruptcy Law." },
+  { year: "'98-'00", title: "1998-2000", text: "Jon Bernard & Associates advises several clients with assets held by the Indonesian Bank Restructuring Agency (IBRA)." },
+  { year: "'02", title: "2002", text: "Jon Bernard & Associates celebrates its 10th anniversary at Gedung Arsip Jakarta (National Archives Building) with more than 1,000 guests." },
+  { year: "'03", title: "2003", text: "Jon Bernard & Associates appoints new partners for the first time, welcoming Rusmaini Lenggogeni, among others, to the firm’s partnership team." },
+  { year: "'04", title: "2004", text: "Jon Bernard & Associates advises the creditor group on the restructuring of Asian Pulp & Paper, the largest debt restructuring in Asian history." },
+  { year: "'06", title: "2006", text: "Jon Bernard & Associates is named Indonesia Law Firm of the Year by Who’s Who Legal. Jon Bernard & Associates is the first Indonesian law firm to receive this recognition." },
+  { year: "'09", title: "2009", text: "Jon Bernard & Associates introduces three new partners, including Fitriana Mahiddin, and becomes the largest independent law firm in Indonesia." },
+  { year: "'17", title: "2017", text: "Jon Bernard & Associates celebrates its 25th anniversary with a gala event at Grand Hyatt Jakarta and a cocktail party in Sydney." },
+  { year: "'22", title: "2022", text: "Jon Bernard & Associates celebrates its 30th anniversary and unveils a new-look logo." },
 ];
 
 const AFFILIATIONS = [
@@ -120,12 +120,12 @@ export default function OurFirmPage() {
         </div>
       </section>
 
-      {/* --- JONB JOURNEY (Blue Background) --- */}
+      {/* --- Jon Bernard & Associates JOURNEY (Blue Background) --- */}
       <section className="bg-[#2f4e9b] py-24 text-white overflow-hidden">
         <div className="container mx-auto px-6 mb-12">
             <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#50b848]">
                 <span className="w-1 h-3 bg-[#50b848] -skew-x-12 inline-block"></span>
-                JONB Journey
+                Jon Bernard & Associates Journey
             </div>
             <div className="flex justify-between items-end">
                 <h3 className="text-4xl font-light">Story of Growth</h3>
@@ -226,7 +226,7 @@ export default function OurFirmPage() {
                                     <div className="w-1/4 uppercase text-[#2f4e9b] tracking-widest text-sm font-semibold">Overview</div>
                                     <div className="w-3/4">
                                         <p className="text-sm leading-relaxed mb-8">
-                                            JONB is a longstanding member of {aff.name}, leveraging global networks to provide best-in-class legal services.
+                                            Jon Bernard & Associates is a longstanding member of {aff.name}, leveraging global networks to provide best-in-class legal services.
                                         </p>
                                         <a href={aff.url} target="_blank" rel="noreferrer">
                                             <Button variant="outline" className="border-[#2f4e9b] text-[#2f4e9b] hover:bg-[#2f4e9b] hover:text-white rounded-full px-6 uppercase text-xs tracking-wider">

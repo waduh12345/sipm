@@ -1,5 +1,5 @@
 /* Minimal service worker for offline caching (basic). */
-const CACHE_NAME = 'aplikasi-sippm-v1';
+const CACHE_NAME = 'jon-bernard-associates-v1';
 const urlsToCache = [
   '/',
   '/favicon.ico',

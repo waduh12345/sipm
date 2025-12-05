@@ -16,13 +16,13 @@ import { SiteHeader } from "@/components/site-header";
 const HERO_SLIDES = [
   {
     id: 1,
-    title: "JONB Founding Partner Speaks at BANI Anniversary Seminar",
+    title: "Jon Bernard & Associates Founding Partner Speaks at BANI Anniversary Seminar",
     image: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=2000&auto=format&fit=crop", // Placeholder visual legal
     link: "#"
   },
   {
     id: 2,
-    title: "JONB Partner Winnie Y. Rolindrawan Receives Lexology Client Choice Award for Fintech",
+    title: "Jon Bernard & Associates Partner Winnie Y. Rolindrawan Receives Lexology Client Choice Award for Fintech",
     image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2000&auto=format&fit=crop",
     link: "#"
   },
@@ -34,7 +34,7 @@ const HERO_SLIDES = [
   },
   {
     id: 4,
-    title: "JONB Named to GRR 100 Again in 2025 – Leading Restructuring & Insolvency Practice",
+    title: "Jon Bernard & Associates Named to GRR 100 Again in 2025 – Leading Restructuring & Insolvency Practice",
     image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=2000&auto=format&fit=crop",
     link: "#"
   }
@@ -45,14 +45,14 @@ const LATEST_UPDATES = [
     id: 1,
     category: "Events",
     date: "3 December 2025",
-    title: "JONB Founding Partner Speaks at BANI Anniversary Seminar",
+    title: "Jon Bernard & Associates Founding Partner Speaks at BANI Anniversary Seminar",
     image: "https://images.unsplash.com/photo-1544531586-fde5298cdd40?q=80&w=1000&auto=format&fit=crop"
   },
   {
     id: 2,
     category: "Firm News",
     date: "2 December 2025",
-    title: "JONB Partner Winnie Y. Rolindrawan Receives Lexology Client Choice Award for Fintech",
+    title: "Jon Bernard & Associates Partner Winnie Y. Rolindrawan Receives Lexology Client Choice Award for Fintech",
     image: "https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?q=80&w=1000&auto=format&fit=crop"
   },
   {
@@ -66,14 +66,14 @@ const LATEST_UPDATES = [
     id: 4,
     category: "Firm News 4",
     date: "2 December 2025",
-    title: "JONB Partner Winnie Y. Rolindrawan Receives Lexology Client Choice Award for Fintech",
+    title: "Jon Bernard & Associates Partner Winnie Y. Rolindrawan Receives Lexology Client Choice Award for Fintech",
     image: "https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?q=80&w=1000&auto=format&fit=crop"
   },
   {
     id: 5,
     category: "Firm News 5",
     date: "2 December 2025",
-    title: "JONB Partner Winnie Y. Rolindrawan Receives Lexology Client Choice Award for Fintech",
+    title: "Jon Bernard & Associates Partner Winnie Y. Rolindrawan Receives Lexology Client Choice Award for Fintech",
     image: "https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?q=80&w=1000&auto=format&fit=crop"
   },
 ];
@@ -216,9 +216,12 @@ export default function HomePage() {
                         <span className="w-1 h-3 bg-[#50b848] -skew-x-12 inline-block"></span>
                         Who We Are
                     </div>
-                    <h3 className="text-3xl lg:text-5xl font-light leading-tight mb-8">
-                        JONB is one of the largest and most highly regarded independent law firms in Indonesia.
+                    <h3 className="text-3xl lg:text-4xl font-light leading-tight mb-8">
+                        Jon Bernard & Associates (“Firma Hukum”) berkomitmen penuh untuk memberikan jasa hukum yang baik dan bermutu serta memberikan perhatian yang penuh kepada klien
                     </h3>
+                    <p className="text-xl lg:text-2xl font-light mb-6">
+                        Tujuan Firma Hukum ini adalah membantu para klien secara efektif dan efisien untuk mencapai tujuannya dan menyelesaikan segala transaksi dan permasalahan yang sedang dan/atau akan dihadapinya.
+                    </p>
                 </div>
                 <div className="lg:w-1/2 flex flex-col justify-between">
                      <div className="relative h-64 lg:h-80 w-full mb-8">
@@ -230,11 +233,8 @@ export default function HomePage() {
                         />
                      </div>
                      <div>
-                        <p className="text-xl lg:text-2xl font-light mb-6">
-                            The first point of reference and a reliable source of guidance.
-                        </p>
                         <p className="text-white/80 font-light leading-relaxed mb-8 text-sm lg:text-base">
-                            We understand not only the legal environment as it affects clients, but also their business and the environment in which they operate.
+                            Firma Hukum ini didirikan pada bulan Mei 2008 dan telah dipercaya oleh banyak perusahaan, termasuk perusahaan modal asing yang melakukan kegiatan usaha di Indonesia dan/atau didirikan dengan hukum Indonesia, mulai dari industri asuransi, perbankan, keuangan, industri manufaktur, perdagangan hingga pertambangan.
                         </p>
                         <Button className="border border-white bg-transparent hover:bg-white hover:text-[#2f4e9b] text-white rounded-full px-8 py-6 text-xs uppercase tracking-wider">
                             Discover Our Firm
@@ -341,24 +341,19 @@ export default function HomePage() {
       <section className="py-32 bg-[#f7fbff]">
         <div className="container mx-auto px-6">
             <div className="flex flex-col lg:flex-row items-center">
-                <div className="lg:w-8/12">
+                <div className="lg:w-12/12">
                      <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#2f4e9b]">
                         <span className="w-1 h-3 bg-[#a3238e] -skew-x-12 inline-block"></span>
                         Our Expertise
                     </div>
-                    <h2 className="text-3xl lg:text-5xl font-light text-[#2f4e9b] leading-tight mb-8">
-                        JONB assists Indonesian, foreign, transnational and multinational clients across a wide range of specialist areas.
+                    <h2 className="text-3xl lg:text-3xl font-light text-[#2f4e9b] leading-tight mb-8">
+                        Firma Hukum juga menangani hal-hal yang berkaitan dengan hukum perusahaan dan pasar modal serta membantu kliennya dalam permasalahan perburuhan (tenaga kerja). Penanganan setiap kasus hukum, baik hukum asuransi, hukum perusahaan maupun pasar modal dapat ditempuh dengan cara non litigasi dan/atau cara litigasi
                     </h2>
                     <div className="columns-1 lg:columns-2 gap-10 text-[#57595f] font-light leading-relaxed mb-10 text-sm lg:text-base">
                         <p>
-                            Our expertise covers all essential areas of Indonesian law and has been honed over three decades of meeting the legal needs of clients. We work with clients to understand their specific needs and goals.
+                            Firma Hukum dapat membantu kliennya dalam kedua cara tersebut dengan berupaya mencapai hasil yang baik dalam penyelesaian suatu perkara. Dalam beberapa pengalaman menangani kasus, Firma Hukum telah berhasil dengan baik menangani beberapa perkara baik perkara di pengadilan dan juga perkara di arbitrase. Jika diperlukan Firma Hukum juga membantu klien dalam melakukan negosiasi kepada pihak lain.
                         </p>
                     </div>
-                </div>
-                <div className="lg:w-4/12 flex justify-center lg:justify-end">
-                     <Button className="bg-transparent border border-[#2f4e9b] text-[#2f4e9b] hover:bg-[#2f4e9b] hover:text-white rounded-full px-8 py-6 text-xs uppercase tracking-wider transition-all">
-                        Discover What We Do
-                     </Button>
                 </div>
             </div>
         </div>
@@ -383,8 +378,8 @@ export default function HomePage() {
                     <span className="w-1 h-3 bg-[#50b848] -skew-x-12 inline-block"></span>
                     Subscribe to Our Newsletter
                 </div>
-                <p className="text-2xl lg:text-4xl font-light text-white">
-                    Stay up to date with the latest legal developments in Indonesia, upcoming events, new publications and firm news.
+                <p className="text-2xl lg:text-3xl font-light text-white">
+                    Tetap perbarui informasi Anda dengan perkembangan hukum terbaru di Indonesia, acara mendatang, publikasi baru, dan berita firma.
                 </p>
             </div>
             <div className="lg:w-1/2 w-full">

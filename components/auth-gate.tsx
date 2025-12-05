@@ -16,7 +16,7 @@ const PUBLIC_ALLOW: string[] = [
   "/favicon.ico",
   "/manifest.json",
   "/apple-touch-icon.png",
-  "/aplikasi-sippm-logo.png",
+  "/jon-bernard-associates-logo.png",
 ];
 
 function isPublicPath(pathname: string) {

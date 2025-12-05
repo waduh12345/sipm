@@ -15,18 +15,18 @@ import Footer from "@/components/footer/footer";
 const EXPERTISE_DATA = [
   {
     title: "Antitrust & Competition Law",
-    overview: "JONB advises clients on unfair trade practices and other competition law restrictions. Our competition law practice group works closely with our M&A team in securing approvals from Indonesia’s Business Competition Supervisory Commission (KPPU).",
+    overview: "Jon Bernard & Associates advises clients on unfair trade practices and other competition law restrictions. Our competition law practice group works closely with our M&A team in securing approvals from Indonesia’s Business Competition Supervisory Commission (KPPU).",
     news: [
-      "JONB Named One of Indonesia’s Top Law Firms in the Asialaw 2025 Rankings",
-      "JONB Lawyers Share Legal Insights with Siam Cement Group"
+      "Jon Bernard & Associates Named One of Indonesia’s Top Law Firms in the Asialaw 2025 Rankings",
+      "Jon Bernard & Associates Lawyers Share Legal Insights with Siam Cement Group"
     ]
   },
   {
     title: "Arbitration & Dispute Resolution",
-    overview: "JONB is experienced in civil litigation, arbitrations and dealing with the Indonesian national police in criminal investigations and complaints. We regularly handle employment-related matters including representing corporate clients in court.",
+    overview: "Jon Bernard & Associates is experienced in civil litigation, arbitrations and dealing with the Indonesian national police in criminal investigations and complaints. We regularly handle employment-related matters including representing corporate clients in court.",
     news: [
-      "JONB Founding Partner Speaks at BANI Anniversary Seminar",
-      "JONB Partner Leads Panel Discussion at 7th ICC Indonesia Arbitration Day"
+      "Jon Bernard & Associates Founding Partner Speaks at BANI Anniversary Seminar",
+      "Jon Bernard & Associates Partner Leads Panel Discussion at 7th ICC Indonesia Arbitration Day"
     ]
   },
   {
@@ -34,28 +34,28 @@ const EXPERTISE_DATA = [
     overview: "We assist clients who want to enter Indonesia’s banking, financing and insurance markets, advising on all legal aspects of establishing and operating financial institutions in Indonesia.",
     news: [
       "Indonesia Issues Draft OJK Regulation on Digital Financial Asset Offerings",
-      "JONB Contributes Indonesia Banking Regulation Overview to Thomson Reuters"
+      "Jon Bernard & Associates Contributes Indonesia Banking Regulation Overview to Thomson Reuters"
     ]
   },
   {
     title: "Capital Markets & Securities",
-    overview: "JONB advises issuers, underwriters and investors in stock, bond, convertible bond and commercial paper transactions, and prepares for and assists clients with IPOs, secondary or subsequent offerings.",
+    overview: "Jon Bernard & Associates advises issuers, underwriters and investors in stock, bond, convertible bond and commercial paper transactions, and prepares for and assists clients with IPOs, secondary or subsequent offerings.",
     news: [
       "Hot Topics in Corporate Governance in Indonesia",
-      "11 JONB Lawyers Recognized in IFLR1000 Indonesia 2025"
+      "11 Jon Bernard & Associates Lawyers Recognized in IFLR1000 Indonesia 2025"
     ]
   },
   {
     title: "Energy, Mining & Geothermal",
-    overview: "JONB counsels foreign investors in the coal and hard rock mining sector and keeps up to date with new mining regulations that have radically changed the investment climate.",
+    overview: "Jon Bernard & Associates counsels foreign investors in the coal and hard rock mining sector and keeps up to date with new mining regulations that have radically changed the investment climate.",
     news: [
       "Indonesia Issues New Environmental Standard: What Mining Companies Must Know",
-      "Nine JONB Lawyers Recognized Among Indonesia’s Leading Practitioners"
+      "Nine Jon Bernard & Associates Lawyers Recognized Among Indonesia’s Leading Practitioners"
     ]
   },
   {
     title: "Environment",
-    overview: "JONB does a lot of work in the environmental and blue and green energy spaces, from working with multinationals on the clean-up of project sites to advising on first-of-their-kind projects for Indonesia involving plastic credits.",
+    overview: "Jon Bernard & Associates does a lot of work in the environmental and blue and green energy spaces, from working with multinationals on the clean-up of project sites to advising on first-of-their-kind projects for Indonesia involving plastic credits.",
     news: [
       "ESG in APAC 2025 – Indonesia",
       "Landmark Court Ruling Expands Legal Protection for Environmental Activists"
@@ -63,25 +63,25 @@ const EXPERTISE_DATA = [
   },
   {
     title: "Forestry & Plantation",
-    overview: "JONB counsels investors working to establish companies in the forestry and palm oil plantation businesses, and the service companies that support them.",
+    overview: "Jon Bernard & Associates counsels investors working to establish companies in the forestry and palm oil plantation businesses, and the service companies that support them.",
     news: [
-      "JONB Again a Recommended Firm for Indonesia in Asia Pacific Green Guide",
-      "JONB Assists on Singapore Listing of Malaysian Plantation Group TSH Resources Berhad"
+      "Jon Bernard & Associates Again a Recommended Firm for Indonesia in Asia Pacific Green Guide",
+      "Jon Bernard & Associates Assists on Singapore Listing of Malaysian Plantation Group TSH Resources Berhad"
     ]
   },
   {
     title: "Infrastructure & Project Finance",
     overview: "We act as counsel to developers and lenders in all types of infrastructure development projects, including multimillion-dollar private power, toll road, telecommunications and water supply projects.",
     news: [
-      "JONB Law Firm – 17 Recommended Lawyers Across 11 Practice Areas in Legal 500",
+      "Jon Bernard & Associates Law Firm – 17 Recommended Lawyers Across 11 Practice Areas in Legal 500",
       "Construction and Projects in Indonesia – Practical Law Guide"
     ]
   },
   {
     title: "Intellectual Property",
-    overview: "JONB’s IP practice assists domestic and multinational companies in protecting their trademarks, patents, copyrights and industrial designs in Indonesia.",
+    overview: "Jon Bernard & Associates’s IP practice assists domestic and multinational companies in protecting their trademarks, patents, copyrights and industrial designs in Indonesia.",
     news: [
-      "JONB’s Michael S. Carl Appointed to INTA Legislation and Regulation Committee",
+      "Jon Bernard & Associates’s Michael S. Carl Appointed to INTA Legislation and Regulation Committee",
       "Legal Framework for Establishing a Padel Court Business in Jakarta"
     ]
   },
@@ -89,8 +89,8 @@ const EXPERTISE_DATA = [
     title: "Labor & Employment",
     overview: "Indonesia’s labor environment is exceptionally complicated. We keep abreast of all these changes and advise corporate clients on severance matters, personnel policies and work rules.",
     news: [
-      "Doing Business in Indonesia: ICCC–JONB Webinar Highlights Market Entry",
-      "JONB Contributes Indonesia Chapter to Global Employment Law Fact Sheet"
+      "Doing Business in Indonesia: ICCC–Jon Bernard & Associates Webinar Highlights Market Entry",
+      "Jon Bernard & Associates Contributes Indonesia Chapter to Global Employment Law Fact Sheet"
     ]
   }
 ];
@@ -133,7 +133,7 @@ export default function OurExpertisePage() {
                     </div>
                 </div>
                 <h2 className="text-3xl lg:text-5xl font-light text-[#2f4e9b] leading-tight mb-12">
-                    JONB’s expertise embraces all essential areas of the law and has been honed over three decades of meeting the legal needs of clients
+                    Jon Bernard & Associates’s expertise embraces all essential areas of the law and has been honed over three decades of meeting the legal needs of clients
                 </h2>
             </div>
         </div>

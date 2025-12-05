@@ -26,7 +26,7 @@ export default function Navbar() {
         <Link href="/" className="relative z-50">
           {/* Menggunakan Text sebagai placeholder logo, ganti dengan Image jika ada file logo */}
           <div className="flex flex-col leading-none text-white">
-              <h1 className="text-2xl font-bold tracking-widest">JONB</h1>
+              <h1 className="text-2xl font-bold tracking-widest">Jon Bernard & Associates</h1>
               <span className="text-[10px] tracking-[0.3em] uppercase">Law Firm</span>
           </div>
         </Link>

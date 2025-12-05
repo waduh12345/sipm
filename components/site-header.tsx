@@ -35,7 +35,7 @@ export function SiteHeader() {
                 <div className="relative w-48 h-20 mt-[-10px] mb-[-10px]">
                   <Image 
                     src="https://jonb-lawfirm.com/wp-content/uploads/2017/03/JB-new-logo.png" 
-                    alt="JONB Logo" 
+                    alt="Jon Bernard & Associates Logo" 
                     fill 
                     className="object-contain" 
                     sizes="(max-width: 768px) 100vw, 33vw"
@@ -45,7 +45,7 @@ export function SiteHeader() {
                 <div className="relative w-48 h-20 mt-[-20px] mb-[-20px]">
                   <Image 
                     src="https://jonb-lawfirm.com/wp-content/uploads/2017/03/JB-new-logo.png" 
-                    alt="JONB Logo" 
+                    alt="Jon Bernard & Associates Logo" 
                     fill 
                     className="object-contain" 
                     sizes="(max-width: 768px) 100vw, 33vw"

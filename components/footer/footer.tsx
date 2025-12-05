@@ -56,7 +56,7 @@ export default function Footer() {
           <div className="flex flex-col lg:flex-row justify-between border-t border-white/20 pt-12 pb-20">
               {/* Address */}
               <div className="mb-10 lg:mb-0 lg:w-1/3">
-                  <h5 className="font-bold text-lg mb-6 tracking-widest">JONB LAW FIRM</h5>
+                  <h5 className="font-bold text-lg mb-6 tracking-widest">Jon Bernard & Associates LAW FIRM</h5>
                   <div className="font-light text-sm leading-relaxed text-white/80">
                       <p>Mayapada Tower I, 12th and 14th Floor</p>
                       <p>Jl. Jend. Sudirman Kav. 28</p>
@@ -105,7 +105,7 @@ export default function Footer() {
               </div>
 
               <div className="text-white/40 text-xs font-light">
-                  &copy; {new Date().getFullYear()} JONB Law Firm. All Rights Reserved.
+                  &copy; {new Date().getFullYear()} Jon Bernard & Associates Law Firm. All Rights Reserved.
               </div>
           </div>
       </div>

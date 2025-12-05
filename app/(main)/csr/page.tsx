@@ -12,7 +12,7 @@ import { SiteHeader } from "@/components/site-header";
 const CSR_ARTICLES = [
   {
     id: 1,
-    title: "JONB Hosts 9th Blood Drive as Part of CSR Commitment",
+    title: "Jon Bernard & Associates Hosts 9th Blood Drive as Part of CSR Commitment",
     category: "Events",
     date: "22 July 2025",
     image: "https://www.ssek.com/wp-content/uploads/2025/08/46-1024x616.jpg",
@@ -20,7 +20,7 @@ const CSR_ARTICLES = [
   },
   {
     id: 2,
-    title: "JONB Collects Ramadhan Donations for Islamic Boarding School",
+    title: "Jon Bernard & Associates Collects Ramadhan Donations for Islamic Boarding School",
     category: "Events",
     date: "22 April 2022",
     image: "https://www.ssek.com/wp-content/uploads/2022/07/cse-1.jpeg",
@@ -28,7 +28,7 @@ const CSR_ARTICLES = [
   },
   {
     id: 3,
-    title: "JONB Collects Ramadhan Donations for Islamic Boarding School",
+    title: "Jon Bernard & Associates Collects Ramadhan Donations for Islamic Boarding School",
     category: "Events",
     date: "29 May 2021",
     image: "https://www.ssek.com/wp-content/uploads/2022/07/csr-2.jpeg",
@@ -36,7 +36,7 @@ const CSR_ARTICLES = [
   },
   {
     id: 4,
-    title: "JONB Collects Donations for Jakarta Assisted Living Facility",
+    title: "Jon Bernard & Associates Collects Donations for Jakarta Assisted Living Facility",
     category: "Events",
     date: "12 January 2021",
     image: "https://www.ssek.com/wp-content/uploads/2022/07/csr-3.jpeg",
@@ -44,7 +44,7 @@ const CSR_ARTICLES = [
   },
   {
     id: 5,
-    title: "JONB Donates to Victims of Jakarta Floods",
+    title: "Jon Bernard & Associates Donates to Victims of Jakarta Floods",
     category: "Events",
     date: "14 February 2020",
     image: "https://www.ssek.com/wp-content/uploads/2022/07/csr-4.jpeg",
@@ -99,7 +99,7 @@ export default function CSRPage() {
                       </div>
                   </div>
                   <h2 className="text-3xl lg:text-5xl font-light text-[#2f4e9b] leading-tight">
-                    JONB is aware of the advantages we enjoy and looks for opportunities to help our community and make a difference in people’s lives
+                    Jon Bernard & Associates is aware of the advantages we enjoy and looks for opportunities to help our community and make a difference in people’s lives
                   </h2>
               </div>
           </div>
@@ -127,13 +127,13 @@ export default function CSRPage() {
                       Its mission is to empower Indonesia’s underprivileged youth through the use of circus and other arts, as well as to support the children’s traditional and non-traditional educations.
                   </p>
                   <p>
-                      JONB assisted the American Chamber of Commerce in Indonesia (AmCham Indonesia) with its fund-raising efforts for disaster relief programs in Indonesia, by reviewing its legal status and preparing constitutional amendments for the organization to become a 501(c)(3) non-profit corporation in the United States.
+                      Jon Bernard & Associates assisted the American Chamber of Commerce in Indonesia (AmCham Indonesia) with its fund-raising efforts for disaster relief programs in Indonesia, by reviewing its legal status and preparing constitutional amendments for the organization to become a 501(c)(3) non-profit corporation in the United States.
                   </p>
                   <p>
                       Our foreign advisors have lectured at the Faculties of Law of the University of Indonesia, Trisakti University and Gadjah Mada University, among others.
                   </p>
                   <p>
-                      From 1992-1998, JONB attorneys were involved in Indonesia’s commercial law reform project, the ELIPS Project, the largest single-country effort of its kind in the world, and were founding members of the project’s Board of Advisors.
+                      From 1992-1998, Jon Bernard & Associates attorneys were involved in Indonesia’s commercial law reform project, the ELIPS Project, the largest single-country effort of its kind in the world, and were founding members of the project’s Board of Advisors.
                   </p>
               </div>
           </div>

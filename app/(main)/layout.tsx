@@ -4,8 +4,8 @@ import "../globals.css";
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Our Expertise - JONB Law Firm",
-  description: "JONB Law Firm Expertise Page",
+  title: "Our Expertise - Jon Bernard & Associates Law Firm",
+  description: "Jon Bernard & Associates Law Firm Expertise Page",
 };
 
 export default function RootLayout({

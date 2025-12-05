@@ -16,13 +16,13 @@ import { SiteHeader } from "@/components/site-header";
 const HERO_SLIDES = [
   {
     id: 1,
-    title: "JONB Founding Partner Speaks at BANI Anniversary Seminar",
+    title: "Jon Bernard & Associates Founding Partner Speaks at BANI Anniversary Seminar",
     image: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=2000&auto=format&fit=crop", // Placeholder visual legal
     link: "#"
   },
   {
     id: 2,
-    title: "JONB Partner Winnie Y. Rolindrawan Receives Lexology Client Choice Award for Fintech",
+    title: "Jon Bernard & Associates Partner Winnie Y. Rolindrawan Receives Lexology Client Choice Award for Fintech",
     image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2000&auto=format&fit=crop",
     link: "#"
   },
@@ -34,7 +34,7 @@ const HERO_SLIDES = [
   },
   {
     id: 4,
-    title: "JONB Named to GRR 100 Again in 2025 – Leading Restructuring & Insolvency Practice",
+    title: "Jon Bernard & Associates Named to GRR 100 Again in 2025 – Leading Restructuring & Insolvency Practice",
     image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=2000&auto=format&fit=crop",
     link: "#"
   }
@@ -45,14 +45,14 @@ const LATEST_UPDATES = [
     id: 1,
     category: "Events",
     date: "3 December 2025",
-    title: "JONB Founding Partner Speaks at BANI Anniversary Seminar",
+    title: "Jon Bernard & Associates Founding Partner Speaks at BANI Anniversary Seminar",
     image: "https://images.unsplash.com/photo-1544531586-fde5298cdd40?q=80&w=1000&auto=format&fit=crop"
   },
   {
     id: 2,
     category: "Firm News",
     date: "2 December 2025",
-    title: "JONB Partner Winnie Y. Rolindrawan Receives Lexology Client Choice Award for Fintech",
+    title: "Jon Bernard & Associates Partner Winnie Y. Rolindrawan Receives Lexology Client Choice Award for Fintech",
     image: "https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?q=80&w=1000&auto=format&fit=crop"
   },
   {
@@ -66,14 +66,14 @@ const LATEST_UPDATES = [
     id: 4,
     category: "Firm News 4",
     date: "2 December 2025",
-    title: "JONB Partner Winnie Y. Rolindrawan Receives Lexology Client Choice Award for Fintech",
+    title: "Jon Bernard & Associates Partner Winnie Y. Rolindrawan Receives Lexology Client Choice Award for Fintech",
     image: "https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?q=80&w=1000&auto=format&fit=crop"
   },
   {
     id: 5,
     category: "Firm News 5",
     date: "2 December 2025",
-    title: "JONB Partner Winnie Y. Rolindrawan Receives Lexology Client Choice Award for Fintech",
+    title: "Jon Bernard & Associates Partner Winnie Y. Rolindrawan Receives Lexology Client Choice Award for Fintech",
     image: "https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?q=80&w=1000&auto=format&fit=crop"
   },
 ];
@@ -205,7 +205,7 @@ export default function HomePage() {
                         Who We Are
                     </div>
                     <h3 className="text-3xl lg:text-5xl font-light leading-tight mb-8">
-                        JONB is one of the largest and most highly regarded independent law firms in Indonesia.
+                        Jon Bernard & Associates is one of the largest and most highly regarded independent law firms in Indonesia.
                     </h3>
                 </div>
                 <div className="lg:w-1/2 flex flex-col justify-between">
@@ -335,7 +335,7 @@ export default function HomePage() {
                         Our Expertise
                     </div>
                     <h2 className="text-3xl lg:text-5xl font-light text-[#2f4e9b] leading-tight mb-8">
-                        JONB assists Indonesian, foreign, transnational and multinational clients across a wide range of specialist areas.
+                        Jon Bernard & Associates assists Indonesian, foreign, transnational and multinational clients across a wide range of specialist areas.
                     </h2>
                     <div className="columns-1 lg:columns-2 gap-10 text-[#57595f] font-light leading-relaxed mb-10 text-sm lg:text-base">
                         <p>

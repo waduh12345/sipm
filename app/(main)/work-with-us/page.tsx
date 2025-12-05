@@ -13,7 +13,7 @@ const SLIDES = [
   {
     id: 1,
     title: "Focus Groups",
-    text: "JONB attorneys are organized and encouraged to participate in focus groups that delve into issues facing a specific practice area. They involve senior lawyers working closely with junior associates.",
+    text: "Jon Bernard & Associates attorneys are organized and encouraged to participate in focus groups that delve into issues facing a specific practice area. They involve senior lawyers working closely with junior associates.",
     image: "https://www.ssek.com/wp-content/uploads/2022/07/image-1-1024x596.png"
   },
   {
@@ -37,7 +37,7 @@ const SLIDES = [
   {
     id: 5,
     title: "Training Center",
-    text: "JONB’s office features a large multifunction room capable of sitting up to 70 people and hosts many of our training programs and seminars. Local law organizations and student groups are encouraged to use our facility for their events and training.",
+    text: "Jon Bernard & Associates’s office features a large multifunction room capable of sitting up to 70 people and hosts many of our training programs and seminars. Local law organizations and student groups are encouraged to use our facility for their events and training.",
     image: "https://www.ssek.com/wp-content/uploads/2022/07/img-06-1024x618.jpeg"
   }
 ];
@@ -119,11 +119,11 @@ export default function WorkWithUsPage() {
                   </div>
                   <div className="lg:w-2/3">
                       <h3 className="text-3xl lg:text-4xl text-[#2f4e9b] font-light leading-snug mb-8">
-                          We are always looking for energetic, dynamic, dedicated people to join the JONB family
+                          We are always looking for energetic, dynamic, dedicated people to join the Jon Bernard & Associates family
                       </h3>
                       <div className="text-[#57595f] font-light leading-relaxed space-y-6 mb-10 text-sm lg:text-base columns-1 lg:columns-2 gap-10">
                           <p>
-                              JONB is an open partnership. With the assistance of human resources experts, we have developed a transparent system for the ranking and promotion of our associate attorneys. Senior associates are considered for partnership upon achievement of clearly stated professional development objectives and the requirements of the firm.
+                              Jon Bernard & Associates is an open partnership. With the assistance of human resources experts, we have developed a transparent system for the ranking and promotion of our associate attorneys. Senior associates are considered for partnership upon achievement of clearly stated professional development objectives and the requirements of the firm.
                           </p>
                           <p>
                               We also welcome applications from foreign lawyers with a law degree from an accredited university, a valid license to practice law in their jurisdiction and relevant practice experience. Please note that our hiring of foreign legal consultants is subject to restrictions under local laws.
@@ -162,7 +162,7 @@ export default function WorkWithUsPage() {
                             A challenging, dynamic, collaborative, inclusive and supportive work environment
                         </h3>
                         <p className="text-white/80 font-light text-sm leading-relaxed">
-                            JONB encourages personal and professional development, and dedicates substantial resources to our in-house education and training programs, which include:
+                            Jon Bernard & Associates encourages personal and professional development, and dedicates substantial resources to our in-house education and training programs, which include:
                         </p>
                     </div>
                 </div>

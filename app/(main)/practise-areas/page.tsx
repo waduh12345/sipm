@@ -15,47 +15,47 @@ import Footer from "@/components/footer/footer";
 const EXPERTISE_DATA = [
   {
     title: "Asuransi & Re-asuransi",
-    overview: "JONB memiliki pengalaman luas dalam menangani berbagai aspek hukum asuransi dan re-asuransi, termasuk penyusunan kontrak, penyelesaian sengketa, dan kepatuhan terhadap regulasi yang berlaku.",
+    overview: "Jon Bernard & Associates memiliki pengalaman luas dalam menangani berbagai aspek hukum asuransi dan re-asuransi, termasuk penyusunan kontrak, penyelesaian sengketa, dan kepatuhan terhadap regulasi yang berlaku.",
     news: [
-      "JONB Named One of Indonesia’s Top Law Firms in the Asialaw 2025 Rankings",
-      "JONB Lawyers Share Legal Insights with Siam Cement Group"
+      "Jon Bernard & Associates Named One of Indonesia’s Top Law Firms in the Asialaw 2025 Rankings",
+      "Jon Bernard & Associates Lawyers Share Legal Insights with Siam Cement Group"
     ]
   },
   {
     title: "Litigasi Koorporasi, Arbitrase, Kepailitan dan Penundaan Kewajiban Pembayaran Utang (PKPU) Litigasi Kriminal",
-    overview: "JONB memiliki pengalaman dalam litigasi korporasi, arbitrase, dan kepailitan, serta penundaan kewajiban pembayaran utang (PKPU) dan litigasi kriminal. Kami secara rutin menangani masalah terkait ketenagakerjaan termasuk mewakili klien korporat di pengadilan.",
+    overview: "Jon Bernard & Associates memiliki pengalaman dalam litigasi korporasi, arbitrase, dan kepailitan, serta penundaan kewajiban pembayaran utang (PKPU) dan litigasi kriminal. Kami secara rutin menangani masalah terkait ketenagakerjaan termasuk mewakili klien korporat di pengadilan.",
     news: [
-      "JONB Founding Partner Speaks at BANI Anniversary Seminar",
-      "JONB Partner Leads Panel Discussion at 7th ICC Indonesia Arbitration Day"
+      "Jon Bernard & Associates Founding Partner Speaks at BANI Anniversary Seminar",
+      "Jon Bernard & Associates Partner Leads Panel Discussion at 7th ICC Indonesia Arbitration Day"
     ]
   },
   {
     title: "Pasar Modal & Sekuritas",
-    overview: "JONB memberikan nasihat kepada penerbit, penjamin emisi, dan investor dalam transaksi saham, obligasi, obligasi konversi, dan surat komersial, serta mempersiapkan dan membantu klien dengan IPO, penawaran sekunder atau berikutnya.",
+    overview: "Jon Bernard & Associates memberikan nasihat kepada penerbit, penjamin emisi, dan investor dalam transaksi saham, obligasi, obligasi konversi, dan surat komersial, serta mempersiapkan dan membantu klien dengan IPO, penawaran sekunder atau berikutnya.",
     news: [
       "Indonesia Issues Draft OJK Regulation on Digital Financial Asset Offerings",
-      "JONB Contributes Indonesia Banking Regulation Overview to Thomson Reuters"
+      "Jon Bernard & Associates Contributes Indonesia Banking Regulation Overview to Thomson Reuters"
     ]
   },
   {
     title: "Hukum Perusahaan (Aksi koorporasi: penggabungan, pengambilalihan dan restrukturisasi)",
-    overview: "JONB memiliki pengalaman luas dalam menangani berbagai transaksi perusahaan, termasuk penggabungan, pengambilalihan, dan restrukturisasi. Kami memberikan nasihat strategis untuk membantu klien mencapai tujuan bisnis mereka secara efektif.",
+    overview: "Jon Bernard & Associates memiliki pengalaman luas dalam menangani berbagai transaksi perusahaan, termasuk penggabungan, pengambilalihan, dan restrukturisasi. Kami memberikan nasihat strategis untuk membantu klien mencapai tujuan bisnis mereka secara efektif.",
     news: [
       "Hot Topics in Corporate Governance in Indonesia",
-      "11 JONB Lawyers Recognized in IFLR1000 Indonesia 2025"
+      "11 Jon Bernard & Associates Lawyers Recognized in IFLR1000 Indonesia 2025"
     ]
   },
   {
     title: "Perbankan & Keuangan",
-    overview: "JONB memberikan nasihat kepada bank domestik dan internasional, lembaga keuangan non-bank, perusahaan pembiayaan, dan perusahaan modal ventura dalam berbagai transaksi pembiayaan, termasuk pembiayaan proyek, pembiayaan perdagangan, dan restrukturisasi utang.",
+    overview: "Jon Bernard & Associates memberikan nasihat kepada bank domestik dan internasional, lembaga keuangan non-bank, perusahaan pembiayaan, dan perusahaan modal ventura dalam berbagai transaksi pembiayaan, termasuk pembiayaan proyek, pembiayaan perdagangan, dan restrukturisasi utang.",
     news: [
       "Indonesia Issues New Environmental Standard: What Mining Companies Must Know",
-      "Nine JONB Lawyers Recognized Among Indonesia’s Leading Practitioners"
+      "Nine Jon Bernard & Associates Lawyers Recognized Among Indonesia’s Leading Practitioners"
     ]
   },
   {
     title: "Konstruksi dan Infrastruktur",
-    overview: "JONB memiliki pengalaman dalam menangani berbagai proyek konstruksi dan infrastruktur, termasuk penyusunan kontrak, penyelesaian sengketa, dan kepatuhan terhadap regulasi yang berlaku di sektor ini.",
+    overview: "Jon Bernard & Associates memiliki pengalaman dalam menangani berbagai proyek konstruksi dan infrastruktur, termasuk penyusunan kontrak, penyelesaian sengketa, dan kepatuhan terhadap regulasi yang berlaku di sektor ini.",
     news: [
       "ESG in APAC 2025 – Indonesia",
       "Landmark Court Ruling Expands Legal Protection for Environmental Activists"
@@ -63,17 +63,17 @@ const EXPERTISE_DATA = [
   },
   {
     title: "Pertambangan, Energi, Minyak dan Gas",
-    overview: "JONB memberikan nasihat kepada perusahaan pertambangan, energi, minyak, dan gas dalam berbagai aspek hukum, termasuk perizinan, kepatuhan regulasi, dan penyelesaian sengketa di sektor ini.",
+    overview: "Jon Bernard & Associates memberikan nasihat kepada perusahaan pertambangan, energi, minyak, dan gas dalam berbagai aspek hukum, termasuk perizinan, kepatuhan regulasi, dan penyelesaian sengketa di sektor ini.",
     news: [
-      "JONB Again a Recommended Firm for Indonesia in Asia Pacific Green Guide",
-      "JONB Assists on Singapore Listing of Malaysian Plantation Group TSH Resources Berhad"
+      "Jon Bernard & Associates Again a Recommended Firm for Indonesia in Asia Pacific Green Guide",
+      "Jon Bernard & Associates Assists on Singapore Listing of Malaysian Plantation Group TSH Resources Berhad"
     ]
   },
   {
     title: "Kekayaan Intelektual dan Informasi Teknologi",
     overview: "Kami bertindak sebagai penasihat bagi pengembang dan pemberi pinjaman dalam semua jenis proyek pengembangan infrastruktur, termasuk proyek pembangkit listrik swasta senilai jutaan dolar, jalan tol, telekomunikasi, dan proyek pasokan air.",
     news: [
-      "JONB Law Firm – 17 Recommended Lawyers Across 11 Practice Areas in Legal 500",
+      "Jon Bernard & Associates Law Firm – 17 Recommended Lawyers Across 11 Practice Areas in Legal 500",
       "Construction and Projects in Indonesia – Practical Law Guide"
     ]
   }

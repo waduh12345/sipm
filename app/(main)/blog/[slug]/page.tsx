@@ -16,7 +16,7 @@ const RELATED_POSTS = [
     id: 1,
     category: "Firm News",
     date: "25 November 2025",
-    title: "JONB Named to GRR 100 Again in 2025 – Leading Restructuring & Insolvency Practice",
+    title: "Jon Bernard & Associates Named to GRR 100 Again in 2025 – Leading Restructuring & Insolvency Practice",
     image: "https://www.ssek.com/wp-content/uploads/2025/11/GRR_100_2025-Blog-Image.jpg"
   },
   {
@@ -30,7 +30,7 @@ const RELATED_POSTS = [
     id: 3,
     category: "Firm News",
     date: "24 October 2025",
-    title: "JONB Named Indonesia Fintech Law Firm of the Year",
+    title: "Jon Bernard & Associates Named Indonesia Fintech Law Firm of the Year",
     image: "https://www.ssek.com/wp-content/uploads/2025/10/2-ALB-Indonesia-2025-Blog-Image.jpg"
   }
 ];
@@ -83,7 +83,7 @@ export default function BlogDetailPage() {
 
                 {/* Title */}
                 <h1 className="text-3xl lg:text-5xl font-light text-[#2f4e9b] leading-tight mb-12">
-                    JONB Partner Winnie Y. Rolindrawan Receives Lexology Client Choice Award for Fintech
+                    Jon Bernard & Associates Partner Winnie Y. Rolindrawan Receives Lexology Client Choice Award for Fintech
                 </h1>
 
                 {/* Split Layout: Meta vs Content */}
@@ -120,7 +120,7 @@ export default function BlogDetailPage() {
                     {/* Right Column (Article Body) */}
                     <div className="lg:w-3/4 text-[#57595f] font-light leading-relaxed space-y-6 text-sm lg:text-[1.05rem]">
                         <p>
-                            JONB Law Firm is pleased to announce that partner <Link href="#" className="text-[#2f4e9b] hover:underline">Winnie Yamashita Rolindrawan</Link> has been named a Winner of a <Link href="#" className="text-[#2f4e9b] hover:underline">2026 Lexology Index Client Choice Award</Link> for her work in the fintech sector in Indonesia. Winnie was one of only three lawyers from Indonesia recognized in the 2026 Lexology Index Client Choice Awards.
+                            Jon Bernard & Associates Law Firm is pleased to announce that partner <Link href="#" className="text-[#2f4e9b] hover:underline">Winnie Yamashita Rolindrawan</Link> has been named a Winner of a <Link href="#" className="text-[#2f4e9b] hover:underline">2026 Lexology Index Client Choice Award</Link> for her work in the fintech sector in Indonesia. Winnie was one of only three lawyers from Indonesia recognized in the 2026 Lexology Index Client Choice Awards.
                         </p>
                         <p>
                             The Client Choice Awards honor legal and consulting professionals around the world who demonstrate exceptional standards of client service. The awards are conferred exclusively on individuals who consistently deliver outstanding value, provide commercially focused advice and exceed client expectations.
@@ -132,7 +132,7 @@ export default function BlogDetailPage() {
                             To preserve the independence of the research, law firms are not notified when the initial assessment process begins.
                         </p>
                         <p>
-                            Winnie will be formally recognized at the award ceremony in London in March. JONB congratulates her on this well-deserved achievement.
+                            Winnie will be formally recognized at the award ceremony in London in March. Jon Bernard & Associates congratulates her on this well-deserved achievement.
                         </p>
 
                         {/* Back Button */}

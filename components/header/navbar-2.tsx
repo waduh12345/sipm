@@ -37,12 +37,12 @@ export default function Navbar() {
              {/* Logo Swap Logic */}
              {isScrolled ? (
                 <div className="flex flex-col leading-none text-white">
-                    <h1 className="text-2xl font-bold tracking-widest">JONB</h1>
+                    <h1 className="text-2xl font-bold tracking-widest">Jon Bernard & Associates</h1>
                     <span className="text-[10px] tracking-[0.3em] uppercase">Law Firm</span>
                 </div>
              ) : (
                 <div className="relative w-32 h-10">
-                    <Image src="http://ssek.com/wp-content/uploads/2022/07/logo-color.png" alt="JONB Logo" fill className="object-contain" />
+                    <Image src="http://ssek.com/wp-content/uploads/2022/07/logo-color.png" alt="Jon Bernard & Associates Logo" fill className="object-contain" />
                 </div>
              )}
           </Link>

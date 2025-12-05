@@ -93,7 +93,7 @@ export default function OurAttorneysPage() {
                 </div>
                 <div className="lg:w-3/4 flex justify-end">
                     <div className="lg:w-2/3 text-[#57595f] font-light leading-relaxed space-y-6 text-sm lg:text-base columns-1 lg:columns-2 gap-12">
-                        <p>JONB lawyers are recognized for their professional excellence and outstanding service to clients.</p>
+                        <p>Jon Bernard & Associates lawyers are recognized for their professional excellence and outstanding service to clients.</p>
                         <p>They are among the best-trained and most experienced Indonesian and expatriate practitioners in the country.</p>
                     </div>
                 </div>

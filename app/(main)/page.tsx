@@ -346,17 +346,29 @@ export default function HomePage() {
                         <span className="w-1 h-3 bg-[#a3238e] -skew-x-12 inline-block"></span>
                         Our Expertise
                     </div>
-                    <h2 className="text-3xl lg:text-3xl font-light text-[#2f4e9b] leading-tight mb-8">
-                        Firma Hukum juga menangani hal-hal yang berkaitan dengan hukum perusahaan dan pasar modal serta membantu kliennya dalam permasalahan perburuhan (tenaga kerja). Penanganan setiap kasus hukum, baik hukum asuransi, hukum perusahaan maupun pasar modal dapat ditempuh dengan cara non litigasi dan/atau cara litigasi
-                    </h2>
-                    <div className="columns-1 lg:columns-2 gap-10 text-[#57595f] font-light leading-relaxed mb-10 text-sm lg:text-base">
-                        <p>
-                            Firma Hukum dapat membantu kliennya dalam kedua cara tersebut dengan berupaya mencapai hasil yang baik dalam penyelesaian suatu perkara. Dalam beberapa pengalaman menangani kasus, Firma Hukum telah berhasil dengan baik menangani beberapa perkara baik perkara di pengadilan dan juga perkara di arbitrase. Jika diperlukan Firma Hukum juga membantu klien dalam melakukan negosiasi kepada pihak lain.
-                        </p>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start"></div>
+                        <div>
+                            <h2 className="text-3xl lg:text-4xl font-light text-[#2f4e9b] leading-tight mb-8">
+                                Jon Bernard & Associates mempunyai keahlian dalam menangani permasalahan hukum asuransi dan ahli dalam melakukan investigasi Klaim.
+                            </h2>
+                        </div>
+                        <div className="text-[#57595f] font-light leading-relaxed mb-10 text-sm lg:text-base">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                                <div>
+                                    <p className="text-justify mb-4">
+                                        Firma Hukum juga menangani hal-hal yang berkaitan dengan hukum perusahaan dan pasar modal serta membantu kliennya dalam permasalahan perburuhan (tenaga kerja). Penanganan setiap kasus hukum, baik hukum asuransi, hukum perusahaan maupun pasar modal dapat ditempuh dengan cara non litigasi dan/atau cara litigasi
+                                    </p>
+                                </div>
+                                <div>
+                                    <p className="text-justify mb-4">
+                                        Firma Hukum dapat membantu kliennya dalam kedua cara tersebut dengan berupaya mencapai hasil yang baik dalam penyelesaian suatu perkara. Dalam beberapa pengalaman menangani kasus, Firma Hukum telah berhasil dengan baik menangani beberapa perkara baik perkara di pengadilan dan juga perkara di arbitrase. Jika diperlukan Firma Hukum juga membantu klien dalam melakukan negosiasi kepada pihak lain.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
       </section>
 
       {/* --- NEWSLETTER SUBSCRIBE --- */}

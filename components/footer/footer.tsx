@@ -70,8 +70,8 @@ export default function Footer() {
 
               {/* Contact */}
               <div className="mb-10 lg:mb-0 lg:w-1/3 font-light text-sm leading-relaxed text-white/80">
-                  <p>Tel. +62 21 2953 2000, 521 2038</p>
-                  <p>Fax. +62 21 521 2039</p>
+                  <p>Tel. (021) 29391190</p>
+                  <p>Fax. (021) 29391222</p>
                   <p>Email. ssek@ssek.com</p>
               </div>
 

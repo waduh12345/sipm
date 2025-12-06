@@ -13,10 +13,10 @@ import { SiteHeader } from "@/components/site-header"; // Import komponen baru
 const BLOG_POSTS = [
   {
     id: 1,
-    title: "Jon Bernard & Associates Founding Partner Speaks at BANI Anniversary Seminar",
-    category: "Events",
+    title: "KONSEP KEADILAN MENURUT AJARAN FILSAFAT HUKUM PANCASILA",
+    category: "Article",
     date: "3 December 2025",
-    image: "https://www.ssek.com/wp-content/uploads/2025/12/IEA-Hut-BANI-Blog-Image.jpg",
+    image: "/blog-sample.webp",
     link: "#"
   },
   {
@@ -236,8 +236,8 @@ export default function BlogPage() {
                 </div>
 
                 <div className="mb-10 lg:mb-0 lg:w-1/3 font-light text-sm leading-relaxed text-white/80">
-                    <p>Tel. +62 21 2953 2000, 521 2038</p>
-                    <p>Fax. +62 21 521 2039</p>
+                    <p>Tel. (021) 29391190</p>
+                    <p>Fax. (021) 29391222</p>
                     <p>Email. ssek@ssek.com</p>
                 </div>
 

@@ -161,122 +161,207 @@ export default function OurFirmPage() {
         </div>
       </section>
 
-      {/* --- AFFILIATIONS & MEMBERSHIPS --- */}
-      <section className="py-24 bg-[#f7fbff]">
-        <div className="container mx-auto px-6">
-            <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#58b0e3]">
-                <span className="w-1 h-3 bg-[#58b0e3] -skew-x-12 inline-block"></span>
-                Our Team
-            </div>
-            
-            <div className="flex flex-col lg:flex-row gap-16 mb-20">
-                <div className="lg:w-5/12">
-                    <h3 className="text-2xl lg:text-2xl text-[#2f4e9b] text-justify font-light leading-snug mb-8">
-                        Partner dan semua associate Firma Hukum adalah lulusan dari fakultas hukum terkemuka di Indonesia. Firma Hukum secara berkelanjutan berusaha mengembangkan keterampilan hukum dan pengetahuan khusus para associate. Semua lawyer berbahasa Indonesia dan Inggris. Di samping ini adalah uraian singkat mengenai lawyers kami.
-                    </h3>
-                </div>
-                
-                {/* Logo Grid */}
-                <div className="lg:w-7/12 grid grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-                    {AFFILIATIONS.map((aff) => (
-                        <div 
-                            key={aff.id} 
-                            className="group cursor-pointer relative"
-                            onClick={() => setActiveAffiliation(aff.id)}
-                        >
-                            <div className="relative h-24 w-full mb-4 border-b border-transparent group-hover:border-[#2f4e9b] transition-all pb-2">
-                                <Image src={aff.image} alt={aff.name} fill className="object-contain object-left" />
-                            </div>
-                            <p className="text-[#2f4e9b] text-sm group-hover:font-semibold transition-all">
-                                {aff.name}
-                            </p>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        </div>
-
-        {/* Affiliation Popup / Modal Simulation */}
-        <AnimatePresence>
-            {activeAffiliation && (
-                <motion.div 
-                    initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-[60] flex"
-                >
-                    {/* Curtain Overlay */}
-                    <div className="w-full lg:w-[43%] h-full bg-[#2f4e9b] opacity-90" onClick={() => setActiveAffiliation(null)}></div>
-                    
-                    {/* Content */}
-                    <div className="w-full lg:w-[57%] h-full bg-[#f7fbff] p-8 lg:p-20 overflow-y-auto relative shadow-2xl">
-                        <button onClick={() => setActiveAffiliation(null)} className="absolute top-10 right-10">
-                            <X className="w-8 h-8 text-[#2f4e9b]" />
-                        </button>
-                        
-                        {AFFILIATIONS.filter(a => a.id === activeAffiliation).map(aff => (
-                            <div key={aff.id} className="mt-10">
-                                <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#58b0e3]">
-                                    <span className="w-1 h-3 bg-[#58b0e3] -skew-x-12 inline-block"></span>
-                                    Affiliations & Memberships
-                                </div>
-                                <h3 className="text-3xl text-[#2f4e9b] font-bold mb-10">{aff.name}</h3>
-                                <div className="relative w-full h-64 border border-gray-300 bg-white mb-10 flex items-center justify-center p-8">
-                                    <Image src={aff.image} alt={aff.name} width={300} height={150} className="object-contain" />
-                                </div>
-                                <div className="flex gap-12">
-                                    <div className="w-1/4 uppercase text-[#2f4e9b] tracking-widest text-sm font-semibold">Overview</div>
-                                    <div className="w-3/4">
-                                        <p className="text-sm leading-relaxed mb-8">
-                                            Jon Bernard & Associates is a longstanding member of {aff.name}, leveraging global networks to provide best-in-class legal services.
-                                        </p>
-                                        <a href={aff.url} target="_blank" rel="noreferrer">
-                                            <Button variant="outline" className="border-[#2f4e9b] text-[#2f4e9b] hover:bg-[#2f4e9b] hover:text-white rounded-full px-6 uppercase text-xs tracking-wider">
-                                                Go To Website
-                                            </Button>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </motion.div>
-            )}
-        </AnimatePresence>
-      </section>
-
       {/* --- CO-FOUNDER TRIBUTE --- */}
-      <section className="py-24 bg-[#f7fbff]">
-        <div className="container mx-auto px-6">
-            <div className="flex flex-col lg:flex-row items-center gap-16">
-                <div className="lg:w-1/2">
-                    <div className="relative aspect-[1.3] w-full">
-                        <Image 
-                            src="https://jonb-lawfirm.com/wp-content/uploads/2017/04/foto.png"
-                            alt="Dyah Soewito"
-                            fill
-                            className="object-contain object-left"
-                        />
-                    </div>
-                </div>
-                <div className="lg:w-1/2">
-                    <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#2f4e9b]">
-                        <span className="w-1 h-3 bg-[#a3238e] -skew-x-12 inline-block"></span>
-                        Jon Bernard Pasaribu
-                    </div>
-                    <h3 className="text-3xl text-[#2f4e9b] font-light mb-6">
-                        A friend and mentor for countless lawyers over thirty-plus years.
-                    </h3>
-                    <p className="text-[#57595f] font-light mb-8 text-justify leading-relaxed">
-                        Pendiri dan Managing Partners pada Firma Hukum Jon Bernard & Associates, memperoleh gelar Sarjana Hukum dari Universitas Sumatera Utara (USU), Medan dan meraih gelar Magister Hukum pada Universitas Pancasila, Jakarta. Jon Bernard Pasaribu memulai karier hukum dan pengacara sebagai Associates pada Hendro Kanon & Partners kemudian berubah menjadi Kanon Arruanpitu Lawfirm dengan jabatan terakhir sebagai Senior Lawyer, kemudian mendirikan firma hukumnya sendiri bernama Jon Bernard & Associates pada tahun 2008.
-                    </p>
-                    <Link href="#">
-                        <Button variant="outline" className="border-[#2f4e9b] text-[#2f4e9b] hover:bg-[#2f4e9b] hover:text-white rounded-full px-8 py-6 uppercase text-xs tracking-wider">
-                            Read More About Dyah Soewito
-                        </Button>
-                    </Link>
-                </div>
+    <section className="py-24 bg-[#f7fbff]">
+      <div className="container mx-auto px-6">
+        <div className="flex flex-col lg:flex-row items-center gap-16">
+            <button
+            className="lg:w-1/2 w-full group relative aspect-[1.3] focus:outline-none"
+            onClick={() => setMobileMenuOpen(true)}
+            aria-label="Show Jon Bernard Pasaribu Profile"
+            style={{ background: "none", border: "none", padding: 0 }}
+            >
+              <Image 
+                src="https://jonb-lawfirm.com/wp-content/uploads/2017/04/foto.png"
+                alt="Jon Bernard Pasaribu"
+                fill
+                className="object-contain object-left group-hover:scale-105 transition-transform"
+              />
+            </button>
+            <div className="lg:w-1/2">
+              <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#2f4e9b]">
+                <span className="w-1 h-3 bg-[#a3238e] -skew-x-12 inline-block"></span>
+                Jon Bernard Pasaribu
+              </div>
+              <h3 className="text-3xl text-[#2f4e9b] font-light mb-6">
+                A friend and mentor for countless lawyers over thirty-plus years.
+              </h3>
+              <p className="text-[#57595f] font-light mb-8 text-justify leading-relaxed">
+                Pendiri dan Managing Partners pada Firma Hukum Jon Bernard & Associates, memperoleh gelar Sarjana Hukum dari Universitas Sumatera Utara (USU), Medan dan meraih gelar Magister Hukum pada Universitas Pancasila, Jakarta. Jon Bernard Pasaribu memulai karier hukum dan pengacara sebagai Associates pada Hendro Kanon & Partners kemudian berubah menjadi Kanon Arruanpitu Lawfirm dengan jabatan terakhir sebagai Senior Lawyer, kemudian mendirikan firma hukumnya sendiri bernama Jon Bernard & Associates pada tahun 2008.
+              </p>
+              <Link href="#" legacyBehavior>
+                <a onClick={e => { e.preventDefault(); setMobileMenuOpen(true); }}>
+                    <Button variant="outline" className="border-[#2f4e9b] text-[#2f4e9b] hover:bg-[#2f4e9b] hover:text-white rounded-full px-8 py-6 uppercase text-xs tracking-wider">
+                      Read More About Jon Bernard Pasaribu
+                    </Button>
+                </a>
+              </Link>
             </div>
         </div>
-      </section>
+      </div>
+      {/* Modal */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60"
+        >
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.95, opacity: 0 }}
+            className="bg-white rounded-xl shadow-2xl max-w-6xl w-full mx-4 flex flex-col lg:flex-row overflow-hidden relative"
+          >
+            <button
+            className="absolute top-6 right-6 z-10"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-label="Close Modal"
+            >
+            <X className="w-8 h-8 text-[#2f4e9b]" />
+            </button>
+            <div className="lg:w-2/2 w-full p-8 overflow-y-auto max-h-[80vh]">
+            <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#2f4e9b]">
+              <span className="w-1 h-3 bg-[#a3238e] -skew-x-12 inline-block"></span>
+              Jon Bernard Pasaribu
+            </div>
+            <h3 className="text-2xl text-[#2f4e9b] font-light mb-6">
+              Pendiri dan Managing Partners pada Firma Hukum Jon Bernard & Associates
+            </h3>
+            <p className="text-[#57595f] font-light mb-6 text-justify leading-relaxed">
+              Jon Bernard Pasaribu adalah Pendiri dan Managing Partners pada Firma Hukum Jon Bernard & Associates, memperoleh gelar Sarjana Hukum dari Universitas Sumatera Utara (USU), Medan dan meraih gelar Magister Hukum pada Universitas Pancasila, Jakarta. Jon Bernard Pasaribu memulai karier hukum dan pengacara sebagai Associates pada Hendro Kanon & Partners kemudian berubah menjadi Kanon Arruanpitu Lawfirm dengan jabatan terakhir sebagai Senior Lawyer, kemudian mendirikan firma hukumnya sendiri bernama Jon Bernard & Associates pada tahun 2008.
+            </p>
+            <p className="text-[#57595f] font-light mb-6 text-justify leading-relaxed">
+              Jon Bernard Pasaribu memiliki keahlian khusus dalam melakukan Investigasi terhadap kecurangan, penipuan serta klaim fiktif dibidang asuransi, baik asuransi jiwa maupun asuransi kerugian. Disamping keahlian Investigasi, Jon Bernard Pasaribu juga mempunyai banyak pengalaman menangani litigasi dan transaksi perusahaan, antara lain sebagai berikut:
+            </p>
+            <ul className="list-disc pl-6 text-[#57595f] font-light mb-6 text-justify leading-relaxed space-y-2">
+              <li>Asuransi & Re-asuransi (adviser and claim investigator)</li>
+              <li>Litigasi Koorporasi, Arbitrase, Kepailitan dan Penundaan Kewajiban Pembayaran Utang (PKPU)</li>
+              <li>Litigasi Kriminal</li>
+              <li>Pasar Modal & Sekuritas</li>
+              <li>Hukum Perusahaan (Aksi koorporasi: Penggabungan, pengambilalihan dan restrukturisassi)</li>
+              <li>Perbankan & Keuangan</li>
+              <li>Konstruksi dan Infrastruktur</li>
+              <li>Pertambangan, Energi, Minyak dan Gas</li>
+              <li>Kekayaan Intelektual dan Informasi Teknologi</li>
+            </ul>
+            <p className="text-[#57595f] font-light mb-6 text-justify leading-relaxed">
+              Dalam menjalankan kegiatannya, Jon Bernard Pasaribu mempunyai izin untuk memberikan jasa hukum di Indonesia dan terdaftar sebagai anggota PERADI. Jon Bernard Pasaribu juga mempunyai izin untuk memberikan jasa hukum di bidang Pasar Modal dan terdaftar sebagai anggota HKHPM (Himpunan Konsultan Hukum Pasar Modal).
+            </p>
+            <p className="text-[#57595f] font-light text-justify leading-relaxed">
+              Bahasa yang dikuasai: Indonesia dan Inggris.
+            </p>
+            </div>
+          </motion.div>
+        </motion.div>
+        )}
+      </AnimatePresence>
+    </section>
+
+      {/* --- AFFILIATIONS & MEMBERSHIPS --- */}
+    <section className="py-24 bg-[#f7fbff]">
+      <div className="container mx-auto px-6">
+        <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#58b0e3]">
+            <span className="w-1 h-3 bg-[#58b0e3] -skew-x-12 inline-block"></span>
+            Associates
+        </div>
+        
+        <div className="flex flex-col lg:flex-row gap-16 mb-20">
+            {/* Andy Section */}
+            <div className="lg:w-12/12 flex flex-col lg:flex-row gap-8 items-start">
+              <div className="flex-1">
+                <h3 className="text-2xl text-[#2f4e9b] font-light mb-6">
+                    Andy Edward Pasaribu, SH.
+                </h3>
+                <p className="text-[#57595f] font-light mb-8 text-justify leading-relaxed">
+                    Andy Edward Pasaribu memperoleh gelar Sarjana Hukum dari Universitas Katholik St. Thomas (UNIKA ST. Thomas), Medan. Andy Edward Pasaribu memulai karier hukum dan pengacara sebagai pembela umum pada Posbakum PN. Jakarta Timur dan bergabung dengan Firma Hukum Jon Bernard & Associates sejak tahun 2008.<br /><br />
+                    Andy Edward Pasaribu mempunyai banyak pengalaman menangani litigasi dibidang Pidana antara lain menangani kasus-kasus korupsi, penipuan dan narkoba dan litigasi dibidang keperdataan antara lain sengketa pertanahan, sengketa saham, sengketa Kekayaan Intelektual dan Informasi Teknologi dan sengketa perburuhan.<br /><br />
+                    Bahasa yang dikuasai: <b>Indonesia dan Inggris</b>
+                </p>
+              </div>
+              <div className="w-60 h-72 relative shrink-0">
+                <Image 
+                    src="/profile-default.jpeg" 
+                    alt="Andy Edward Pasaribu" 
+                    fill 
+                    className="object-cover rounded-xl border border-gray-200"
+                />
+              </div>
+            </div>
+        </div>
+
+        <div className="flex flex-col lg:flex-row gap-16 mb-20">
+            {/* Felix Section */}
+            <div className="lg:w-12/12 flex flex-col lg:flex-row gap-8 items-start">
+              <div className="flex-1">
+                <h3 className="text-2xl text-[#2f4e9b] font-light mb-6 mt-4">
+                    Felix Nixon Hawer N Mahulae, S.E., S.H.
+                </h3>
+                <p className="text-[#57595f] font-light mb-8 text-justify leading-relaxed">
+                    Felix Nixon Hawer N Mahulae memperoleh gelar Sarjana Hukum dari Sekolah Tinggi Ilmu Hukum Gunung Jati, Jakarta dan meraih gelar Sarjana Ekonomi pada Universitas HKBP Nomensen, Medan. Felix Nixon Hawer N Mahulaememulai karier hukum sebagai Legal Manager pada perusahaan swasta nasional terkemuka di Indonesia dan bergabung dengan Firma Hukum Jon Bernard & Associates sejak tahun 2008.<br /><br />
+                    Felix Nixon Hawer N Mahulaemempunyai banyak pengalaman dalam bidang hukum perusahaan dan hukum Bisnis terutama dalam bidang perbankan, Finacial, Energi, Minyak dan Gas<br /><br />
+                    Bahasa yang dikuasai: <b>Indonesia dan Inggris</b>
+                </p>
+              </div>
+              <div className="w-60 h-72 relative shrink-0">
+                <Image 
+                    src="/profile-default.jpeg" 
+                    alt="Felix Nixon Hawer N Mahulae" 
+                    fill 
+                    className="object-cover rounded-xl border border-gray-200"
+                />
+              </div>
+            </div>
+        </div>
+      </div>
+
+      {/* Affiliation Popup / Modal Simulation */}
+      <AnimatePresence>
+        {activeAffiliation && (
+            <motion.div 
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[60] flex"
+            >
+              {/* Curtain Overlay */}
+              <div className="w-full lg:w-[43%] h-full bg-[#2f4e9b] opacity-90" onClick={() => setActiveAffiliation(null)}></div>
+              
+              {/* Content */}
+              <div className="w-full lg:w-[57%] h-full bg-[#f7fbff] p-8 lg:p-20 overflow-y-auto relative shadow-2xl">
+                <button onClick={() => setActiveAffiliation(null)} className="absolute top-10 right-10">
+                    <X className="w-8 h-8 text-[#2f4e9b]" />
+                </button>
+                
+                {AFFILIATIONS.filter(a => a.id === activeAffiliation).map(aff => (
+                    <div key={aff.id} className="mt-10">
+                      <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#58b0e3]">
+                        <span className="w-1 h-3 bg-[#58b0e3] -skew-x-12 inline-block"></span>
+                        Affiliations & Memberships
+                      </div>
+                      <h3 className="text-3xl text-[#2f4e9b] font-bold mb-10">{aff.name}</h3>
+                      <div className="relative w-full h-64 border border-gray-300 bg-white mb-10 flex items-center justify-center p-8">
+                        <Image src={aff.image} alt={aff.name} width={300} height={150} className="object-contain" />
+                      </div>
+                      <div className="flex gap-12">
+                        <div className="w-1/4 uppercase text-[#2f4e9b] tracking-widest text-sm font-semibold">Overview</div>
+                        <div className="w-3/4">
+                            <p className="text-sm leading-relaxed mb-8">
+                              Jon Bernard & Associates is a longstanding member of {aff.name}, leveraging global networks to provide best-in-class legal services.
+                            </p>
+                            <a href={aff.url} target="_blank" rel="noreferrer">
+                              <Button variant="outline" className="border-[#2f4e9b] text-[#2f4e9b] hover:bg-[#2f4e9b] hover:text-white rounded-full px-6 uppercase text-xs tracking-wider">
+                                Go To Website
+                              </Button>
+                            </a>
+                        </div>
+                      </div>
+                    </div>
+                ))}
+              </div>
+            </motion.div>
+        )}
+      </AnimatePresence>
+    </section>
 
       {/* --- NEWSLETTER --- */}
       <section className="relative py-32 bg-slate-900">

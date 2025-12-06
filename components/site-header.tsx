@@ -4,9 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
-
 export function SiteHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -61,8 +60,8 @@ export function SiteHeader() {
             }`}>
               {[
                 { name: "About Us", href: "/about-us" },
-                { name: "Our Attorneys", href: "/our-attorneys" },
                 { name: "Practice Areas", href: "/practise-areas" },
+                { name: "Client", href: "/client" },
                 { name: "Article", href: "/blog" },
               ].map((item) => (
                 <Link
@@ -78,17 +77,6 @@ export function SiteHeader() {
             </nav>
 
             <div className="flex items-center gap-6">
-               <div className={`flex items-center gap-2 cursor-pointer group ${isScrolled ? 'text-white' : 'text-[#2f4e9b]'}`}>
-                  <Search className="w-4 h-4" />
-                  <span className="text-[11px] uppercase tracking-[0.15em] opacity-80 group-hover:opacity-100 transition-opacity">Search</span>
-               </div>
-
-               <div className={`flex items-center gap-2 text-[11px] font-bold ${isScrolled ? 'text-white' : 'text-[#2f4e9b]'}`}>
-                  <span>EN</span>
-                  <span className="opacity-50">|</span>
-                  <span className="opacity-50 hover:opacity-100 cursor-pointer">ID</span>
-               </div>
-
                <Link href="/lets-talk">
                 <button className="bg-[#58b0e3] hover:brightness-90 text-white rounded-full px-6 py-3 text-[11px] uppercase tracking-[0.15em] transition-all">
                     Let&apos;s Talk
@@ -119,8 +107,8 @@ export function SiteHeader() {
                 {[
                   { name: "Home", href: "/" },
                   { name: "About Us", href: "/about-us" },
-                  { name: "Our Attorneys", href: "/our-attorneys" },
                   { name: "Practise Areas", href: "/practise-areas" },
+                  { name: "Client", href: "/client" },
                   { name: "Article", href: "/blog" },
                 ].map((item) => (
                   <Link key={item.name} href={item.href} onClick={() => setMobileMenuOpen(false)}>

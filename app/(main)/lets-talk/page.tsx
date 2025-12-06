@@ -4,8 +4,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { 
   ArrowRight,
+  MapPin,
+  Phone,
+  Printer
 } from "lucide-react";
-import { SiteFooter } from "@/components/site-footer";
+import { SiteFooter } from "@/components/site-footer"; 
 import { SiteHeader } from "@/components/site-header";
 
 export default function LetsTalkPage() {
@@ -14,7 +17,7 @@ export default function LetsTalkPage() {
     <div className="min-h-screen font-sans text-[#57595f] bg-[#f7fbff] selection:bg-[#2f4e9b] selection:text-white">
       
       {/* --- HEADER --- */}
-        <SiteHeader />
+      <SiteHeader />
 
       {/* --- CONTENT SPACER --- */}
       <div className="h-32"></div>
@@ -25,7 +28,7 @@ export default function LetsTalkPage() {
             <div className="relative aspect-[2.5] w-full overflow-hidden rounded-sm shadow-sm">
                 <Image 
                     src="http://ssek.com/wp-content/uploads/2022/07/SSEK_Website-Photo_Lets-Talk-Subcribe-Letter.jpg" 
-                    alt="Let's Talk" 
+                    alt="Jon Bernard Office" 
                     fill 
                     className="object-cover"
                     priority
@@ -34,7 +37,7 @@ export default function LetsTalkPage() {
         </div>
 
         {/* --- CONTACT FORM SECTION --- */}
-        <section className="pb-24">
+        <section className="pb-24 border-b border-[#2f4e9b]/10 mb-20">
             <div className="container mx-auto px-6">
                 <div className="flex flex-col lg:flex-row gap-12 lg:gap-24">
                     {/* Left: Heading */}
@@ -48,10 +51,9 @@ export default function LetsTalkPage() {
                     {/* Right: Form & Text */}
                     <div className="lg:w-2/3">
                         <h2 className="text-3xl lg:text-4xl font-light text-[#2f4e9b] leading-snug mb-12">
-                            Should you require any additional information regarding Jon Bernard & Associates or any aspect of our practice, please do not hesitate to contact us at ssek@ssek.com
+                            Should you require any additional information regarding Jon Bernard & Associates or any aspect of our practice, please do not hesitate to contact us.
                         </h2>
 
-                        {/* Recreated Form (Design System Style) */}
                         <form className="space-y-8">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div className="group">
@@ -94,63 +96,109 @@ export default function LetsTalkPage() {
             </div>
         </section>
 
-        {/* --- LOCATION & MAP SECTION --- */}
+        {/* --- OFFICE LOCATIONS SECTION --- */}
         <section className="pb-32">
             <div className="container mx-auto px-6">
-                <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-                    
-                    {/* Map (Left) */}
-                    <div className="w-full lg:w-1/2 h-[400px] lg:h-[500px] bg-gray-200 relative rounded-sm overflow-hidden shadow-sm">
-                         <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.3363576711275!2d106.82051231476915!3d-6.219300995497872!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3e329794b57%3A0x4351d6c42725258!2sMayapada%20Tower%201!5e0!3m2!1sen!2sid!4v1657081234567!5m2!1sen!2sid" 
-                            width="100%" 
-                            height="100%" 
-                            style={{border:0}} 
-                            allowFullScreen={true} 
-                            loading="lazy" 
-                            referrerPolicy="no-referrer-when-downgrade"
-                            className="grayscale hover:grayscale-0 transition-all duration-500"
-                         ></iframe>
+                
+                {/* Title */}
+                <div className="flex flex-col items-center mb-16">
+                     <div className="flex items-center gap-3 uppercase text-sm tracking-[0.15em] font-semibold text-[#2f4e9b] mb-4">
+                        <span className="w-1.5 h-4 bg-[#a3238e] -skew-x-12 inline-block"></span>
+                        Our Offices
                     </div>
+                    <h2 className="text-3xl lg:text-5xl font-light text-[#2f4e9b] uppercase">
+                        Visit Us
+                    </h2>
+                </div>
 
-                    {/* Info (Right) */}
-                    <div className="w-full lg:w-1/2">
-                        <div className="flex items-center gap-3 uppercase text-sm tracking-[0.15em] font-semibold text-[#2f4e9b] mb-6">
-                            <span className="w-1.5 h-4 bg-[#a3238e] -skew-x-12 inline-block"></span>
-                            Our Location
-                        </div>
+                {/* LOCATIONS STACK */}
+                <div className="flex flex-col gap-12">
+                    
+                    {/* --- OFFICE 1: JAKARTA --- */}
+                    <div className="bg-white border border-gray-200 shadow-sm flex flex-col lg:flex-row overflow-hidden group">
                         
-                        <h3 className="text-4xl font-light text-[#2f4e9b] mb-8">Jon Bernard & Associates LAW FIRM</h3>
-                        
-                        <div className="flex flex-col md:flex-row gap-10 text-[#57595f] font-light text-sm leading-relaxed mb-10">
-                            <div className="md:w-3/5">
-                                <p className="mb-6">
-                                    Mayapada Tower I, 12th and 14th Floor <br/>
-                                    Jl. Jend. Sudirman Kav. 28 <br/>
-                                    Jakarta, 12920 <br/>
-                                    Indonesia
-                                </p>
-                                <div className="space-y-1 font-medium">
-                                    <Link href="#" className="block hover:text-[#2f4e9b] hover:underline">ISO 27701 | ISO 27001 Certification</Link>
-                                    <Link href="#" className="block hover:text-[#2f4e9b] hover:underline">Privacy Policy</Link>
+                        {/* LEFT: CONTENT */}
+                        <div className="lg:w-5/12 p-8 lg:p-12 flex flex-col justify-center">
+                            <h3 className="text-3xl font-light text-[#2f4e9b] mb-8 border-b border-[#a3238e]/30 pb-4 inline-block">
+                                JAKARTA
+                            </h3>
+                            
+                            <div className="space-y-5 text-sm font-light text-[#57595f] leading-relaxed">
+                                <div className="flex items-center gap-4">
+                                    <Phone className="w-5 h-5 text-[#a3238e] flex-shrink-0" />
+                                    <span className="text-lg tracking-wide">(021) 29391190</span>
+                                </div>
+                                <div className="flex items-center gap-4">
+                                    <Printer className="w-5 h-5 text-[#a3238e] flex-shrink-0" />
+                                    <span className="text-lg tracking-wide">(021) 29391222</span>
+                                </div>
+                                <div className="flex items-start gap-4 mt-2">
+                                    <MapPin className="w-5 h-5 text-[#a3238e] flex-shrink-0 mt-1" />
+                                    <div className="text-base">
+                                        Menara Palma 12th Floor<br />
+                                        Jl.HR.Rasuna Said Kav.6 Blok X-2<br />
+                                        Jakarta 12950<br />
+                                        Indonesia
+                                    </div>
                                 </div>
                             </div>
-                            <div className="md:w-2/5">
-                                <p className="mb-1">Tel: +62 21 2953 2000, 521 2038</p>
-                                <p className="mb-1">Fax: +62 21 521 2039</p>
-                                <p>Email: ssek@ssek.com</p>
+                        </div>
+
+                        {/* RIGHT: MAP */}
+                        <div className="lg:w-7/12 min-h-[350px] relative bg-gray-100 border-l border-gray-200">
+                             <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.2792527043307!2d106.8335968!3d-6.226865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3f1dbde3e0d%3A0x7e32cfcf0b94c78b!2sJon+Bernard+%26+Associates!5e0!3m2!1sid!2sid!4v1491455925919" 
+                                width="100%" 
+                                height="100%" 
+                                style={{border:0}} 
+                                allowFullScreen={true} 
+                                loading="lazy" 
+                                referrerPolicy="no-referrer-when-downgrade"
+                                className="grayscale group-hover:grayscale-0 transition-all duration-700 absolute inset-0 w-full h-full"
+                             ></iframe>
+                        </div>
+                    </div>
+
+                    {/* --- OFFICE 2: BEKASI --- */}
+                    <div className="bg-white border border-gray-200 shadow-sm flex flex-col lg:flex-row overflow-hidden group">
+                        
+                        {/* LEFT: CONTENT */}
+                        <div className="lg:w-5/12 p-8 lg:p-12 flex flex-col justify-center">
+                            <h3 className="text-3xl font-light text-[#2f4e9b] mb-8 border-b border-[#a3238e]/30 pb-4 inline-block">
+                                BEKASI
+                            </h3>
+                            
+                            <div className="space-y-5 text-sm font-light text-[#57595f] leading-relaxed">
+                                <div className="flex items-center gap-4">
+                                    <Phone className="w-5 h-5 text-[#a3238e] flex-shrink-0" />
+                                    <span className="text-lg tracking-wide">(021) 89454773</span>
+                                </div>
+                                {/* Hide Printer if not available for Bekasi, or add N/A */}
+                                <div className="flex items-start gap-4 mt-2">
+                                    <MapPin className="w-5 h-5 text-[#a3238e] flex-shrink-0 mt-1" />
+                                    <div className="text-base">
+                                        Ruko Mutiara Bekasi Center Blok B9 No. 18<br />
+                                        Jl. Ahmad Yani<br />
+                                        Bekasi 17141<br />
+                                        Indonesia
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <a 
-                            href="https://goo.gl/maps/generic-placeholder" 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                        >
-                            <button className="border border-[#2f4e9b] text-[#2f4e9b] hover:bg-[#2f4e9b] hover:text-white rounded-full px-8 py-3 text-[11px] uppercase tracking-[0.15em] transition-all duration-300">
-                                Get Directions
-                            </button>
-                        </a>
+                        {/* RIGHT: MAP */}
+                        <div className="lg:w-7/12 min-h-[350px] relative bg-gray-100 border-l border-gray-200">
+                             <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d507669.03765582875!2d106.71357287303417!3d-6.242058418836014!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e698c3a9dadd66d%3A0x2fa72b89582a8389!2sJon+Bernard+%26+Associates!5e0!3m2!1sid!2ssg!4v1491516802243" 
+                                width="100%" 
+                                height="100%" 
+                                style={{border:0}} 
+                                allowFullScreen={true} 
+                                loading="lazy" 
+                                referrerPolicy="no-referrer-when-downgrade"
+                                className="grayscale group-hover:grayscale-0 transition-all duration-700 absolute inset-0 w-full h-full"
+                             ></iframe>
+                        </div>
                     </div>
 
                 </div>
@@ -190,7 +238,6 @@ export default function LetsTalkPage() {
                     <button type="submit" className="text-white uppercase tracking-widest text-sm flex items-center gap-2 hover:opacity-70 transition-opacity whitespace-nowrap ml-4">
                         Send <ArrowRight className="w-4 h-4" />
                     </button>
-                    {/* Vertical line decoration */}
                     <div className="absolute top-0 left-[-20px] h-[70%] w-[1px] bg-white hidden lg:block"></div>
                 </form>
             </div>

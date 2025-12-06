@@ -217,11 +217,13 @@ export default function HomePage() {
                         Who We Are
                     </div>
                     <h3 className="text-3xl lg:text-4xl font-light leading-tight mb-8">
-                        Jon Bernard & Associates (“Firma Hukum”) berkomitmen penuh untuk memberikan jasa hukum yang baik dan bermutu serta memberikan perhatian yang penuh kepada klien
+                        Jon Bernard & Associates (“Firma Hukum”) berkomitmen penuh untuk memberikan jasa hukum yang baik dan bermutu serta memberikan perhatian yang penuh kepada klien.
                     </h3>
-                    <p className="text-xl lg:text-2xl font-light mb-6">
-                        Tujuan Firma Hukum ini adalah membantu para klien secara efektif dan efisien untuk mencapai tujuannya dan menyelesaikan segala transaksi dan permasalahan yang sedang dan/atau akan dihadapinya.
-                    </p>
+                    <div>
+                        <Button className="border border-white bg-transparent hover:bg-white hover:text-[#2f4e9b] text-white rounded-full px-8 py-6 text-xs uppercase tracking-wider">
+                            Read more
+                        </Button>
+                     </div>
                 </div>
                 <div className="lg:w-1/2 flex flex-col justify-between">
                      <div className="relative h-64 lg:h-80 w-full mb-8">
@@ -231,14 +233,6 @@ export default function HomePage() {
                             fill 
                             className="object-cover"
                         />
-                     </div>
-                     <div>
-                        <p className="text-white/80 font-light leading-relaxed mb-8 text-sm lg:text-base">
-                            Firma Hukum ini didirikan pada bulan Mei 2008 dan telah dipercaya oleh banyak perusahaan, termasuk perusahaan modal asing yang melakukan kegiatan usaha di Indonesia dan/atau didirikan dengan hukum Indonesia, mulai dari industri asuransi, perbankan, keuangan, industri manufaktur, perdagangan hingga pertambangan.
-                        </p>
-                        <Button className="border border-white bg-transparent hover:bg-white hover:text-[#2f4e9b] text-white rounded-full px-8 py-6 text-xs uppercase tracking-wider">
-                            Discover Our Firm
-                        </Button>
                      </div>
                 </div>
             </div>
@@ -250,8 +244,8 @@ export default function HomePage() {
                         <span className="w-1 h-3 bg-[#50b848] -skew-x-12 inline-block"></span>
                         Legal Updates, Publications & News
                     </div>
-                    <p className="text-2xl lg:text-4xl font-light max-w-2xl">
-                        Keeping you up to date on the latest legal developments in Indonesia
+                    <p className="text-2xl lg:text-3xl font-light max-w-2xl">
+                        Memberikan Anda informasi terkini tentang perkembangan hukum terbaru di Indonesia
                     </p>
                  </div>
                  <Button className="mt-8 lg:mt-0 border border-white bg-transparent hover:bg-white hover:text-[#2f4e9b] text-white rounded-full px-8 py-6 text-xs uppercase tracking-wider">

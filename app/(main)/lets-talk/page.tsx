@@ -114,51 +114,6 @@ export default function LetsTalkPage() {
                 {/* LOCATIONS STACK */}
                 <div className="flex flex-col gap-12">
                     
-                    {/* --- OFFICE 1: JAKARTA --- */}
-                    <div className="bg-white border border-gray-200 shadow-sm flex flex-col lg:flex-row overflow-hidden group">
-                        
-                        {/* LEFT: CONTENT */}
-                        <div className="lg:w-5/12 p-8 lg:p-12 flex flex-col justify-center">
-                            <h3 className="text-3xl font-light text-[#2f4e9b] mb-8 border-b border-[#a3238e]/30 pb-4 inline-block">
-                                JAKARTA
-                            </h3>
-                            
-                            <div className="space-y-5 text-sm font-light text-[#57595f] leading-relaxed">
-                                <div className="flex items-center gap-4">
-                                    <Phone className="w-5 h-5 text-[#a3238e] flex-shrink-0" />
-                                    <span className="text-lg tracking-wide">(021) 29391190</span>
-                                </div>
-                                <div className="flex items-center gap-4">
-                                    <Printer className="w-5 h-5 text-[#a3238e] flex-shrink-0" />
-                                    <span className="text-lg tracking-wide">(021) 29391222</span>
-                                </div>
-                                <div className="flex items-start gap-4 mt-2">
-                                    <MapPin className="w-5 h-5 text-[#a3238e] flex-shrink-0 mt-1" />
-                                    <div className="text-base">
-                                        Menara Palma 12th Floor<br />
-                                        Jl.HR.Rasuna Said Kav.6 Blok X-2<br />
-                                        Jakarta 12950<br />
-                                        Indonesia
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* RIGHT: MAP */}
-                        <div className="lg:w-7/12 min-h-[350px] relative bg-gray-100 border-l border-gray-200">
-                             <iframe 
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.2792527043307!2d106.8335968!3d-6.226865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3f1dbde3e0d%3A0x7e32cfcf0b94c78b!2sJon+Bernard+%26+Associates!5e0!3m2!1sid!2sid!4v1491455925919" 
-                                width="100%" 
-                                height="100%" 
-                                style={{border:0}} 
-                                allowFullScreen={true} 
-                                loading="lazy" 
-                                referrerPolicy="no-referrer-when-downgrade"
-                                className="grayscale group-hover:grayscale-0 transition-all duration-700 absolute inset-0 w-full h-full"
-                             ></iframe>
-                        </div>
-                    </div>
-
                     {/* --- OFFICE 2: BEKASI --- */}
                     <div className="bg-white border border-gray-200 shadow-sm flex flex-col lg:flex-row overflow-hidden group">
                         
@@ -177,10 +132,9 @@ export default function LetsTalkPage() {
                                 <div className="flex items-start gap-4 mt-2">
                                     <MapPin className="w-5 h-5 text-[#a3238e] flex-shrink-0 mt-1" />
                                     <div className="text-base">
-                                        Ruko Mutiara Bekasi Center Blok B9 No. 18<br />
-                                        Jl. Ahmad Yani<br />
-                                        Bekasi 17141<br />
-                                        Indonesia
+                                        Ruko Commercial Park 2<br/>
+                                        Jl. Harapan Indah Raya, Blok CP 2.2 No.1<br/>
+                                        Bekasi 17214, Indonesia
                                     </div>
                                 </div>
                             </div>

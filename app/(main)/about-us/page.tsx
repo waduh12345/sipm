@@ -12,21 +12,14 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import { SiteHeader } from "@/components/site-header"; // Import komponen baru
-import Footer from "@/components/footer/footer";
+import { SiteFooter } from "@/components/site-footer";
 
 // --- DATA DUMMY (Sesuai Konten HTML) ---
 
 const JOURNEY_DATA = [
-  { year: "'92", title: "1992", text: "Jon Bernard & Associates is founded by four women, including Dyah Soewito and Ira A. Eddymurthy, and moves into Mayapada Tower, in the heart of Jakarta’s business district." },
-  { year: "'97", title: "1997", text: "During the Asian economic crisis, Jon Bernard & Associates participates in the Initiative Group and contributes ideas on ways to deal with unsettled debt, including Indonesia’s new Bankruptcy Law." },
-  { year: "'98-'00", title: "1998-2000", text: "Jon Bernard & Associates advises several clients with assets held by the Indonesian Bank Restructuring Agency (IBRA)." },
-  { year: "'02", title: "2002", text: "Jon Bernard & Associates celebrates its 10th anniversary at Gedung Arsip Jakarta (National Archives Building) with more than 1,000 guests." },
-  { year: "'03", title: "2003", text: "Jon Bernard & Associates appoints new partners for the first time, welcoming Rusmaini Lenggogeni, among others, to the firm’s partnership team." },
-  { year: "'04", title: "2004", text: "Jon Bernard & Associates advises the creditor group on the restructuring of Asian Pulp & Paper, the largest debt restructuring in Asian history." },
-  { year: "'06", title: "2006", text: "Jon Bernard & Associates is named Indonesia Law Firm of the Year by Who’s Who Legal. Jon Bernard & Associates is the first Indonesian law firm to receive this recognition." },
-  { year: "'09", title: "2009", text: "Jon Bernard & Associates introduces three new partners, including Fitriana Mahiddin, and becomes the largest independent law firm in Indonesia." },
-  { year: "'17", title: "2017", text: "Jon Bernard & Associates celebrates its 25th anniversary with a gala event at Grand Hyatt Jakarta and a cocktail party in Sydney." },
-  { year: "'22", title: "2022", text: "Jon Bernard & Associates celebrates its 30th anniversary and unveils a new-look logo." },
+  { year: "-2013", title: "2008 - 2013", text: "Jon Bernard & Associates is founded by four women, including Dyah Soewito and Ira A. Eddymurthy, and moves into Mayapada Tower, in the heart of Jakarta’s business district." },
+  { year: "-2019", title: "2014 - 2019", text: "During the Asian economic crisis, Jon Bernard & Associates participates in the Initiative Group and contributes ideas on ways to deal with unsettled debt, including Indonesia’s new Bankruptcy Law." },
+  { year: "-2025", title: "2020-2025", text: "Jon Bernard & Associates advises several clients with assets held by the Indonesian Bank Restructuring Agency (IBRA)." },
 ];
 
 const AFFILIATIONS = [
@@ -87,7 +80,7 @@ export default function OurFirmPage() {
       <section className="py-12">
         <div className="container mx-auto px-6 mb-20">
             <div className="flex flex-col items-center mb-24">
-                <div className="w-10/12 flex flex-col lg:flex-row gap-8">
+                <div className="w-12/12 flex flex-col lg:flex-row gap-8">
                     <div className="flex items-center gap-3 uppercase text-sm tracking-[0.15em] font-semibold text-[#2f4e9b] min-w-[200px]">
                         <span className="w-1 h-3 bg-[#50b848] -skew-x-12 inline-block"></span>
                         About Us
@@ -108,10 +101,10 @@ export default function OurFirmPage() {
                     />
                 </div>
                 <div className="lg:w-5/12">
-                    <h3 className="text-2xl lg:text-2xl text-[#2f4e9b] font-light leading-snug mb-8">
+                    <h3 className="text-md lg:text-lg text-[#2f4e9b] font-light leading-snug mb-8 text-justify">
                         Jon Bernard & Associates (“Firma Hukum”) berkomitmen penuh untuk memberikan jasa hukum yang baik dan bermutu serta memberikan perhatian yang penuh kepada klien.
                     </h3>
-                    <div className="text-[#57595f] font-light leading-relaxed space-y-6 text-sm lg:text-base">
+                    <div className="text-[#57595f] font-light leading-relaxed space-y-6 text-sm lg:text-base text-justify">
                         <p>Tujuan Firma Hukum ini adalah membantu para klien secara efektif dan efisien untuk mencapai tujuannya dan menyelesaikan segala transaksi dan permasalahan yang sedang dan/atau akan dihadapinya.</p>
                         <p>Firma Hukum ini didirikan pada bulan Mei 2008 dan telah dipercaya oleh banyak perusahaan, termasuk perusahaan modal asing yang melakukan kegiatan usaha di Indonesia dan/atau didirikan dengan hukum Indonesia, mulai dari industri asuransi, perbankan, keuangan, industri manufaktur, perdagangan hingga pertambangan.</p>
                     </div>
@@ -152,7 +145,7 @@ export default function OurFirmPage() {
                     </div>
                     <div className="relative z-10 mt-20 lg:mt-32">
                         <h4 className="text-3xl font-light mb-6">{item.title}</h4>
-                        <div className="text-sm lg:text-base font-light leading-relaxed h-48 overflow-y-auto pr-2 custom-scrollbar">
+                        <div className="text-sm lg:text-base font-light leading-relaxed h-48 overflow-y-auto pr-2 custom-scrollbar text-justify">
                             {item.text}
                         </div>
                     </div>
@@ -162,105 +155,62 @@ export default function OurFirmPage() {
       </section>
 
       {/* --- CO-FOUNDER TRIBUTE --- */}
-    <section className="py-24 bg-[#f7fbff]">
+    <section className="py-12 md:py-12 bg-[#f7fbff]">
       <div className="container mx-auto px-6">
         <div className="flex flex-col lg:flex-row items-center gap-16">
-            <button
-            className="lg:w-1/2 w-full group relative aspect-[1.3] focus:outline-none"
-            onClick={() => setMobileMenuOpen(true)}
-            aria-label="Show Jon Bernard Pasaribu Profile"
-            style={{ background: "none", border: "none", padding: 0 }}
-            >
-              <Image 
-                src="https://jonb-lawfirm.com/wp-content/uploads/2017/04/foto.png"
-                alt="Jon Bernard Pasaribu"
-                fill
-                className="object-contain object-left group-hover:scale-105 transition-transform"
-              />
-            </button>
-            <div className="lg:w-1/2">
-              <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#2f4e9b]">
-                <span className="w-1 h-3 bg-[#a3238e] -skew-x-12 inline-block"></span>
-                Jon Bernard Pasaribu
-              </div>
-              <h3 className="text-3xl text-[#2f4e9b] font-light mb-6">
-                A friend and mentor for countless lawyers over thirty-plus years.
-              </h3>
-              <p className="text-[#57595f] font-light mb-8 text-justify leading-relaxed">
-                Pendiri dan Managing Partners pada Firma Hukum Jon Bernard & Associates, memperoleh gelar Sarjana Hukum dari Universitas Sumatera Utara (USU), Medan dan meraih gelar Magister Hukum pada Universitas Pancasila, Jakarta. Jon Bernard Pasaribu memulai karier hukum dan pengacara sebagai Associates pada Hendro Kanon & Partners kemudian berubah menjadi Kanon Arruanpitu Lawfirm dengan jabatan terakhir sebagai Senior Lawyer, kemudian mendirikan firma hukumnya sendiri bernama Jon Bernard & Associates pada tahun 2008.
-              </p>
-              <Link href="#" legacyBehavior>
-                <a onClick={e => { e.preventDefault(); setMobileMenuOpen(true); }}>
-                    <Button variant="outline" className="border-[#2f4e9b] text-[#2f4e9b] hover:bg-[#2f4e9b] hover:text-white rounded-full px-8 py-6 uppercase text-xs tracking-wider">
-                      Read More About Jon Bernard Pasaribu
-                    </Button>
-                </a>
-              </Link>
+            <div className="flex flex-col lg:flex-row items-start gap-8 w-full">
+                {/* Image: 1/3 width on large screens */}
+                <div className="w-full lg:w-1/3 flex-shrink-0">
+                    <button
+                        className="w-full aspect-[1.3] group relative focus:outline-none"
+                        onClick={() => setMobileMenuOpen(true)}
+                        aria-label="Show Jon Bernard Pasaribu Profile"
+                        style={{ background: "none", border: "none", padding: 0 }}
+                    >
+                        <Image 
+                            src="https://jonb-lawfirm.com/wp-content/uploads/2017/04/foto.png"
+                            alt="Jon Bernard Pasaribu"
+                            fill
+                            className="object-contain object-left group-hover:scale-105 transition-transform rounded-xl border border-gray-200"
+                        />
+                    </button>
+                </div>
+                {/* Text: 2/3 width on large screens */}
+                <div className="flex-1 lg:w-2/3">
+                    <h3 className="text-3xl text-[#2f4e9b] font-light mb-6">
+                        JON BERNARD PASARIBU, S.H., M.H.
+                    </h3>
+                    <p className="text-[#57595f] font-light mb-2 text-justify leading-relaxed">
+                        Jon Bernard Pasaribu adalah Pendiri dan Managing Partners pada Firma Hukum Jon Bernard & Associates, memperoleh gelar Sarjana Hukum dari Universitas Sumatera Utara (USU), Medan dan meraih gelar Magister Hukum pada Universitas Pancasila, Jakarta. Jon Bernard Pasaribu memulai karier hukum dan pengacara sebagai Associates pada Hendro Kanon & Partners kemudian berubah menjadi Kanon Arruanpitu Lawfirm dengan jabatan terakhir sebagai Senior Lawyer, kemudian mendirikan firma hukumnya sendiri bernama Jon Bernard & Associates pada tahun 2008.
+                    </p>
+                    <p className="text-[#57595f] font-light mb-2 text-justify leading-relaxed">
+                        Jon Bernard Pasaribu memiliki keahlian khusus dalam melakukan Investigasi terhadap kecurangan, penipuan serta klaim fiktif dibidang asuransi, baik asuransi jiwa maupun asuransi kerugian. Disamping keahlian Investigasi, Jon Bernard Pasaribu juga mempunyai banyak pengalaman menangani litigasi dan transaksi perusahaan, antara lain sebagai berikut:
+                    </p>
+                    <ul className="list-disc pl-6 text-[#57595f] font-light mb-2 text-justify leading-relaxed space-y-2">
+                        <li>Asuransi & Re-asuransi (adviser and claim investigator)</li>
+                        <li>Litigasi Koorporasi, Arbitrase, Kepailitan dan Penundaan Kewajiban Pembayaran Utang (PKPU)</li>
+                        <li>Litigasi Kriminal</li>
+                        <li>Pasar Modal & Sekuritas</li>
+                        <li>Hukum Perusahaan (Aksi koorporasi: Penggabungan, pengambilalihan dan restrukturisassi)</li>
+                        <li>Perbankan & Keuangan</li>
+                        <li>Konstruksi dan Infrastruktur</li>
+                        <li>Pertambangan, Energi, Minyak dan Gas</li>
+                        <li>Kekayaan Intelektual dan Informasi Teknologi</li>
+                    </ul>
+                    <p className="text-[#57595f] font-light mb-2 text-justify leading-relaxed">
+                        Dalam menjalankan kegiatannya, Jon Bernard Pasaribu mempunyai izin untuk memberikan jasa hukum di Indonesia dan terdaftar sebagai anggota PERADI. Jon Bernard Pasaribu juga mempunyai izin untuk memberikan jasa hukum di bidang Pasar Modal dan terdaftar sebagai anggota HKHPM (Himpunan Konsultan Hukum Pasar Modal).
+                    </p>
+                    <p className="text-[#57595f] font-light text-justify leading-relaxed">
+                        Bahasa yang dikuasai: Indonesia dan Inggris.
+                    </p>
+                </div>
             </div>
         </div>
       </div>
-      {/* Modal */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60"
-        >
-          <motion.div
-            initial={{ scale: 0.95, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.95, opacity: 0 }}
-            className="bg-white rounded-xl shadow-2xl max-w-6xl w-full mx-4 flex flex-col lg:flex-row overflow-hidden relative"
-          >
-            <button
-            className="absolute top-6 right-6 z-10"
-            onClick={() => setMobileMenuOpen(false)}
-            aria-label="Close Modal"
-            >
-            <X className="w-8 h-8 text-[#2f4e9b]" />
-            </button>
-            <div className="lg:w-2/2 w-full p-8 overflow-y-auto max-h-[80vh]">
-            <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#2f4e9b]">
-              <span className="w-1 h-3 bg-[#a3238e] -skew-x-12 inline-block"></span>
-              Jon Bernard Pasaribu
-            </div>
-            <h3 className="text-2xl text-[#2f4e9b] font-light mb-6">
-              Pendiri dan Managing Partners pada Firma Hukum Jon Bernard & Associates
-            </h3>
-            <p className="text-[#57595f] font-light mb-6 text-justify leading-relaxed">
-              Jon Bernard Pasaribu adalah Pendiri dan Managing Partners pada Firma Hukum Jon Bernard & Associates, memperoleh gelar Sarjana Hukum dari Universitas Sumatera Utara (USU), Medan dan meraih gelar Magister Hukum pada Universitas Pancasila, Jakarta. Jon Bernard Pasaribu memulai karier hukum dan pengacara sebagai Associates pada Hendro Kanon & Partners kemudian berubah menjadi Kanon Arruanpitu Lawfirm dengan jabatan terakhir sebagai Senior Lawyer, kemudian mendirikan firma hukumnya sendiri bernama Jon Bernard & Associates pada tahun 2008.
-            </p>
-            <p className="text-[#57595f] font-light mb-6 text-justify leading-relaxed">
-              Jon Bernard Pasaribu memiliki keahlian khusus dalam melakukan Investigasi terhadap kecurangan, penipuan serta klaim fiktif dibidang asuransi, baik asuransi jiwa maupun asuransi kerugian. Disamping keahlian Investigasi, Jon Bernard Pasaribu juga mempunyai banyak pengalaman menangani litigasi dan transaksi perusahaan, antara lain sebagai berikut:
-            </p>
-            <ul className="list-disc pl-6 text-[#57595f] font-light mb-6 text-justify leading-relaxed space-y-2">
-              <li>Asuransi & Re-asuransi (adviser and claim investigator)</li>
-              <li>Litigasi Koorporasi, Arbitrase, Kepailitan dan Penundaan Kewajiban Pembayaran Utang (PKPU)</li>
-              <li>Litigasi Kriminal</li>
-              <li>Pasar Modal & Sekuritas</li>
-              <li>Hukum Perusahaan (Aksi koorporasi: Penggabungan, pengambilalihan dan restrukturisassi)</li>
-              <li>Perbankan & Keuangan</li>
-              <li>Konstruksi dan Infrastruktur</li>
-              <li>Pertambangan, Energi, Minyak dan Gas</li>
-              <li>Kekayaan Intelektual dan Informasi Teknologi</li>
-            </ul>
-            <p className="text-[#57595f] font-light mb-6 text-justify leading-relaxed">
-              Dalam menjalankan kegiatannya, Jon Bernard Pasaribu mempunyai izin untuk memberikan jasa hukum di Indonesia dan terdaftar sebagai anggota PERADI. Jon Bernard Pasaribu juga mempunyai izin untuk memberikan jasa hukum di bidang Pasar Modal dan terdaftar sebagai anggota HKHPM (Himpunan Konsultan Hukum Pasar Modal).
-            </p>
-            <p className="text-[#57595f] font-light text-justify leading-relaxed">
-              Bahasa yang dikuasai: Indonesia dan Inggris.
-            </p>
-            </div>
-          </motion.div>
-        </motion.div>
-        )}
-      </AnimatePresence>
     </section>
 
       {/* --- AFFILIATIONS & MEMBERSHIPS --- */}
-    <section className="py-24 bg-[#f7fbff]">
+    <section className="py-12 bg-[#f7fbff]">
       <div className="container mx-auto px-6">
         <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#58b0e3]">
             <span className="w-1 h-3 bg-[#58b0e3] -skew-x-12 inline-block"></span>
@@ -402,7 +352,7 @@ export default function OurFirmPage() {
       </section>
 
       {/* --- FOOTER --- */}
-        <Footer />
+        <SiteFooter />
     </div>
   );
 }

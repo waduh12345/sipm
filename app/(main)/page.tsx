@@ -16,26 +16,26 @@ import { SiteHeader } from "@/components/site-header";
 const HERO_SLIDES = [
   {
     id: 1,
-    title: "Jon Bernard & Associates Founding Partner Speaks at BANI Anniversary Seminar",
-    image: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=2000&auto=format&fit=crop", // Placeholder visual legal
+    title: "Asuransi & Re-asuransi (adviser and claim investigator)",
+    image: "/slide/slide-asuransi-dan-reasuransi.webp", // Placeholder visual legal
     link: "#"
   },
   {
     id: 2,
-    title: "Jon Bernard & Associates Partner Winnie Y. Rolindrawan Receives Lexology Client Choice Award for Fintech",
-    image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2000&auto=format&fit=crop",
+    title: "Litigasi Koorporasi, Arbitrase, Kepailitan dan Penundaan Kewajiban Pembayaran Utang (PKPU)",
+    image: "/slide/slide-litigasi-koorporasi.webp",
     link: "#"
   },
   {
     id: 3,
-    title: "Indonesia Cybersecurity Laws and Regulations",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000&auto=format&fit=crop",
+    title: "Litigasi Kriminal",
+    image: "/slide/slide-litigasi-kriminal.webp",
     link: "#"
   },
   {
     id: 4,
-    title: "Jon Bernard & Associates Named to GRR 100 Again in 2025 – Leading Restructuring & Insolvency Practice",
-    image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=2000&auto=format&fit=crop",
+    title: "Kekayaan Intelektual dan Informasi Teknologi",
+    image: "/slide/slide-kekayaan-intelektual-informasi-teknologi.webp",
     link: "#"
   }
 ];
@@ -140,13 +140,19 @@ export default function HomePage() {
                 
                 {/* Left Text */}
                 <div className="lg:w-7/12 mb-10 lg:mb-0">
-                    <div className="flex items-center gap-3 mb-4 text-[#FCD400] uppercase text-md tracking-[0.15em] font-semibold">
-                        <span className="w-1 h-3 bg-[#a3238e] -skew-x-12 inline-block"></span>
-                        Solusi Hukum Terpercaya untuk Setiap Permasalahan Anda
-                    </div>
-                    <h2 className="text-4xl lg:text-5xl font-light text-white leading-tight">
-                        LAYANAN HUKUM PROFESIONAL, RESPONSIF &  BERORIENTASI PADA HASIL TERBAIK
+                    <h2 className="text-2xl lg:text-5xl font-light text-[#FCD400] leading-tight relative inline-block">
+                        Welcome
+                        <span className="block h-1 md:w-52 bg-[#FCD400] rounded"></span>
                     </h2>
+                    <div className="flex items-center gap-3 mb-4 text-[#FCD400] uppercase text-xl md:text-3xl mt-4 tracking-[0.15em] font-semibold">
+                        Jon Bernard & Associates Your Trusted Legal Partner
+                    </div>
+                    <h2 className="text-md lg:text-2xl font-light text-white leading-tight">
+                        Firma hukum yang berdiri untuk melindungi kepentingan Anda dengan ketegasan, dedikasi dan strategi yang terukur
+                    </h2>
+                    <Button className="mt-8 border border-white bg-transparent hover:bg-white hover:text-[#2f4e9b] text-white rounded-full px-8 py-6 text-xs uppercase tracking-wider">
+                        Find our more
+                    </Button>
                 </div>
 
                 {/* Right Slider (News Widget) */}
@@ -174,12 +180,6 @@ export default function HomePage() {
                                     <h3 className="text-white text-base sm:text-lg font-medium leading-snug mb-3 sm:mb-4 line-clamp-3">
                                         {HERO_SLIDES[currentHeroSlide].title}
                                     </h3>
-                                    <Button
-                                        variant="outline"
-                                        className="border-white text-white hover:bg-white hover:text-[#2f4e9b] rounded-full text-xs uppercase tracking-wider h-8 px-3 sm:px-4 bg-transparent transition-all w-full sm:w-auto"
-                                    >
-                                        Read Article
-                                    </Button>
                                 </div>
                             </motion.div>
                         </AnimatePresence>
@@ -205,134 +205,10 @@ export default function HomePage() {
                 </div>
             </div>
         </div>
-      </section>
-
-      {/* --- WHO WE ARE --- */}
-      <section className="bg-[#2f4e9b] py-24 text-white">
-        <div className="container mx-auto px-6">
-            <div className="flex flex-col lg:flex-row gap-16 mb-20">
-                <div className="lg:w-1/2">
-                    <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#50b848]">
-                        <span className="w-1 h-3 bg-[#50b848] -skew-x-12 inline-block"></span>
-                        Who We Are
-                    </div>
-                    <h3 className="text-3xl lg:text-4xl font-light leading-tight mb-8">
-                        Jon Bernard & Associates (“Firma Hukum”) berkomitmen penuh untuk memberikan jasa hukum yang baik dan bermutu serta memberikan perhatian yang penuh kepada klien.
-                    </h3>
-                    <div>
-                        <Button className="border border-white bg-transparent hover:bg-white hover:text-[#2f4e9b] text-white rounded-full px-8 py-6 text-xs uppercase tracking-wider">
-                            Read more
-                        </Button>
-                     </div>
-                </div>
-                <div className="lg:w-1/2 flex flex-col justify-between">
-                     <div className="relative h-64 lg:h-80 w-full mb-8">
-                        <Image 
-                            src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop" 
-                            alt="Office" 
-                            fill 
-                            className="object-cover"
-                        />
-                     </div>
-                </div>
-            </div>
-
-            {/* Legal Updates Header */}
-            <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between border-t border-white/20 pt-16">
-                 <div>
-                    <div className="flex items-center gap-3 mb-4 uppercase text-sm tracking-[0.15em] font-semibold text-[#50b848]">
-                        <span className="w-1 h-3 bg-[#50b848] -skew-x-12 inline-block"></span>
-                        Legal Updates, Publications & News
-                    </div>
-                    <p className="text-2xl lg:text-3xl font-light max-w-2xl">
-                        Memberikan Anda informasi terkini tentang perkembangan hukum terbaru di Indonesia
-                    </p>
-                 </div>
-                 <Button className="mt-8 lg:mt-0 border border-white bg-transparent hover:bg-white hover:text-[#2f4e9b] text-white rounded-full px-8 py-6 text-xs uppercase tracking-wider">
-                    Discover The Indonesia Law Blog
-                 </Button>
-            </div>
-        </div>
-      </section>
-
-      {/* --- SLIDER SECTION (Legal Updates) --- */}
-    <section className="bg-[#2f4e9b] pb-24 text-white overflow-hidden">
-        <div className="container mx-auto px-6">
-            {/* Slider Controls */}
-            <div className="flex justify-end mb-6 gap-3">
-                <button
-                    onClick={() =>
-                        setLatestStart((prev) =>
-                            prev === 0 ? maxLatestStart : prev - 1
-                        )
-                    }
-                    className="w-10 h-10 rounded-full border border-white/60 flex items-center justify-center text-white hover:bg-white/20 transition-all disabled:opacity-40"
-                    disabled={latestStart === 0}
-                    aria-label="Previous"
-                >
-                    <ChevronLeft size={16} />
-                </button>
-                <button
-                    onClick={() =>
-                        setLatestStart((prev) =>
-                            prev === maxLatestStart ? 0 : prev + 1
-                        )
-                    }
-                    className="w-10 h-10 rounded-full border border-white/60 flex items-center justify-center text-white hover:bg-white/20 transition-all disabled:opacity-40"
-                    disabled={latestStart === maxLatestStart}
-                    aria-label="Next"
-                >
-                    <ChevronRight size={16} />
-                </button>
-            </div>
-            <div className="relative overflow-x-hidden pb-8">
-                <AnimatePresence mode="wait" initial={false}>
-                    <motion.div
-                        key={latestStart}
-                        initial={{ opacity: 0, x: 60 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -60 }}
-                        transition={{ duration: 0.5, ease: "easeInOut" }}
-                        className="flex gap-8 snap-x"
-                    >
-                        {LATEST_UPDATES.slice(latestStart, latestStart + 3).map((item) => (
-                            <div key={item.id} className="min-w-[85%] lg:min-w-[30%] snap-center">
-                                <div className="relative aspect-[5/3] mb-6 group cursor-pointer">
-                                    <Image
-                                        src={item.image}
-                                        alt={item.title}
-                                        fill
-                                        className="object-cover transition-transform duration-700 group-hover:scale-105"
-                                    />
-                                </div>
-                                <div className="text-xs uppercase tracking-widest text-white/70 mb-3">
-                                    {item.category} / {item.date}
-                                </div>
-                                <h4 className="text-xl lg:text-2xl font-light leading-snug mb-6 hover:underline cursor-pointer">
-                                    {item.title}
-                                </h4>
-                                <Button className="border border-white bg-transparent hover:bg-white hover:text-[#2f4e9b] text-white rounded-full px-6 py-2 text-[10px] uppercase tracking-wider">
-                                    Read Article
-                                </Button>
-                            </div>
-                        ))}
-                    </motion.div>
-                </AnimatePresence>
-            </div>
-            {/* Progress Bar Visual */}
-            <div className="w-full h-[2px] bg-white/20 mt-8 relative">
-                <div
-                    className="absolute top-0 left-0 h-full bg-white transition-all duration-300"
-                    style={{
-                        width: `${((latestStart + 1) / (maxLatestStart + 1)) * 100}%`,
-                    }}
-                ></div>
-            </div>
-        </div>
     </section>
 
       {/* --- OUR EXPERTISE --- */}
-      <section className="py-32 bg-[#f7fbff]">
+    <section className="py-32 bg-[#f7fbff]">
         <div className="container mx-auto px-6">
             <div className="flex flex-col lg:flex-row items-center">
                 <div className="lg:w-12/12">
@@ -343,19 +219,19 @@ export default function HomePage() {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start"></div>
                         <div>
                             <h2 className="text-3xl lg:text-4xl font-light text-[#2f4e9b] leading-tight mb-8">
-                                Jon Bernard & Associates mempunyai keahlian dalam menangani permasalahan hukum asuransi dan ahli dalam melakukan investigasi Klaim.
+                                Jon Bernard & Associates memiliki kompetensi profesional dalam penanganan perkara hukum di bidang asuransi serta keahlian khusus dalam melaksanakan investigasi klaim secara sistematis dan sesuai standar regulasi.
                             </h2>
                         </div>
                         <div className="text-[#57595f] font-light leading-relaxed mb-10 text-sm lg:text-base">
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                                 <div>
                                     <p className="text-justify mb-4">
-                                        Firma Hukum juga menangani hal-hal yang berkaitan dengan hukum perusahaan dan pasar modal serta membantu kliennya dalam permasalahan perburuhan (tenaga kerja). Penanganan setiap kasus hukum, baik hukum asuransi, hukum perusahaan maupun pasar modal dapat ditempuh dengan cara non litigasi dan/atau cara litigasi
+                                        Jon Bernard & Associates menangani hal-hal yang berkaitan dengan hukum perusahaan dan pasar modal serta membantu kliennya dalam permasalahan perburuhan (tenaga kerja). Penanganan setiap kasus hukum, baik hukum asuransi, hukum perusahaan maupun pasar modal dapat ditempuh dengan caranon litigasi dan/atau cara litigasi
                                     </p>
                                 </div>
                                 <div>
                                     <p className="text-justify mb-4">
-                                        Firma Hukum dapat membantu kliennya dalam kedua cara tersebut dengan berupaya mencapai hasil yang baik dalam penyelesaian suatu perkara. Dalam beberapa pengalaman menangani kasus, Firma Hukum telah berhasil dengan baik menangani beberapa perkara baik perkara di pengadilan dan juga perkara di arbitrase. Jika diperlukan Firma Hukum juga membantu klien dalam melakukan negosiasi kepada pihak lain.
+                                        Jon Bernard & Associates dapat membantu klien dengan berupaya mencapai hasil yang baik dalam penyelesaian suatu perkara. Dalam beberapa pengalaman menangani kasus, kami telah berhasil dengan baik menangani beberapa perkara baik perkara di pengadilan dan juga perkara di arbitrase. Jika diperlukan kami dapat membantu klien dalam melakukan negosiasi kepada pihak lain.
                                     </p>
                                 </div>
                             </div>
@@ -366,44 +242,56 @@ export default function HomePage() {
       </section>
 
       {/* --- NEWSLETTER SUBSCRIBE --- */}
-      <section className="relative py-32 bg-slate-900">
-         <div className="absolute inset-0 z-0">
-             {/* Background image gelap sesuai referensi */}
-             <Image 
-                src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop" 
-                alt="Meeting" 
-                fill 
+    <section className="relative py-32 bg-slate-900">
+        <div className="absolute inset-0 z-0">
+            <Image
+                src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop"
+                alt="Meeting"
+                fill
                 className="object-cover opacity-30"
             />
             <div className="absolute inset-0 bg-black/40 z-10" />
-         </div>
-         
-         <div className="container mx-auto px-6 relative z-20 flex flex-col lg:flex-row items-end gap-16">
-            <div className="lg:w-1/2">
-                <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#50b848]">
+        </div>
+        <div className="container mx-auto px-6 relative z-20 flex flex-col lg:flex-row items-center gap-16">
+            {/* Left Text */}
+            <div className="lg:w-2/3 w-full">
+                <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#FCD400]">
                     <span className="w-1 h-3 bg-[#50b848] -skew-x-12 inline-block"></span>
-                    Subscribe to Our Newsletter
+                    Ada pertanyaan atau membutuhkan konsultasi hukum?
                 </div>
-                <p className="text-2xl lg:text-3xl font-light text-white">
-                    Tetap perbarui informasi Anda dengan perkembangan hukum terbaru di Indonesia, acara mendatang, publikasi baru, dan berita firma.
+                <p className="text-2xl lg:text-3xl font-light text-white mb-8">
+                    Tim Kantor Hukum JonB & Associates siap membantu Anda dengan penjelasan yang jelas, respons cepat, dan solusi yang tepat. Silakan kirim pertanyaan Anda melalui email atau klik tombol Whatsapp. Kami akan menanggapi setiap pesan secara profesional dan menjaga kerahasiaan penuh.
                 </p>
             </div>
-            <div className="lg:w-1/2 w-full">
-                <form className="flex border-b border-white/50 pb-4 relative">
-                    <input 
-                        type="email" 
-                        placeholder="ENTER YOUR EMAIL ADDRESS" 
-                        className="bg-transparent w-full text-white placeholder:text-white/70 placeholder:font-light text-sm lg:text-lg outline-none uppercase tracking-widest"
-                    />
-                    <button type="submit" className="text-white uppercase tracking-widest text-sm flex items-center gap-2 hover:opacity-70 transition-opacity">
-                        Send <ArrowRight className="w-4 h-4" />
-                    </button>
-                    {/* Vertical line accent */}
-                    <div className="absolute top-0 left-[-20px] h-[70%] w-[1px] bg-white hidden lg:block"></div>
-                </form>
+            {/* Right Buttons */}
+            <div className="lg:w-1/3 w-full flex flex-col items-center lg:items-end justify-center">
+                <div className="flex flex-col lg:flex-row gap-6 mt-4">
+                    <a
+                        href="mailto:info@jonb-associates.com"
+                        className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#FCD400] text-black font-semibold hover:bg-[#3a8c36] transition"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16.5 3h-9A2.5 2.5 0 005 5.5v13A2.5 2.5 0 007.5 21h9a2.5 2.5 0 002.5-2.5v-13A2.5 2.5 0 0016.5 3zM5 7l7 5 7-5" />
+                        </svg>
+                        Email
+                    </a>
+                    <a
+                        href="https://wa.me/6281234567890"
+                        className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#FCD400] text-black font-semibold hover:bg-[#1da851] transition"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 32 32" fill="currentColor">
+                            <path d="M16 3C9.373 3 4 8.373 4 15c0 2.637.86 5.09 2.48 7.18L4 29l7.09-2.32A12.93 12.93 0 0016 27c6.627 0 12-5.373 12-12S22.627 3 16 3zm0 22c-1.97 0-3.89-.52-5.56-1.5l-.4-.23-4.2 1.37 1.37-4.09-.26-.42A9.97 9.97 0 016 15c0-5.514 4.486-10 10-10s10 4.486 10 10-4.486 10-10 10zm5.07-7.75c-.28-.14-1.65-.81-1.9-.9-.25-.09-.43-.14-.61.14-.18.28-.7.9-.86 1.08-.16.18-.32.2-.6.07-.28-.14-1.18-.44-2.25-1.4-.83-.74-1.39-1.65-1.55-1.93-.16-.28-.02-.43.12-.57.13-.13.28-.34.42-.51.14-.17.18-.29.28-.48.09-.19.05-.36-.02-.5-.07-.14-.61-1.47-.84-2.02-.22-.53-.45-.46-.61-.47-.16-.01-.36-.01-.56-.01-.19 0-.5.07-.76.36-.26.28-1 1-1 2.43s1.03 2.82 1.18 3.02c.15.2 2.03 3.11 5.01 4.23.7.24 1.25.38 1.68.49.71.18 1.36.16 1.87.1.57-.07 1.65-.67 1.88-1.32.23-.65.23-1.2.16-1.32-.07-.12-.25-.19-.53-.33z"/>
+                        </svg>
+                        Whatsapp
+                    </a>
+                </div>
             </div>
-         </div>
-      </section>
+        </div>
+    </section>
     <SiteFooter />
     </div>
   );

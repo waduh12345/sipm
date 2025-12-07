@@ -9,7 +9,7 @@ import {
   ArrowUpRight
 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header"; // Import komponen baru
-import Footer from "@/components/footer/footer";
+import { SiteFooter } from "@/components/site-footer";
 
 // --- DATA DUMMY (Sesuai Konten Asli) ---
 const EXPERTISE_DATA = [
@@ -272,7 +272,7 @@ export default function OurExpertisePage() {
       </section>
 
       {/* --- FOOTER --- */}
-      <Footer />
+      <SiteFooter />
     </div>
   );
 }

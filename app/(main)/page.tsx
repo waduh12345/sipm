@@ -124,7 +124,7 @@ export default function HomePage() {
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
             <Image 
-                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop" 
+                src="/WhatsApp Image 2025-12-08 at 18.01.25.jpeg" 
                 alt="Building" 
                 fill 
                 className="object-cover"
@@ -245,7 +245,7 @@ export default function HomePage() {
     <section className="relative py-12 md:py-32 bg-slate-900 mt-[-60px] md:mt-0">
         <div className="absolute inset-0 z-0">
             <Image
-                src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop"
+                src="/WhatsApp Image 2025-12-08 at 18.09.38.jpeg"
                 alt="Meeting"
                 fill
                 className="object-cover opacity-30"

@@ -87,16 +87,16 @@ export default function OurFirmPage() {
                 </div>
             </div>
 
-            <div className="w-11/12 mx-auto flex flex-col lg:flex-row gap-12 items-center mt-[-80px] md:mt-0">
-                <div className="lg:w-7/12 relative aspect-[4/3] w-full">
+            <div className="w-11/12 mx-auto flex flex-col lg:flex-row gap-12 items-center mt-[-80px] md:mt-[-40px]">
+                <div className="lg:w-6/12 relative aspect-[4/3] w-full">
                     <Image 
-                        src="http://ssek.com/wp-content/uploads/2022/07/SSEK_Website-Photo_Our-Firm-Page.jpg" 
+                        src="/about-image.jpg" 
                         alt="Our Firm Meeting" 
                         fill
                         className="object-cover"
                     />
                 </div>
-                <div className="lg:w-5/12">
+                <div className="lg:w-6/12">
                     <h3 className="text-md lg:text-lg text-[#2f4e9b] font-light leading-snug mb-8 text-justify">
                         Jon Bernard & Associates (“Firma Hukum”) berkomitmen penuh untuk memberikan jasa hukum yang baik dan bermutu serta memberikan perhatian yang penuh kepada klien.
                     </h3>

@@ -126,7 +126,7 @@ export default function OurExpertisePage() {
         <div className="container mx-auto px-6 mb-20 mt-[-80px] md:mt-0">
             <div className="relative aspect-[16/9] lg:aspect-[21/9] w-full">
                 <Image 
-                    src="http://ssek.com/wp-content/uploads/2022/07/SSEK_Website-Photo_Our-Expertise-Page.jpg" 
+                    src="/WhatsApp Image 2025-12-08 at 18.09.38.jpeg" 
                     alt="Our Expertise Meeting" 
                     fill
                     className="object-cover"

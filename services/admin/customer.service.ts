@@ -1,86 +1,123 @@
 import { apiSlice } from "../base-query";
-import { 
-  Customer, 
-  CustomerListResponse,
-  CustomerListParams,
-  CreateCustomerRequest,
-  UpdateCustomerRequest,
-  CustomerApiResponse
-} from "@/types/admin/customer";
+import { Customer } from "@/types/admin/customer"; 
 
 export const customerApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    // 🔍 Get All Customers (with pagination)
+    // 🔍 Get All Customer Categories (with pagination)
     getCustomerList: builder.query<
-      CustomerListResponse,
-      CustomerListParams
+      {
+        data: Customer[];
+        last_page: number;
+        current_page: number;
+        total: number;
+        per_page: number;
+      },
+      { page: number; paginate: number }
     >({
-      query: ({ page = 1, paginate = 10, search }) => ({
-        url: `/user/users`,
+      query: ({ page, paginate }) => ({
+        url: `/user`,
         method: "GET",
         params: {
           page,
           paginate,
-          ...(search && { search }),
         },
       }),
-      transformResponse: (response: CustomerApiResponse<CustomerListResponse>) => response.data,
+      transformResponse: (response: {
+        code: number;
+        message: string;
+        data: {
+          current_page: number;
+          data: Customer[];
+          last_page: number;
+          total: number;
+          per_page: number;
+        };
+      }) => ({
+        data: response.data.data,
+        last_page: response.data.last_page,
+        current_page: response.data.current_page,
+        total: response.data.total,
+        per_page: response.data.per_page,
+      }),
     }),
 
-    // 🔍 Get Income Category by ID
-    getCustomerById: builder.query<Customer, number>({
-      query: (id) => ({
-        url: `/user/users/${id}`,
+    // 🔍 Get Customer Category by Slug
+    getCustomerBySlug: builder.query<Customer, string>({
+      query: (slug) => ({
+        url: `/user/${slug}`,
         method: "GET",
       }),
-      transformResponse: (response: CustomerApiResponse<Customer>) => response.data,
+      transformResponse: (response: {
+        code: number;
+        message: string;
+        data: Customer;
+      }) => response.data,
     }),
 
-    // ➕ Create Income Category
-    createCustomer: builder.mutation<
-      Customer,
-      CreateCustomerRequest
-    >({
+    // ➕ Create Customer Category
+    createCustomer: builder.mutation<Customer, FormData>({
       query: (payload) => ({
-        url: `/user/users`,
+        url: `/user`,
         method: "POST",
         body: payload,
-        headers: {
-          'Content-Type': 'application/json',
-        },
       }),
-      transformResponse: (response: CustomerApiResponse<Customer>) => response.data,
+      transformResponse: (response: {
+        code: number;
+        message: string;
+        data: Customer;
+      }) => response.data,
     }),
 
-    // ✏️ Update Income Category by ID
+    // ✏️ Update Customer Category by Slug
     updateCustomer: builder.mutation<
       Customer,
-      { id: number; payload: UpdateCustomerRequest }
+      { slug: string; payload: FormData }
     >({
-      query: ({ id, payload }) => ({
-        url: `/user/users/${id}`,
-        method: "PUT",
+      query: ({ slug, payload }) => ({
+        url: `/user/${slug}?_method=PUT`,
+        method: "POST",
         body: payload,
-        headers: {
-          'Content-Type': 'application/json',
-        },
       }),
-      transformResponse: (response: CustomerApiResponse<Customer>) => response.data,
+      transformResponse: (response: {
+        code: number;
+        message: string;
+        data: Customer;
+      }) => response.data,
     }),
 
-    // ❌ Delete Income Category by ID
+    // 🔄 Update Customer Status by ID
+    updateCustomerStatus: builder.mutation<
+      Customer,
+      { id: string; status: boolean } // Changed from number to boolean
+    >({
+      query: ({ id, status }) => ({
+        url: `/customer/${id}`,
+        method: "PUT",
+        body: {
+          status,
+        },
+      }),
+      transformResponse: (response: {
+        code: number;
+        message: string;
+        data: Customer;
+      }) => response.data,
+    }),
+
+    // ❌ Delete Customer Category by Slug
     deleteCustomer: builder.mutation<
       { code: number; message: string },
-      number
+      string
     >({
-      query: (id) => ({
-        url: `/user/users/${id}`,
+      query: (slug) => ({
+        url: `/user/${slug}`,
         method: "DELETE",
       }),
-      transformResponse: (response: CustomerApiResponse<null>) => ({
-        code: response.code,
-        message: response.message,
-      }),
+      transformResponse: (response: {
+        code: number;
+        message: string;
+        data: null;
+      }) => response,
     }),
   }),
   overrideExisting: false,
@@ -88,8 +125,9 @@ export const customerApi = apiSlice.injectEndpoints({
 
 export const {
   useGetCustomerListQuery,
-  useGetCustomerByIdQuery,
+  useGetCustomerBySlugQuery,
   useCreateCustomerMutation,
   useUpdateCustomerMutation,
+  useUpdateCustomerStatusMutation,
   useDeleteCustomerMutation,
 } = customerApi;

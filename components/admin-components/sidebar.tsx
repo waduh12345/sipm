@@ -1,23 +1,15 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import { X, ChevronDown, ChevronUp, LogOut } from "lucide-react";
+import { X, ChevronDown, ChevronUp } from "lucide-react";
 import { SidebarProps } from "@/types";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { signOut } from "next-auth/react";
 import { Button } from "../ui/button";
 
-// ⬇️ Import service logout
-import { useLogoutMutation } from "@/services/auth.service";
-
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, menuItems }) => {
-  const shopLogo = "/favicon.ico";
   const pathname = usePathname();
   const [openMenus, setOpenMenus] = useState<string[]>([]);
-
-  // ⬇️ Hook mutate logout
-  const [logoutApi, { isLoading: isLoggingOut }] = useLogoutMutation();
 
   const toggleSubMenu = (id: string, e: React.MouseEvent) => {
     e.preventDefault();
@@ -25,27 +17,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, menuItems }) => {
     setOpenMenus((prev) =>
       prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
     );
-  };
-
-  // ⬇️ Handler logout gabungan (API + next-auth)
-  const handleLogout = async () => {
-    try {
-      // panggil API backend untuk invalidate token/session
-      await logoutApi().unwrap();
-    } catch {
-      // abaikan error API agar user tetap bisa keluar
-    } finally {
-      try {
-        // opsional: bersihkan keranjang
-        if (typeof window !== "undefined") {
-          localStorage.removeItem("cart-storage");
-        }
-      } catch {}
-      // tutup sidebar di mobile
-      onClose?.();
-      // next-auth signOut + redirect
-      await signOut({ callbackUrl: "/auth/login", redirect: true });
-    }
   };
 
   return (
@@ -64,18 +35,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, menuItems }) => {
       >
         <div className="flex items-center justify-between h-16 px-4 bg-white border-b">
           <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <Image
-                src={shopLogo}
-                alt="Logo"
-                width={160}
-                height={16}
-                className="w-6 h-4"
-              />
-            </div>
-            <div className="ml-2">
+            <div className="ml-3">
               <h2 className="text-gray-900 text-lg font-bold font-italic">
-                Aplikasi SIPPM
+                Admin Web Jon Bernard
               </h2>
             </div>
           </div>
@@ -88,7 +50,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, menuItems }) => {
           </button>
         </div>
 
-        <nav className="mt-5 px-2 space-y-1 overflow-y-auto h-[calc(100vh-12rem)] lg:h-[calc(100vh-11rem)]">
+        <nav className="mt-5 pb-20 px-2 space-y-1 overflow-y-auto max-h-[90vh] pb-12">
           {menuItems.map((item) => {
             const isActive = pathname === item.href;
             const hasChildren = item.children && item.children.length > 0;
@@ -96,10 +58,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, menuItems }) => {
 
             return (
               <div key={item.id}>
-                <div
-                  className="relative"
-                  onClick={(e) => toggleSubMenu(item.id, e)}
-                >
+                <div className="relative">
                   <Link
                     href={item.href}
                     onClick={() => window.innerWidth < 1024 && onClose()}
@@ -109,19 +68,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, menuItems }) => {
                         : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                     }`}
                   >
-                    <div
-                      className={`flex items-center ${
-                        item.isSeparator ? "mt-3" : ""
-                      }`}
-                    >
-                      {!item.isSeparator && (
-                        <div className="mr-3 flex-shrink-0 h-5 w-5">
-                          {item.icon}
-                        </div>
-                      )}
-                      <span className={item.isSeparator ? "font-bold" : ""}>
-                        {item.label}
-                      </span>
+                    <div className="flex items-center">
+                      <div className="mr-3 flex-shrink-0 h-5 w-5">
+                        {item.icon}
+                      </div>
+                      <span>{item.label}</span>
                     </div>
                     <div className="flex items-center">
                       {item.badge && (
@@ -134,6 +85,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, menuItems }) => {
 
                   {hasChildren && (
                     <button
+                      onClick={(e) => toggleSubMenu(item.id, e)}
                       className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1 rounded hover:bg-gray-200 focus:outline-none"
                       aria-label={`Toggle ${item.label} submenu`}
                     >
@@ -147,7 +99,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, menuItems }) => {
                 </div>
 
                 {hasChildren && isOpen && (
-                  <div className="ml-6 mt-1 space-y-1">
+                  <div className="ml-8 mt-1 space-y-1">
                     {item.children?.map((child) => {
                       const isChildActive = pathname === child.href;
                       return (
@@ -174,14 +126,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, menuItems }) => {
 
         <div className="absolute bottom-0 left-0 right-0 p-4">
           <div className="bg-gray-100 rounded-lg p-3">
-            <Button
-              variant="destructive"
-              className="w-full flex items-center justify-center gap-2"
-              onClick={handleLogout}
-              disabled={isLoggingOut}
-            >
-              {isLoggingOut ? "Logging out..." : "Logout"}
-              <LogOut className="w-4 h-4" />
+            <Button variant="destructive" className="w-full">
+              Logout
             </Button>
           </div>
         </div>

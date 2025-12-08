@@ -85,8 +85,8 @@ export default function Footer() {
 
                 <div className="flex flex-col lg:w-1/6 gap-4 text-sm uppercase tracking-widest font-light mt-8 lg:mt-0">
                   <Link href="/blog" className="hover:opacity-60 transition-opacity">Indonesia Law Blog</Link>
-                  <Link href="/csr" className="hover:opacity-60 transition-opacity">CSR</Link>
-                  <Link href="/work-with-us" className="hover:opacity-60 transition-opacity">Work With Us</Link>
+                  {/* <Link href="/csr" className="hover:opacity-60 transition-opacity">CSR</Link> */}
+                  {/* <Link href="/work-with-us" className="hover:opacity-60 transition-opacity">Work With Us</Link> */}
                   <Link href="/lets-talk" className="hover:opacity-60 transition-opacity">Let&apos;s Talk</Link>
               </div>
           </div>

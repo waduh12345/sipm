@@ -37,9 +37,9 @@ export default function LetsTalkPage() {
         </div>
 
         {/* --- CONTACT FORM SECTION --- */}
-        <section className="pb-24 border-b border-[#2f4e9b]/10 mb-20">
+        <section className="pb-12 md:pb-24 border-b border-[#2f4e9b]/10 mb-20">
             <div className="container mx-auto px-6">
-                <div className="flex flex-col lg:flex-row gap-12 lg:gap-24">
+                <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 mt-[-40px] md:mt-0">
                     {/* Left: Heading */}
                     <div className="lg:w-1/3">
                         <div className="flex items-center gap-3 uppercase text-sm tracking-[0.15em] font-semibold text-[#2f4e9b] sticky top-32">
@@ -49,7 +49,7 @@ export default function LetsTalkPage() {
                     </div>
 
                     {/* Right: Form & Text */}
-                    <div className="lg:w-2/3">
+                    <div className="lg:w-2/3 mt-[-20px] md:mt-0">
                         <h2 className="text-3xl lg:text-4xl font-light text-[#2f4e9b] leading-snug mb-12">
                             Should you require any additional information regarding Jon Bernard & Associates or any aspect of our practice, please do not hesitate to contact us.
                         </h2>
@@ -97,11 +97,11 @@ export default function LetsTalkPage() {
         </section>
 
         {/* --- OFFICE LOCATIONS SECTION --- */}
-        <section className="pb-32">
+        <section className="pb-12 md:pb-32">
             <div className="container mx-auto px-6">
                 
                 {/* Title */}
-                <div className="flex flex-col items-center mb-16">
+                <div className="flex flex-col items-center mb-16 mt-[-40px] md:mt-0">
                      <div className="flex items-center gap-3 uppercase text-sm tracking-[0.15em] font-semibold text-[#2f4e9b] mb-4">
                         <span className="w-1.5 h-4 bg-[#a3238e] -skew-x-12 inline-block"></span>
                         Our Offices
@@ -112,7 +112,7 @@ export default function LetsTalkPage() {
                 </div>
 
                 {/* LOCATIONS STACK */}
-                <div className="flex flex-col gap-12">
+                <div className="flex flex-col gap-12 mt-[-20px] md:mt-0">
                     
                     {/* --- OFFICE 2: BEKASI --- */}
                     <div className="bg-white border border-gray-200 shadow-sm flex flex-col lg:flex-row overflow-hidden group">

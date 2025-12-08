@@ -108,7 +108,7 @@ export function SiteFooter() {
                     Menu
                 </h6>
                 <nav className="flex flex-col gap-3 text-sm uppercase tracking-widest font-light text-white/70 lg:text-right">
-                    {['Home', 'About Us', 'Practise Areas', 'Client', 'Article', 'CSR', 'Work With Us'].map((item) => (
+                    {['Home', 'About Us', 'Practise Areas', 'Client', 'Article'].map((item) => (
                          <Link 
                             key={item} 
                             href={`/${item.toLowerCase().replace(/\s+/g, '-')}`} 

@@ -1,15 +1,11 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
 import { 
   X, ArrowRight,
   ChevronLeft, ChevronRight
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import { SiteHeader } from "@/components/site-header"; // Import komponen baru
 import { SiteFooter } from "@/components/site-footer";
@@ -79,19 +75,19 @@ export default function OurFirmPage() {
       {/* --- INTRO SECTION --- */}
       <section className="py-12">
         <div className="container mx-auto px-6 mb-20">
-            <div className="flex flex-col items-center mb-24">
+            <div className="flex flex-col items-center mb-24 mt-[-60px] md:mt-0">
                 <div className="w-12/12 flex flex-col lg:flex-row gap-8">
                     <div className="flex items-center gap-3 uppercase text-sm tracking-[0.15em] font-semibold text-[#2f4e9b] min-w-[200px]">
                         <span className="w-1 h-3 bg-[#50b848] -skew-x-12 inline-block"></span>
                         About Us
                     </div>
-                    <h2 className="text-3xl lg:text-5xl font-light text-[#2f4e9b] leading-tight">
+                    <h2 className="text-3xl lg:text-5xl font-light text-[#2f4e9b] leading-tight mt-[-20px] md:mt-0">
                         Firma Hukum Jon Bernard & Associates
                     </h2>
                 </div>
             </div>
 
-            <div className="w-11/12 mx-auto flex flex-col lg:flex-row gap-12 items-center">
+            <div className="w-11/12 mx-auto flex flex-col lg:flex-row gap-12 items-center mt-[-80px] md:mt-0">
                 <div className="lg:w-7/12 relative aspect-[4/3] w-full">
                     <Image 
                         src="http://ssek.com/wp-content/uploads/2022/07/SSEK_Website-Photo_Our-Firm-Page.jpg" 
@@ -114,8 +110,8 @@ export default function OurFirmPage() {
       </section>
 
       {/* --- Jon Bernard & Associates JOURNEY (Blue Background) --- */}
-      <section className="bg-[#2f4e9b] py-24 text-white overflow-hidden">
-        <div className="container mx-auto px-6 mb-12">
+      <section className="bg-[#2f4e9b] py-24 text-white overflow-hidden mt-[-90px] md:mt-0">
+        <div className="container mx-auto px-6 mb-12 mt-[-50px] md:mt-0">
             <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#50b848]">
                 <span className="w-1 h-3 bg-[#50b848] -skew-x-12 inline-block"></span>
                 Jon Bernard & Associates Journey
@@ -210,7 +206,7 @@ export default function OurFirmPage() {
     </section>
 
       {/* --- AFFILIATIONS & MEMBERSHIPS --- */}
-    <section className="py-12 bg-[#f7fbff]">
+    <section className="py-12 bg-[#f7fbff] mt-[-40px] md:mt-0">
       <div className="container mx-auto px-6">
         <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#58b0e3]">
             <span className="w-1 h-3 bg-[#58b0e3] -skew-x-12 inline-block"></span>
@@ -230,7 +226,7 @@ export default function OurFirmPage() {
                     Bahasa yang dikuasai: <b>Indonesia dan Inggris</b>
                 </p>
               </div>
-              <div className="w-60 h-72 relative shrink-0">
+              <div className="w-60 h-72 relative shrink-0 mt-[-40px] md:mt-0">
                 <Image 
                     src="/profile-default.jpeg" 
                     alt="Andy Edward Pasaribu" 
@@ -241,7 +237,7 @@ export default function OurFirmPage() {
             </div>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-16 mb-20">
+        <div className="flex flex-col lg:flex-row gap-16 mb-20 mt-[-40px] md:mt-0">
             {/* Felix Section */}
             <div className="lg:w-12/12 flex flex-col lg:flex-row gap-8 items-start">
               <div className="flex-1">
@@ -254,7 +250,7 @@ export default function OurFirmPage() {
                     Bahasa yang dikuasai: <b>Indonesia dan Inggris</b>
                 </p>
               </div>
-              <div className="w-60 h-72 relative shrink-0">
+              <div className="w-60 h-72 relative shrink-0 mt-[-40px] md:mt-0">
                 <Image 
                     src="/profile-default.jpeg" 
                     alt="Felix Nixon Hawer N Mahulae" 
@@ -266,90 +262,7 @@ export default function OurFirmPage() {
         </div>
       </div>
 
-      {/* Affiliation Popup / Modal Simulation */}
-      <AnimatePresence>
-        {activeAffiliation && (
-            <motion.div 
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[60] flex"
-            >
-              {/* Curtain Overlay */}
-              <div className="w-full lg:w-[43%] h-full bg-[#2f4e9b] opacity-90" onClick={() => setActiveAffiliation(null)}></div>
-              
-              {/* Content */}
-              <div className="w-full lg:w-[57%] h-full bg-[#f7fbff] p-8 lg:p-20 overflow-y-auto relative shadow-2xl">
-                <button onClick={() => setActiveAffiliation(null)} className="absolute top-10 right-10">
-                    <X className="w-8 h-8 text-[#2f4e9b]" />
-                </button>
-                
-                {AFFILIATIONS.filter(a => a.id === activeAffiliation).map(aff => (
-                    <div key={aff.id} className="mt-10">
-                      <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#58b0e3]">
-                        <span className="w-1 h-3 bg-[#58b0e3] -skew-x-12 inline-block"></span>
-                        Affiliations & Memberships
-                      </div>
-                      <h3 className="text-3xl text-[#2f4e9b] font-bold mb-10">{aff.name}</h3>
-                      <div className="relative w-full h-64 border border-gray-300 bg-white mb-10 flex items-center justify-center p-8">
-                        <Image src={aff.image} alt={aff.name} width={300} height={150} className="object-contain" />
-                      </div>
-                      <div className="flex gap-12">
-                        <div className="w-1/4 uppercase text-[#2f4e9b] tracking-widest text-sm font-semibold">Overview</div>
-                        <div className="w-3/4">
-                            <p className="text-sm leading-relaxed mb-8">
-                              Jon Bernard & Associates is a longstanding member of {aff.name}, leveraging global networks to provide best-in-class legal services.
-                            </p>
-                            <a href={aff.url} target="_blank" rel="noreferrer">
-                              <Button variant="outline" className="border-[#2f4e9b] text-[#2f4e9b] hover:bg-[#2f4e9b] hover:text-white rounded-full px-6 uppercase text-xs tracking-wider">
-                                Go To Website
-                              </Button>
-                            </a>
-                        </div>
-                      </div>
-                    </div>
-                ))}
-              </div>
-            </motion.div>
-        )}
-      </AnimatePresence>
     </section>
-
-      {/* --- NEWSLETTER --- */}
-      <section className="relative py-32 bg-slate-900">
-         <div className="absolute inset-0 z-0">
-             <Image 
-                src="http://ssek.com/wp-content/uploads/2022/07/img-07.jpeg" 
-                alt="Building Background" 
-                fill 
-                className="object-cover opacity-40"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10" />
-         </div>
-         
-         <div className="container mx-auto px-6 relative z-20 flex flex-col lg:flex-row items-end gap-16">
-            <div className="lg:w-1/2">
-                <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#50b848]">
-                    <span className="w-1 h-3 bg-[#50b848] -skew-x-12 inline-block"></span>
-                    Subscribe to Our Newsletter
-                </div>
-                <p className="text-2xl lg:text-4xl font-light text-white">
-                    Stay up to date with the latest legal developments in Indonesia, upcoming events, new publications and firm news.
-                </p>
-            </div>
-            <div className="lg:w-1/2 w-full">
-                <form className="flex border-b border-white/50 pb-4 relative">
-                    <input 
-                        type="email" 
-                        placeholder="ENTER YOUR EMAIL ADDRESS" 
-                        className="bg-transparent w-full text-white placeholder:text-white/70 placeholder:font-light text-sm lg:text-lg outline-none uppercase tracking-widest"
-                    />
-                    <button type="submit" className="text-white uppercase tracking-widest text-sm flex items-center gap-2 hover:opacity-70 transition-opacity">
-                        Send <ArrowRight className="w-4 h-4" />
-                    </button>
-                    <div className="absolute top-0 left-[-20px] h-[70%] w-[1px] bg-white hidden lg:block"></div>
-                </form>
-            </div>
-         </div>
-      </section>
 
       {/* --- FOOTER --- */}
         <SiteFooter />

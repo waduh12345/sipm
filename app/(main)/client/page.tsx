@@ -72,7 +72,7 @@ export default function OurClientsPage() {
       <section className="min-h-[80vh] flex flex-col justify-center py-10">
         <div className="container mx-auto px-6">
           
-          <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-stretch">
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-stretch mt-[-60px] md:mt-0">
             
             {/* --- LEFT COLUMN: LIST SERVICES --- */}
             <div className="lg:w-1/2 flex flex-col justify-center">

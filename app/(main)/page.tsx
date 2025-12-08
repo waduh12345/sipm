@@ -208,7 +208,7 @@ export default function HomePage() {
     </section>
 
       {/* --- OUR EXPERTISE --- */}
-    <section className="py-32 bg-[#f7fbff]">
+    <section className="py-12 md:py-32 bg-[#f7fbff]">
         <div className="container mx-auto px-6">
             <div className="flex flex-col lg:flex-row items-center">
                 <div className="lg:w-12/12">
@@ -218,11 +218,11 @@ export default function HomePage() {
                     </div>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start"></div>
                         <div>
-                            <h2 className="text-3xl lg:text-4xl font-light text-[#2f4e9b] leading-tight mb-8">
+                            <h2 className="text-2xl lg:text-4xl font-light text-[#2f4e9b] leading-tight mb-8">
                                 Jon Bernard & Associates memiliki kompetensi profesional dalam penanganan perkara hukum di bidang asuransi serta keahlian khusus dalam melaksanakan investigasi klaim secara sistematis dan sesuai standar regulasi.
                             </h2>
                         </div>
-                        <div className="text-[#57595f] font-light leading-relaxed mb-10 text-sm lg:text-base">
+                        <div className="text-[#57595f] font-light leading-relaxed mb-10 text-md lg:text-base">
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                                 <div>
                                     <p className="text-justify mb-4">
@@ -242,7 +242,7 @@ export default function HomePage() {
       </section>
 
       {/* --- NEWSLETTER SUBSCRIBE --- */}
-    <section className="relative py-32 bg-slate-900">
+    <section className="relative py-12 md:py-32 bg-slate-900 mt-[-60px] md:mt-0">
         <div className="absolute inset-0 z-0">
             <Image
                 src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop"
@@ -264,11 +264,11 @@ export default function HomePage() {
                 </p>
             </div>
             {/* Right Buttons */}
-            <div className="lg:w-1/3 w-full flex flex-col items-center lg:items-end justify-center">
-                <div className="flex flex-col lg:flex-row gap-6 mt-4">
+            <div className="lg:w-1/3 w-full flex flex-col items-center lg:items-end justify-center mt-[-80px] md:mt-0">
+                <div className="flex flex-col lg:flex-row gap-6 mt-4 w-full">
                     <a
                         href="mailto:info@jonb-associates.com"
-                        className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#FCD400] text-black font-semibold hover:bg-[#3a8c36] transition"
+                        className="flex items-center gap-2 px-6 py-4 rounded-none lg:rounded-full bg-[#FCD400] text-black font-semibold hover:bg-[#3a8c36] transition w-full lg:w-auto justify-center rounded rounded-lg"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -279,7 +279,7 @@ export default function HomePage() {
                     </a>
                     <a
                         href="https://wa.me/6281234567890"
-                        className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#FCD400] text-black font-semibold hover:bg-[#1da851] transition"
+                        className="flex items-center gap-2 px-6 py-4 rounded-none lg:rounded-full bg-[#FCD400] text-black font-semibold hover:bg-[#1da851] transition w-full lg:w-auto justify-center rounded rounded-lg"
                         target="_blank"
                         rel="noopener noreferrer"
                     >

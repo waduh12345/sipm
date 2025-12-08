@@ -84,7 +84,7 @@ export default function BlogPage() {
       {/* --- PAGE TITLE & FILTERS --- */}
       <section className="py-12">
         <div className="container mx-auto px-6 mb-16">
-            <div className="flex flex-col mb-12">
+            <div className="flex flex-col mb-12 mt-[-60px] md:mt-0">
                 <div className="flex items-center gap-3 uppercase text-sm tracking-[0.15em] font-semibold text-[#2f4e9b] mb-4">
                     <span className="w-1.5 h-4 bg-[#58b0e3] -skew-x-12 inline-block"></span>
                     Article
@@ -92,7 +92,7 @@ export default function BlogPage() {
             </div>
 
             {/* Filter Dropdowns */}
-            <div className="flex flex-col md:flex-row gap-6 lg:gap-12 mb-16">
+            <div className="flex flex-col md:flex-row gap-6 lg:gap-12 mb-16 mt-[-40px] md:mt-0">
                 {/* Category Filter */}
                 <div className="relative w-full md:w-1/2 lg:w-1/3">
                     <select className="w-full appearance-none bg-transparent border-b border-gray-300 py-3 pr-10 text-[#2f4e9b] text-lg lg:text-xl font-light focus:outline-none cursor-pointer">

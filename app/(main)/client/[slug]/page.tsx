@@ -113,7 +113,7 @@ export default function IndustryDetailPage() {
         <div className="absolute inset-0 bg-[#2f4e9b]/80 mix-blend-multiply" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#f7fbff] via-transparent to-transparent" />
 
-        <div className="absolute inset-0 flex flex-col justify-center container mx-auto px-6 z-10 pt-20">
+        <div className="absolute inset-0 flex flex-col justify-center container mx-auto px-6 z-10 pt-20 mt-[-160px] md:mt-0">
             <button 
                 onClick={() => router.back()} 
                 className="group flex items-center gap-2 text-white/70 hover:text-white mb-6 transition-colors w-fit"
@@ -220,7 +220,7 @@ export default function IndustryDetailPage() {
       </section>
 
       {/* --- RELATED INSIGHTS --- */}
-      <section className="py-20 bg-slate-50">
+      <section className="py-20 bg-slate-50 mt-[-100px] md:mt-0">
         <div className="container mx-auto px-6">
             <h3 className="text-2xl font-light text-[#2f4e9b] mb-8">Latest Insights on {data.title}</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

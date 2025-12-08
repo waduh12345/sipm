@@ -116,8 +116,8 @@ export default function OurExpertisePage() {
                         Our Expertise
                     </div>
                 </div>
-                <h2 className="text-3xl lg:text-4xl font-light text-[#2f4e9b] leading-tight mb-12">
-                    Jon Bernard & Associates berpengalaman menangani kasus hukum asuransi, perusahaan, pasar modal, dan ketenagakerjaan, baik secara litigasi maupun non-litigasi. Kami siap membantu klien menyelesaikan perkara di pengadilan, arbitrase, maupun melalui negosiasi.
+                <h2 className="text-3xl lg:text-2xl font-light text-[#2f4e9b] leading-tight mb-12">
+                    Jon Bernard & Associates memiliki pengalaman luas dalam menangani perkara hukum di bidang asuransi, korporasi, pasar modal, dan ketenagakerjaan, baik melalui jalur litigasi maupun non-litigasi. Dengan pendekatan strategis dan berorientasi hasil, kami siap mendampingi klien dalam penyelesaian sengketa di pengadilan, forum arbitrase, maupun melalui proses negosiasi yang efektif.
                 </h2>
             </div>
         </div>
@@ -145,12 +145,12 @@ export default function OurExpertisePage() {
             <div className="flex flex-col lg:flex-row gap-12 lg:gap-24">
                 <div className="lg:w-1/2">
                     <h3 className="text-3xl lg:text-4xl text-[#2f4e9b] font-light leading-snug">
-                        Our work for local, foreign and multinational clients spans specialist areas
+                        Kami menyederhanakan masalah hukum yang kompleks dan memberikan solusi strategis yang dapat Anda andalkan.
                     </h3>
                 </div>
                 <div className="lg:w-1/2">
-                    <p className="text-[#57595f] font-light leading-relaxed text-sm lg:text-base">
-                        We provide an informed perspective on issues faced by companies navigating Indonesia’s legal landscape. We have the depth and breadth of Indonesian legal experience and knowledge to deliver creative commercial solutions to real-world business problems.
+                    <p className="text-[#57595f] font-light leading-relaxed text-sm lg:text-base text-justify">
+                        kami fokus menyediakan layanan hukum yang menyeluruh dan berorientasi pada hasil. Dengan pengalaman mendalam di bidang asuransi, hukum perusahaan, pasar modal, dan ketenagakerjaan, kami menangani setiap perkara melalui pendekatan litigasi maupun non-litigasi. Tim kami siap mewakili kepentingan Anda di pengadilan, arbitrase, hingga proses negosiasi, dengan strategi yang dirancang untuk melindungi posisi Anda secara maksimal.
                     </p>
                 </div>
             </div>
@@ -230,45 +230,6 @@ export default function OurExpertisePage() {
                 ))}
             </div>
         </div>
-      </section>
-
-      {/* --- NEWSLETTER --- */}
-      <section className="relative py-32 bg-slate-900">
-         <div className="absolute inset-0 z-0">
-             <Image 
-                src="http://ssek.com/wp-content/uploads/2022/07/img-07.jpeg" 
-                alt="Background" 
-                fill 
-                className="object-cover opacity-60"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10" />
-         </div>
-         
-         <div className="container mx-auto px-6 relative z-20 flex flex-col lg:flex-row items-end gap-16">
-            <div className="lg:w-1/2">
-                <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#50b848]">
-                    <span className="w-1.5 h-4 bg-[#50b848] -skew-x-12 inline-block"></span>
-                    Subscribe to Our Newsletter
-                </div>
-                <p className="text-2xl lg:text-4xl font-light text-white">
-                    Stay up to date with the latest legal developments in Indonesia, upcoming events, new publications and firm news.
-                </p>
-            </div>
-            <div className="lg:w-1/2 w-full">
-                <form className="flex border-b border-white/50 pb-4 relative items-center">
-                    <input 
-                        type="email" 
-                        placeholder="ENTER YOUR EMAIL ADDRESS" 
-                        className="bg-transparent w-full text-white placeholder:text-white/70 placeholder:font-light text-sm lg:text-lg outline-none uppercase tracking-widest"
-                    />
-                    <button type="submit" className="text-white uppercase tracking-widest text-sm flex items-center gap-2 hover:opacity-70 transition-opacity whitespace-nowrap ml-4">
-                        Send <ArrowRight className="w-4 h-4" />
-                    </button>
-                    {/* Vertical line decoration */}
-                    <div className="absolute top-0 left-[-20px] h-[70%] w-[1px] bg-white hidden lg:block"></div>
-                </form>
-            </div>
-         </div>
       </section>
 
       {/* --- FOOTER --- */}

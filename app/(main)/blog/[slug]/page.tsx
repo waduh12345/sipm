@@ -139,7 +139,7 @@ export default function BlogDetailPage() {
                         <div className="pt-12">
                             <Link href="/blog">
                                 <button className="border border-[#2f4e9b] text-[#2f4e9b] hover:bg-[#2f4e9b] hover:text-white rounded-full px-8 py-3 text-[11px] uppercase tracking-[0.15em] transition-all duration-300">
-                                    Back to Indonesia Law Blog
+                                    Back to Article
                                 </button>
                             </Link>
                         </div>

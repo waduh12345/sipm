@@ -87,7 +87,7 @@ export default function BlogPage() {
             <div className="flex flex-col mb-12">
                 <div className="flex items-center gap-3 uppercase text-sm tracking-[0.15em] font-semibold text-[#2f4e9b] mb-4">
                     <span className="w-1.5 h-4 bg-[#58b0e3] -skew-x-12 inline-block"></span>
-                    Indonesia Law Blog
+                    Article
                 </div>
             </div>
 

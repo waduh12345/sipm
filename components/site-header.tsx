@@ -110,6 +110,7 @@ export function SiteHeader() {
                   { name: "Practise Areas", href: "/practise-areas" },
                   { name: "Client", href: "/client" },
                   { name: "Article", href: "/blog" },
+                  { name: "Contact Us", href: "/lets-talk" },
                 ].map((item) => (
                   <Link key={item.name} href={item.href} onClick={() => setMobileMenuOpen(false)}>
                   {item.name}

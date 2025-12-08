@@ -259,7 +259,7 @@ export default function HomePage() {
                     <span className="w-1 h-3 bg-[#50b848] -skew-x-12 inline-block"></span>
                     Ada pertanyaan atau membutuhkan konsultasi hukum?
                 </div>
-                <p className="text-2xl lg:text-3xl font-light text-white mb-8">
+                <p className="text-md lg:text-3xl font-light text-white mb-8">
                     Tim Kantor Hukum JonB & Associates siap membantu Anda dengan penjelasan yang jelas, respons cepat, dan solusi yang tepat. Silakan kirim pertanyaan Anda melalui email atau klik tombol Whatsapp. Kami akan menanggapi setiap pesan secara profesional dan menjaga kerahasiaan penuh.
                 </p>
             </div>

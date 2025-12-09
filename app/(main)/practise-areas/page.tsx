@@ -116,7 +116,7 @@ export default function OurExpertisePage() {
                         Our Expertise
                     </div>
                 </div>
-                <h2 className="text-2xl lg:text-2xl font-light text-[#2f4e9b] leading-tight mb-12">
+                <h2 className="text-md lg:text-2xl font-light text-[#2f4e9b] leading-tight mb-12 text-justify">
                     Jon Bernard & Associates memiliki pengalaman luas dalam menangani perkara hukum di bidang asuransi, korporasi, pasar modal, dan ketenagakerjaan, baik melalui jalur litigasi maupun non-litigasi. Dengan pendekatan strategis dan berorientasi hasil, kami siap mendampingi klien dalam penyelesaian sengketa di pengadilan, forum arbitrase, maupun melalui proses negosiasi yang efektif.
                 </h2>
             </div>
@@ -144,7 +144,7 @@ export default function OurExpertisePage() {
             
             <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 mt-[-20px] md:mt-0">
                 <div className="lg:w-1/2">
-                    <p className="text-[#57595f] font-light leading-relaxed text-lg lg:text-base text-justify md:mt-0">
+                    <p className="text-[#57595f] font-light leading-relaxed text-md lg:text-base text-justify md:mt-0">
                         Jon Bernard & Associates mempunyai keahlian dalam menangani permasalahan hukum asuransi dan ahli dalam melakukan investigasi Klaim. Firma Hukum juga menangani hal-hal yang berkaitan dengan hukum perusahaan dan pasar modal serta membantu kliennya dalam permasalahan perburuhan (tenaga kerja). Penanganan setiap kasus hukum, baik hukum asuransi, hukum perusahaan maupun pasar modal dapat ditempuh dengan cara non litigasi dan/atau cara litigasi. Firma Hukum dapat membantu kliennya dalam kedua cara tersebut dengan berupaya mencapai hasil yang baik dalam penyelesaian suatu perkara. Dalam beberapa pengalaman menangani kasus, Firma Hukum telah berhasil dengan baik menangani beberapa perkara baik perkara di pengadilan dan juga perkara di arbitrase. Jika diperlukan Firma Hukum juga membantu klien dalam melakukan negosiasi kepada pihak lain.
                     </p>
                 </div>

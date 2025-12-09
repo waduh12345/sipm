@@ -57,11 +57,11 @@ export function SiteFooter() {
             
             {/* 1. Brand Section (Span 4) */}
             <div className="lg:col-span-4 flex flex-col items-start">
-                <h5 className="font-bold text-2xl tracking-[0.1em] leading-tight mb-6 text-white">
+                <h5 className="font-bold text-xl md:text-2xl tracking-[0.1em] leading-tight mb-6 text-white">
                     JON BERNARD <span className="font-light opacity-80">& ASSOCIATES</span>
                 </h5>
                 
-                <div className="flex flex-col gap-4 text-white/70 font-light text-sm mb-8">
+                <div className="flex flex-col gap-4 text-white/70 font-light text-md mb-8">
                     <a href="mailto:jonbernard@jonb-lawfirm.com" className="flex items-center gap-3 hover:text-[#FCD400] transition-colors group">
                         <Mail className="w-4 h-4 text-[#FCD400] group-hover:scale-110 transition-transform" />
                         jonbernard@jonb-lawfirm.com

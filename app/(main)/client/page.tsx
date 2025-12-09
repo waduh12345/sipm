@@ -94,7 +94,7 @@ export default function OurClientsPage() {
                         <div
                             key={service.id}
                             className="group relative border-b border-[#2f4e9b]/20 py-6 lg:py-8 cursor-pointer transition-all duration-300"
-                            onMouseEnter={() => setActiveService(service)} // Ubah gambar saat hover
+                            onMouseEnter={() => setActiveService(service)}
                         >
                             <div className="flex items-center justify-between">
                                 <div>

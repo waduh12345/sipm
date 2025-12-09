@@ -81,7 +81,7 @@ export default function OurFirmPage() {
                         <span className="w-1 h-3 bg-[#50b848] -skew-x-12 inline-block"></span>
                         About Us
                     </div>
-                    <h2 className="text-3xl lg:text-5xl font-light text-[#2f4e9b] leading-tight mt-[-20px] md:mt-0">
+                    <h2 className="text-lg lg:text-5xl font-light text-[#2f4e9b] leading-tight mt-[-20px] md:mt-0">
                         Firma Hukum Jon Bernard & Associates
                     </h2>
                 </div>

@@ -27,7 +27,7 @@ export default function LetsTalkPage() {
         <div className="container mx-auto px-6 mb-20">
             <div className="relative aspect-[2.5] w-full overflow-hidden rounded-sm shadow-sm">
                 <Image 
-                    src="http://ssek.com/wp-content/uploads/2022/07/SSEK_Website-Photo_Lets-Talk-Subcribe-Letter.jpg" 
+                    src="/WhatsApp Image 2025-12-08 at 18.04.25.jpeg" 
                     alt="Jon Bernard Office" 
                     fill 
                     className="object-cover"
@@ -50,7 +50,7 @@ export default function LetsTalkPage() {
 
                     {/* Right: Form & Text */}
                     <div className="lg:w-2/3 mt-[-20px] md:mt-0">
-                        <h2 className="text-3xl lg:text-4xl font-light text-[#2f4e9b] leading-snug mb-12">
+                        <h2 className="text-md lg:text-4xl font-light text-[#2f4e9b] leading-snug mb-12">
                             Should you require any additional information regarding Jon Bernard & Associates or any aspect of our practice, please do not hesitate to contact us.
                         </h2>
 
@@ -159,44 +159,6 @@ export default function LetsTalkPage() {
             </div>
         </section>
       </main>
-
-      {/* --- NEWSLETTER --- */}
-      <section className="relative py-32 bg-slate-900">
-         <div className="absolute inset-0 z-0">
-             <Image 
-                src="http://ssek.com/wp-content/uploads/2022/07/img-07.jpeg" 
-                alt="Background" 
-                fill 
-                className="object-cover opacity-60"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10" />
-         </div>
-         
-         <div className="container mx-auto px-6 relative z-20 flex flex-col lg:flex-row items-end gap-16">
-            <div className="lg:w-1/2">
-                <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#50b848]">
-                    <span className="w-1.5 h-4 bg-[#50b848] -skew-x-12 inline-block"></span>
-                    Subscribe to Our Newsletter
-                </div>
-                <p className="text-2xl lg:text-4xl font-light text-white">
-                    Stay up to date with the latest legal developments in Indonesia, upcoming events, new publications and firm news.
-                </p>
-            </div>
-            <div className="lg:w-1/2 w-full">
-                <form className="flex border-b border-white/50 pb-4 relative items-center">
-                    <input 
-                        type="email" 
-                        placeholder="ENTER YOUR EMAIL ADDRESS" 
-                        className="bg-transparent w-full text-white placeholder:text-white/70 placeholder:font-light text-sm lg:text-lg outline-none uppercase tracking-widest"
-                    />
-                    <button type="submit" className="text-white uppercase tracking-widest text-sm flex items-center gap-2 hover:opacity-70 transition-opacity whitespace-nowrap ml-4">
-                        Send <ArrowRight className="w-4 h-4" />
-                    </button>
-                    <div className="absolute top-0 left-[-20px] h-[70%] w-[1px] bg-white hidden lg:block"></div>
-                </form>
-            </div>
-         </div>
-      </section>
 
       {/* --- FOOTER --- */}
       <SiteFooter />

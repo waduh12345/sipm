@@ -141,10 +141,9 @@ export default function HomePage() {
                 {/* Left Text */}
                 <div className="lg:w-7/12 mb-10 lg:mb-0">
                     <h2 className="text-2xl lg:text-5xl font-light text-[#FCD400] leading-tight relative inline-block">
-                        Welcome
-                        <span className="block h-1 md:w-52 bg-[#FCD400] rounded"></span>
+                        WELCOME TO WEBSITE
                     </h2>
-                    <div className="flex items-center gap-3 mb-4 text-[#FCD400] uppercase text-xl md:text-3xl mt-4 tracking-[0.15em] font-semibold">
+                    <div className="flex items-center gap-3 mb-4 text-[#FCD400] uppercase text-lg md:text-3xl mt-4 tracking-[0.15em] font-semibold">
                         Jon Bernard & Associates Your Trusted Legal Partner
                     </div>
                     <h2 className="text-md lg:text-2xl font-light text-white leading-tight">
@@ -217,11 +216,6 @@ export default function HomePage() {
                         Our Expertise
                     </div>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start"></div>
-                        <div>
-                            <h2 className="text-2xl lg:text-4xl font-light text-[#2f4e9b] leading-tight mb-8">
-                                Jon Bernard & Associates memiliki kompetensi profesional dalam penanganan perkara hukum di bidang asuransi serta keahlian khusus dalam melaksanakan investigasi klaim secara sistematis dan sesuai standar regulasi.
-                            </h2>
-                        </div>
                         <div className="text-[#57595f] font-light leading-relaxed mb-10 text-md lg:text-base">
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                                 <div>

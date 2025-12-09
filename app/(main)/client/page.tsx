@@ -72,7 +72,7 @@ export default function OurClientsPage() {
       <section className="min-h-[80vh] flex flex-col justify-center py-10">
         <div className="container mx-auto px-6">
           
-          <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-stretch mt-[-60px] md:mt-0">
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-stretch mt-[-20px] md:mt-0">
             
             {/* --- LEFT COLUMN: LIST SERVICES --- */}
             <div className="lg:w-1/2 flex flex-col justify-center">
@@ -91,9 +91,8 @@ export default function OurClientsPage() {
                 {/* The List */}
                 <div className="flex flex-col">
                     {SERVICES.map((service) => (
-                        <Link 
+                        <div
                             key={service.id}
-                            href={`/client/${service.slug}`} // Link ke halaman detail
                             className="group relative border-b border-[#2f4e9b]/20 py-6 lg:py-8 cursor-pointer transition-all duration-300"
                             onMouseEnter={() => setActiveService(service)} // Ubah gambar saat hover
                         >
@@ -108,10 +107,8 @@ export default function OurClientsPage() {
                                     </div>
                                 </div>
 
-                                {/* Icon Arrow */}
-                                <ArrowUpRight className={`w-6 h-6 transition-all duration-300 ${activeService.id === service.id ? "text-[#a3238e] rotate-45" : "text-gray-300 group-hover:text-[#2f4e9b]"}`} />
                             </div>
-                        </Link>
+                        </div>
                     ))}
                 </div>
             </div>

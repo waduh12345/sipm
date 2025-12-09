@@ -139,18 +139,13 @@ export default function OurExpertisePage() {
         <div className="container mx-auto px-6 mb-24 mt-[-40px] md:mt-0">
             <div className="flex items-center gap-3 mb-8 uppercase text-sm tracking-[0.15em] font-semibold text-[#2f4e9b]">
                 <span className="w-1.5 h-4 bg-[#50b848] -skew-x-12 inline-block"></span>
-                What We Do
+                Practice Areas
             </div>
             
             <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 mt-[-20px] md:mt-0">
                 <div className="lg:w-1/2">
-                    <h3 className="text-2xl lg:text-4xl text-[#2f4e9b] font-light leading-snug">
-                        Kami menyederhanakan masalah hukum yang kompleks dan memberikan solusi strategis yang dapat Anda andalkan.
-                    </h3>
-                </div>
-                <div className="lg:w-1/2">
-                    <p className="text-[#57595f] font-light leading-relaxed text-lg lg:text-base text-justify mt-[-30px] md:mt-0">
-                        kami fokus menyediakan layanan hukum yang menyeluruh dan berorientasi pada hasil. Dengan pengalaman mendalam di bidang asuransi, hukum perusahaan, pasar modal, dan ketenagakerjaan, kami menangani setiap perkara melalui pendekatan litigasi maupun non-litigasi. Tim kami siap mewakili kepentingan Anda di pengadilan, arbitrase, hingga proses negosiasi, dengan strategi yang dirancang untuk melindungi posisi Anda secara maksimal.
+                    <p className="text-[#57595f] font-light leading-relaxed text-lg lg:text-base text-justify md:mt-0">
+                        Jon Bernard & Associates mempunyai keahlian dalam menangani permasalahan hukum asuransi dan ahli dalam melakukan investigasi Klaim. Firma Hukum juga menangani hal-hal yang berkaitan dengan hukum perusahaan dan pasar modal serta membantu kliennya dalam permasalahan perburuhan (tenaga kerja). Penanganan setiap kasus hukum, baik hukum asuransi, hukum perusahaan maupun pasar modal dapat ditempuh dengan cara non litigasi dan/atau cara litigasi. Firma Hukum dapat membantu kliennya dalam kedua cara tersebut dengan berupaya mencapai hasil yang baik dalam penyelesaian suatu perkara. Dalam beberapa pengalaman menangani kasus, Firma Hukum telah berhasil dengan baik menangani beberapa perkara baik perkara di pengadilan dan juga perkara di arbitrase. Jika diperlukan Firma Hukum juga membantu klien dalam melakukan negosiasi kepada pihak lain.
                     </p>
                 </div>
             </div>

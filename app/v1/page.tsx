@@ -136,8 +136,7 @@ export default function HomePage() {
         </div>
 
         <div className="container mx-auto px-6 h-full relative z-20 flex flex-col justify-center">
-            <div className="flex flex-col lg:flex-row items-end lg:items-center justify-between w-full h-full pb-20 lg:pb-0 pt-32">
-                
+            <div className="flex flex-col lg:flex-row items-end lg:items-center justify-between w-full h-full pb-20 lg:pb-0 pt-70 md:pt-32">
                 {/* Left Text */}
                 <div className="lg:w-7/12 mb-10 lg:mb-0">
                     <h2 className="text-2xl lg:text-5xl font-light text-[#FCD400] leading-tight relative inline-block">
@@ -152,55 +151,6 @@ export default function HomePage() {
                     <Button className="mt-8 border border-white bg-transparent hover:bg-white hover:text-[#2f4e9b] text-white rounded-full px-8 py-6 text-xs uppercase tracking-wider">
                         Find our more
                     </Button>
-                </div>
-
-                {/* Right Slider (News Widget) */}
-                <div className="w-full lg:w-4/12 bg-white/10 backdrop-blur-md rounded-lg p-3 lg:p-6 border border-white/20">
-                    <div className="relative overflow-hidden">
-                        <AnimatePresence mode="wait">
-                            <motion.div
-                                key={currentHeroSlide}
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                exit={{ opacity: 0, x: -20 }}
-                                transition={{ duration: 0.4 }}
-                                className="flex flex-col gap-3"
-                            >
-                                <div className="relative h-40 sm:h-48 w-full rounded overflow-hidden">
-                                    <Image
-                                        src={HERO_SLIDES[currentHeroSlide].image}
-                                        alt="Slide"
-                                        fill
-                                        className="object-cover"
-                                        sizes="(max-width: 640px) 100vw, 33vw"
-                                    />
-                                </div>
-                                <div>
-                                    <h3 className="text-white text-base sm:text-lg font-medium leading-snug mb-3 sm:mb-4 line-clamp-3">
-                                        {HERO_SLIDES[currentHeroSlide].title}
-                                    </h3>
-                                </div>
-                            </motion.div>
-                        </AnimatePresence>
-
-                        {/* Navigation Arrows */}
-                        <div className="flex justify-between sm:justify-end gap-2 sm:gap-3 mt-3 sm:mt-4">
-                            <button
-                                onClick={prevHeroSlide}
-                                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-white/60 flex items-center justify-center text-white hover:bg-white/20 transition-all"
-                                aria-label="Previous Slide"
-                            >
-                                <ChevronLeft size={16} />
-                            </button>
-                            <button
-                                onClick={nextHeroSlide}
-                                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-white/60 flex items-center justify-center text-white hover:bg-white/20 transition-all"
-                                aria-label="Next Slide"
-                            >
-                                <ChevronRight size={16} />
-                            </button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

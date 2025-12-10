@@ -10,7 +10,7 @@ export function SiteHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
-  const isHome = pathname === "/" || pathname === "/home";
+  const isHome = pathname === "/" || pathname === "/v1";
 
   // Scroll effect for Navbar
   useEffect(() => {
@@ -59,10 +59,10 @@ export function SiteHeader() {
               isHome ? 'text-white' : (isScrolled ? 'text-white/80' : 'text-[#2f4e9b]/80')
             }`}>
               {[
-                { name: "About Us", href: "/about-us" },
-                { name: "Practice Areas", href: "/practise-areas" },
-                { name: "Client", href: "/client" },
-                { name: "Article", href: "/blog" },
+                { name: "About Us", href: "/v1/about-us" },
+                { name: "Practice Areas", href: "/v1/practise-areas" },
+                { name: "Client", href: "/v1/client" },
+                { name: "Article", href: "/v1/blog" },
               ].map((item) => (
                 <Link
                   key={item.name}
@@ -105,12 +105,12 @@ export function SiteHeader() {
             >
                 <nav className="flex flex-col gap-6 text-white text-2xl font-light">
                 {[
-                  { name: "Home", href: "/" },
-                  { name: "About Us", href: "/about-us" },
-                  { name: "Practise Areas", href: "/practise-areas" },
-                  { name: "Client", href: "/client" },
-                  { name: "Article", href: "/blog" },
-                  { name: "Contact Us", href: "/lets-talk" },
+                  { name: "Home", href: "/v1/" },
+                  { name: "About Us", href: "/v1/about-us" },
+                  { name: "Practise Areas", href: "/v1/practise-areas" },
+                  { name: "Client", href: "/v1/client" },
+                  { name: "Article", href: "/v1/blog" },
+                  { name: "Contact Us", href: "/v1/lets-talk" },
                 ].map((item) => (
                   <Link key={item.name} href={item.href} onClick={() => setMobileMenuOpen(false)}>
                   {item.name}

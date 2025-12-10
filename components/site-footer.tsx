@@ -16,8 +16,6 @@ export function SiteFooter() {
     <footer className="bg-[#2f4e9b] text-white pt-24 pb-10 font-sans border-t border-[#2f4e9b]">
       <div className="container mx-auto px-6 h-full flex flex-col justify-between">
         
-        {/* --- Top Section: CTA (Call to Action) --- */}
-        {/* Dibuat lebih clean dengan border halus */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-20 pb-10 border-b border-white/10 group">
             <div className="flex flex-col">
               <span className="text-4xl lg:text-7xl font-light tracking-tight mb-2">
@@ -111,7 +109,7 @@ export function SiteFooter() {
                     {['Home', 'About Us', 'Practise Areas', 'Client', 'Article'].map((item) => (
                          <Link 
                             key={item} 
-                            href={`/${item.toLowerCase().replace(/\s+/g, '-')}`} 
+                            href={`/v1/${item.toLowerCase().replace(/\s+/g, '-')}`} 
                             className="hover:text-white hover:translate-x-2 lg:hover:-translate-x-2 transition-all duration-300 flex items-center gap-2 lg:flex-row-reverse"
                         >
                             {item}

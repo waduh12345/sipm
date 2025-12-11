@@ -142,7 +142,7 @@ export default function HomePage() {
                     <h2 className="text-2xl lg:text-5xl font-light text-[#FCD400] leading-tight relative inline-block">
                         WELCOME TO WEBSITE
                     </h2>
-                    <div className="flex items-center gap-3 mb-4 text-[#FCD400] uppercase text-lg md:text-3xl mt-4 tracking-[0.15em] font-semibold">
+                    <div className="flex items-center gap-3 mb-4 text-[#FCD400] uppercase text-md md:text-3xl mt-4 tracking-[0.15em] font-semibold">
                         Jon Bernard & Associates Your Trusted Legal Partner
                     </div>
                     <h2 className="text-md lg:text-2xl font-light text-white leading-tight">

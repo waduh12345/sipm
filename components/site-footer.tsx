@@ -54,8 +54,8 @@ export function SiteFooter() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 mb-20">
             
             {/* 1. Brand Section (Span 4) */}
-            <div className="lg:col-span-4 flex flex-col items-start">
-                <h5 className="font-bold text-xl md:text-2xl tracking-[0.1em] leading-tight mb-6 text-white">
+            <div className="lg:col-span-5 flex flex-col items-start">
+                <h5 className="font-bold text-lg md:text-2xl tracking-[0.1em] leading-tight mb-6 text-white">
                     JON BERNARD <span className="font-light opacity-80">& ASSOCIATES</span>
                 </h5>
                 
@@ -77,7 +77,7 @@ export function SiteFooter() {
             </div>
 
             {/* 2. Office Section (Span 5) - Center aligned visual weight */}
-            <div className="lg:col-span-5 flex flex-col">
+            <div className="lg:col-span-4 flex flex-col">
                 <h6 className="font-semibold text-xs uppercase tracking-[0.2em] text-[#FCD400] mb-6 flex items-center gap-2">
                     <span className="w-8 h-[1px] bg-[#FCD400]"></span>
                     Bekasi Office

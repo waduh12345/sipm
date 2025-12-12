@@ -56,7 +56,7 @@ export function SiteFooter() {
             {/* 1. Brand Section (Span 4) */}
             <div className="lg:col-span-5 flex flex-col items-start">
                 <h5 className="font-bold text-lg md:text-2xl tracking-[0.1em] leading-tight mb-6 text-gray-900">
-                    JON BERNARD <span className="font-light text-gray-400">& </span>ASSOCIATES
+                    JON BERNARD & ASSOCIATES
                 </h5>
                 
                 <div className="flex flex-col gap-4 text-gray-500 font-light text-md mb-8">

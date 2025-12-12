@@ -2,46 +2,25 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { 
-  X, ArrowRight,
-  ChevronLeft, ChevronRight
-} from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import { SiteHeader } from "@/components/site-header"; // Import komponen baru
+import { SiteHeader } from "@/components/site-header"; 
 import { SiteFooter } from "@/components/site-footer";
-
-// --- DATA DUMMY (Sesuai Konten HTML) ---
-
-const JOURNEY_DATA = [
-  { year: "-2013", title: "2008 - 2013", text: "Jon Bernard & Associates is founded by four women, including Dyah Soewito and Ira A. Eddymurthy, and moves into Mayapada Tower, in the heart of Jakarta’s business district." },
-  { year: "-2019", title: "2014 - 2019", text: "During the Asian economic crisis, Jon Bernard & Associates participates in the Initiative Group and contributes ideas on ways to deal with unsettled debt, including Indonesia’s new Bankruptcy Law." },
-  { year: "-2025", title: "2020-2025", text: "Jon Bernard & Associates advises several clients with assets held by the Indonesian Bank Restructuring Agency (IBRA)." },
-];
-
-const AFFILIATIONS = [
-  { id: 1, name: "American Chamber of Commerce Indonesia", image: "https://www.ssek.com/wp-content/uploads/2022/07/aff-amchan.jpeg", url: "https://www.amcham.or.id/en/home" },
-  { id: 2, name: "Employment Law Alliance", image: "https://www.ssek.com/wp-content/uploads/2022/07/aff-ela.png", url: "http://www.employmentlawalliance.com/" },
-  { id: 3, name: "The Law Firm Network", image: "https://www.ssek.com/wp-content/uploads/2022/07/aff-lfn.png", url: "http://lfnglobal.com/" },
-  { id: 4, name: "The Interlex Group", image: "https://www.ssek.com/wp-content/uploads/2022/07/aff-interlex.png", url: "https://www.interlexgroup.com/" },
-  { id: 5, name: "Transatlantic Law International", image: "https://www.ssek.com/wp-content/uploads/2022/07/aff-translatic-law.png", url: "http://www.transatlanticlaw.com/" },
-];
-
-const AWARDS = [
-  { id: 1, title: "Global Restructuring Review", image: "https://www.ssek.com/wp-content/uploads/2025/11/GRR_100_2025-Awards-Page.png" },
-  { id: 2, title: "Asian Legal Business - Fintech", image: "https://www.ssek.com/wp-content/uploads/2025/10/ALB-Fintech-Awards-Page.png" },
-  { id: 3, title: "Asialaw", image: "https://www.ssek.com/wp-content/uploads/2025/10/Asialaw-2025-Awards-Page.png" },
-  { id: 4, title: "Asia Business Law Journal", image: "https://www.ssek.com/wp-content/uploads/2025/09/ABLJ-2025-Awards-Page.png" },
-  { id: 5, title: "IFLR1000", image: "https://www.ssek.com/wp-content/uploads/2025/09/Top-Tier-Firm-2025-IFLR1000.png" },
-  { id: 6, title: "Hukumonline Top 100", image: "https://www.ssek.com/wp-content/uploads/2025/07/Top-100-Indonesian-Law-Firms-2025-Awards-Page.png" },
-];
+import { useLanguage } from "@/contexts/LanguageContext"; // 1. Import Context
 
 export default function OurFirmPage() {
+  const { t } = useLanguage(); // 2. Gunakan Hook
   const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeAffiliation, setActiveAffiliation] = useState<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Scroll handler untuk navbar
+  // 3. Data Timeline dipindah ke dalam component supaya dinamis
+  const JOURNEY_DATA = [
+    { year: "2013", title: "2008 - 2013", text: t.about.history.item1 },
+    { year: "2019", title: "2014 - 2019", text: t.about.history.item2 },
+    { year: "2025", title: "2020 - 2025", text: t.about.history.item3 },
+  ];
+
+  // Scroll handler untuk navbar styling
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -54,7 +33,7 @@ export default function OurFirmPage() {
   const scrollJourney = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
       const { current } = scrollRef;
-      const scrollAmount = 300;
+      const scrollAmount = 350;
       if (direction === 'left') {
         current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
       } else {
@@ -64,66 +43,72 @@ export default function OurFirmPage() {
   };
 
   return (
-    <div className="min-h-screen font-sans text-[#57595f] selection:bg-[#2f4e9b] selection:text-white bg-[#f7fbff]">
+    <div className="min-h-screen font-sans text-gray-600 selection:bg-[#2f4e9b] selection:text-white bg-white">
       
       {/* --- HEADER --- */}
       <SiteHeader />
 
       {/* --- CONTENT SPACER --- */}
-      <div className="h-32"></div>
+      <div className="h-28 lg:h-32"></div>
 
       {/* --- INTRO SECTION --- */}
-      <section className="py-12">
-        <div className="container mx-auto px-6 mb-20">
-            <div className="flex flex-col items-center mb-24 mt-[-60px] md:mt-0">
-                <div className="w-12/12 flex flex-col lg:flex-row gap-8">
-                    <div className="flex items-center gap-3 uppercase text-sm tracking-[0.15em] font-semibold text-[#2f4e9b] min-w-[200px]">
-                        <span className="w-1 h-3 bg-[#50b848] -skew-x-12 inline-block"></span>
-                        About Us
-                    </div>
-                    <h2 className="text-lg lg:text-5xl font-light text-[#2f4e9b] leading-tight mt-[-20px] md:mt-0">
-                        Firma Hukum Jon Bernard & Associates
-                    </h2>
+      <section className="py-12 lg:py-20">
+        <div className="container mx-auto px-6">
+            
+            {/* Header Title */}
+            <div className="flex flex-col items-start mb-16">
+                <div className="flex items-center gap-3 uppercase text-xs font-bold tracking-[0.2em] text-[#2f4e9b] mb-4">
+                    <span className="w-8 h-[2px] bg-[#2f4e9b]"></span>
+                    {t.about.sectionLabel}
                 </div>
+                <h2 className="text-3xl lg:text-5xl font-light text-gray-900 leading-tight">
+                    {t.about.heroTitle} <span className="text-[#2f4e9b] font-medium">Jon Bernard & Associates</span>
+                </h2>
             </div>
 
-            <div className="w-11/12 mx-auto flex flex-col lg:flex-row gap-12 items-center mt-[-80px] md:mt-[-40px]">
-                <div className="lg:w-6/12 relative aspect-[4/3] w-full">
+            {/* Content Split */}
+            <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start">
+                <div className="lg:w-1/2 relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-sm">
                     <Image 
                         src="/about-image.jpg" 
                         alt="Our Firm Meeting" 
                         fill
-                        className="object-cover"
+                        className="object-cover hover:scale-105 transition-transform duration-700"
                     />
                 </div>
-                <div className="lg:w-6/12">
-                    <h3 className="text-md lg:text-lg text-[#2f4e9b] font-light leading-snug mb-8 text-justify">
-                        Jon Bernard & Associates (“Firma Hukum”) berkomitmen penuh untuk memberikan jasa hukum yang baik dan bermutu serta memberikan perhatian yang penuh kepada klien.
+                <div className="lg:w-1/2 flex flex-col justify-center">
+                    <h3 className="text-xl text-[#2f4e9b] font-normal leading-relaxed mb-6 text-justify lg:text-left border-l-4 border-[#58b0e3] pl-6">
+                        {t.about.heroIntro}
                     </h3>
-                    <div className="text-[#57595f] font-light leading-relaxed space-y-6 text-sm lg:text-base text-justify">
-                        <p>Tujuan Firma Hukum ini adalah membantu para klien secara efektif dan efisien untuk mencapai tujuannya dan menyelesaikan segala transaksi dan permasalahan yang sedang dan/atau akan dihadapinya.</p>
-                        <p>Firma Hukum ini didirikan pada bulan Mei 2008 dan telah dipercaya oleh banyak perusahaan, termasuk perusahaan modal asing yang melakukan kegiatan usaha di Indonesia dan/atau didirikan dengan hukum Indonesia, mulai dari industri asuransi, perbankan, keuangan, industri manufaktur, perdagangan hingga pertambangan.</p>
+                    <div className="text-gray-600 font-light leading-relaxed space-y-6 text-base text-justify lg:text-left">
+                        <p>{t.about.heroDesc1}</p>
+                        <p>{t.about.heroDesc2}</p>
                     </div>
                 </div>
             </div>
         </div>
       </section>
 
-      {/* --- Jon Bernard & Associates JOURNEY (Blue Background) --- */}
-      <section className="bg-[#2f4e9b] py-24 text-white overflow-hidden mt-[-90px] md:mt-0">
-        <div className="container mx-auto px-6 mb-12 mt-[-50px] md:mt-0">
-            <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#50b848]">
-                <span className="w-1 h-3 bg-[#50b848] -skew-x-12 inline-block"></span>
-                Jon Bernard & Associates Journey
-            </div>
-            <div className="flex justify-between items-end">
-                <h3 className="text-4xl font-light">Story of Growth</h3>
+      {/* --- JOURNEY SECTION --- */}
+      <section className="bg-[#2f4e9b] py-24 text-white overflow-hidden relative">
+        {/* Background Pattern */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
+
+        <div className="container mx-auto px-6 mb-12 relative z-10">
+            <div className="flex flex-col md:flex-row justify-between items-end gap-6">
+                <div>
+                    <div className="flex items-center gap-3 mb-4 uppercase text-xs font-bold tracking-[0.2em] text-[#58b0e3]">
+                        <span className="w-8 h-[2px] bg-[#58b0e3]"></span>
+                        {t.about.history.label}
+                    </div>
+                    <h3 className="text-4xl font-light text-white">{t.about.history.title}</h3>
+                </div>
                 <div className="flex gap-4">
-                    <button onClick={() => scrollJourney('left')} className="w-10 h-10 rounded-full border border-white/60 flex items-center justify-center hover:bg-white/20 transition-all">
-                        <ChevronLeft size={18} />
+                    <button onClick={() => scrollJourney('left')} className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-[#2f4e9b] transition-all duration-300">
+                        <ChevronLeft size={20} />
                     </button>
-                    <button onClick={() => scrollJourney('right')} className="w-10 h-10 rounded-full border border-white/60 flex items-center justify-center hover:bg-white/20 transition-all">
-                        <ChevronRight size={18} />
+                    <button onClick={() => scrollJourney('right')} className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-[#2f4e9b] transition-all duration-300">
+                        <ChevronRight size={20} />
                     </button>
                 </div>
             </div>
@@ -132,140 +117,144 @@ export default function OurFirmPage() {
         {/* Timeline Slider */}
         <div 
             ref={scrollRef}
-            className="flex overflow-x-auto gap-4 px-6 pb-12 snap-x scrollbar-hide container mx-auto"
+            className="flex overflow-x-auto gap-6 px-6 pb-4 snap-x scrollbar-hide container mx-auto"
         >
             {JOURNEY_DATA.map((item, idx) => (
-                <div key={idx} className="min-w-[85vw] lg:min-w-[30vw] snap-center bg-[#4a67b5] rounded-xl p-8 lg:p-10 flex flex-col h-[60vh] relative overflow-hidden group hover:bg-[#58b0e3] transition-colors duration-500 cursor-pointer">
-                    <div className="text-[120px] lg:text-[180px] font-bold absolute -top-10 -left-4 opacity-20 select-none leading-none">
+                <div key={idx} className="min-w-[85vw] md:min-w-[45vw] lg:min-w-[28vw] snap-start bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl p-8 flex flex-col h-[450px] relative overflow-hidden group hover:bg-white/20 transition-all duration-300">
+                    <div className="text-[80px] font-bold text-white/10 absolute -top-6 -right-4 select-none leading-none group-hover:text-white/20 transition-colors">
                         {item.year}
                     </div>
-                    <div className="relative z-10 mt-20 lg:mt-32">
-                        <h4 className="text-3xl font-light mb-6">{item.title}</h4>
-                        <div className="text-sm lg:text-base font-light leading-relaxed h-48 overflow-y-auto pr-2 custom-scrollbar text-justify">
+                    <div className="relative z-10 mt-auto">
+                        <div className="w-12 h-1 bg-[#58b0e3] mb-6"></div>
+                        <h4 className="text-2xl font-medium mb-4">{item.title}</h4>
+                        <p className="text-sm lg:text-base font-light leading-relaxed text-white/80 text-justify">
                             {item.text}
-                        </div>
+                        </p>
                     </div>
                 </div>
             ))}
         </div>
       </section>
 
-      {/* --- CO-FOUNDER TRIBUTE --- */}
-    <section className="py-12 md:py-12 bg-[#f7fbff]">
+      {/* --- MANAGING PARTNER SECTION --- */}
+    <section className="py-20 bg-white">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col lg:flex-row items-center gap-16">
-            <div className="flex flex-col lg:flex-row items-start gap-8 w-full">
-                {/* Image: 1/3 width on large screens */}
-                <div className="w-full lg:w-1/3 flex-shrink-0">
-                    <button
-                        className="w-full aspect-[1.3] group relative focus:outline-none"
-                        onClick={() => setMobileMenuOpen(true)}
-                        aria-label="Show Jon Bernard Pasaribu Profile"
-                        style={{ background: "none", border: "none", padding: 0 }}
-                    >
-                        <Image 
-                            src="https://jonb-lawfirm.com/wp-content/uploads/2017/04/foto.png"
-                            alt="Jon Bernard Pasaribu"
-                            fill
-                            className="object-contain object-left group-hover:scale-105 transition-transform rounded-xl border border-gray-200"
-                        />
-                    </button>
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
+            
+            {/* Image Column */}
+            <div className="w-full lg:w-1/3 flex-shrink-0">
+                <div className="relative w-full aspect-[4/4] rounded-2xl overflow-hidden shadow-lg border border-gray-100 group">
+                    <Image 
+                        src="https://jonb-lawfirm.com/wp-content/uploads/2017/04/foto.png"
+                        alt="Jon Bernard Pasaribu"
+                        fill
+                        className="group-hover:scale-105 transition-transform duration-700"
+                    />
+                     {/* Name overlay on mobile */}
+                    <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/60 to-transparent p-6 lg:hidden">
+                         <p className="text-white font-medium">Jon Bernard Pasaribu</p>
+                    </div>
                 </div>
-                {/* Text: 2/3 width on large screens */}
-                <div className="flex-1 lg:w-2/3">
-                    <h3 className="text-3xl text-[#2f4e9b] font-light mb-6">
+            </div>
+
+            {/* Text Column */}
+            <div className="flex-1 lg:w-2/3">
+                <div className="mb-6">
+                    <h4 className="text-[#2f4e9b] text-sm uppercase tracking-widest font-bold mb-2">{t.about.founder.label}</h4>
+                    <h3 className="text-3xl text-gray-900 font-light mb-6">
                         JON BERNARD PASARIBU, S.H., M.H.
                     </h3>
-                    <p className="text-[#57595f] font-light mb-2 text-justify leading-relaxed">
-                        Jon Bernard Pasaribu adalah Pendiri dan Managing Partners pada Firma Hukum Jon Bernard & Associates, memperoleh gelar Sarjana Hukum dari Universitas Sumatera Utara (USU), Medan dan meraih gelar Magister Hukum pada Universitas Pancasila, Jakarta. Jon Bernard Pasaribu memulai karier hukum dan pengacara sebagai Associates pada Hendro Kanon & Partners kemudian berubah menjadi Kanon Arruanpitu Lawfirm dengan jabatan terakhir sebagai Senior Lawyer, kemudian mendirikan firma hukumnya sendiri bernama Jon Bernard & Associates pada tahun 2008.
-                    </p>
-                    <p className="text-[#57595f] font-light mb-2 text-justify leading-relaxed">
-                        Jon Bernard Pasaribu memiliki keahlian khusus dalam melakukan Investigasi terhadap kecurangan, penipuan serta klaim fiktif dibidang asuransi, baik asuransi jiwa maupun asuransi kerugian. Disamping keahlian Investigasi, Jon Bernard Pasaribu juga mempunyai banyak pengalaman menangani litigasi dan transaksi perusahaan, antara lain sebagai berikut:
-                    </p>
-                    <ul className="list-disc pl-6 text-[#57595f] font-light mb-2 text-justify leading-relaxed space-y-2">
-                        <li>Asuransi & Re-asuransi (adviser and claim investigator)</li>
-                        <li>Litigasi Koorporasi, Arbitrase, Kepailitan dan Penundaan Kewajiban Pembayaran Utang (PKPU)</li>
-                        <li>Litigasi Kriminal</li>
-                        <li>Pasar Modal & Sekuritas</li>
-                        <li>Hukum Perusahaan (Aksi koorporasi: Penggabungan, pengambilalihan dan restrukturisassi)</li>
-                        <li>Perbankan & Keuangan</li>
-                        <li>Konstruksi dan Infrastruktur</li>
-                        <li>Pertambangan, Energi, Minyak dan Gas</li>
-                        <li>Kekayaan Intelektual dan Informasi Teknologi</li>
+                    <div className="h-[2px] w-20 bg-[#2f4e9b]"></div>
+                </div>
+                
+                <div className="text-gray-600 font-light space-y-4 text-justify leading-relaxed">
+                    <p>{t.about.founder.bio1}</p>
+                    <p>{t.about.founder.bio2}</p>
+                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2 pl-4 list-disc marker:text-[#2f4e9b]">
+                        {t.about.founder.areas.map((area, idx) => (
+                            <li key={idx}>{area}</li>
+                        ))}
                     </ul>
-                    <p className="text-[#57595f] font-light mb-2 text-justify leading-relaxed">
-                        Dalam menjalankan kegiatannya, Jon Bernard Pasaribu mempunyai izin untuk memberikan jasa hukum di Indonesia dan terdaftar sebagai anggota PERADI. Jon Bernard Pasaribu juga mempunyai izin untuk memberikan jasa hukum di bidang Pasar Modal dan terdaftar sebagai anggota HKHPM (Himpunan Konsultan Hukum Pasar Modal).
-                    </p>
-                    <p className="text-[#57595f] font-light text-justify leading-relaxed">
-                        Bahasa yang dikuasai: Indonesia dan Inggris.
-                    </p>
+                    <div className="pt-4 border-t border-gray-100 mt-6">
+                        <p className="font-light italic text-sm text-gray-500">
+                            {t.about.founder.footer}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
       </div>
     </section>
 
-      {/* --- AFFILIATIONS & MEMBERSHIPS --- */}
-    <section className="py-12 bg-[#f7fbff] mt-[-40px] md:mt-0">
+      {/* --- ASSOCIATES SECTION --- */}
+    <section className="py-20 bg-gray-50 border-t border-gray-100">
       <div className="container mx-auto px-6">
-        <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#58b0e3]">
-            <span className="w-1 h-3 bg-[#58b0e3] -skew-x-12 inline-block"></span>
-            Associates
+        <div className="flex items-center gap-3 mb-12 uppercase text-xs font-bold tracking-[0.2em] text-[#2f4e9b]">
+            <span className="w-8 h-[2px] bg-[#2f4e9b]"></span>
+            {t.about.associates.label}
         </div>
         
-        <div className="flex flex-col lg:flex-row gap-16 mb-20">
+        <div className="space-y-20">
             {/* Andy Section */}
-            <div className="lg:w-12/12 flex flex-col lg:flex-row gap-8 items-start">
+            <div className="flex flex-col lg:flex-row-reverse gap-12 lg:gap-16 items-start">
+              <div className="w-full lg:w-1/4 shrink-0">
+                <div className="relative aspect-[3/4] rounded-xl overflow-hidden shadow-sm border border-gray-200">
+                    <Image 
+                        src="/profile-default.jpeg" 
+                        alt="Andy Edward Pasaribu" 
+                        fill 
+                        className="object-cover"
+                    />
+                </div>
+              </div>
               <div className="flex-1">
-                <h3 className="text-2xl text-[#2f4e9b] font-light mb-6">
+                <h3 className="text-2xl text-gray-900 font-light mb-2">
                     Andy Edward Pasaribu, SH.
                 </h3>
-                <p className="text-[#57595f] font-light mb-8 text-justify leading-relaxed">
-                    Andy Edward Pasaribu memperoleh gelar Sarjana Hukum dari Universitas Katholik St. Thomas (UNIKA ST. Thomas), Medan. Andy Edward Pasaribu memulai karier hukum dan pengacara sebagai pembela umum pada Posbakum PN. Jakarta Timur dan bergabung dengan Firma Hukum Jon Bernard & Associates sejak tahun 2008.<br /><br />
-                    Andy Edward Pasaribu mempunyai banyak pengalaman menangani litigasi dibidang Pidana antara lain menangani kasus-kasus korupsi, penipuan dan narkoba dan litigasi dibidang keperdataan antara lain sengketa pertanahan, sengketa saham, sengketa Kekayaan Intelektual dan Informasi Teknologi dan sengketa perburuhan.<br /><br />
-                    Bahasa yang dikuasai: <b>Indonesia dan Inggris</b>
-                </p>
-              </div>
-              <div className="w-60 h-72 relative shrink-0 mt-[-40px] md:mt-0">
-                <Image 
-                    src="/profile-default.jpeg" 
-                    alt="Andy Edward Pasaribu" 
-                    fill 
-                    className="object-cover rounded-xl border border-gray-200"
-                />
+                <p className="text-[#2f4e9b] text-sm font-medium tracking-wide mb-6">{t.about.associates.role}</p>
+                
+                <div className="text-gray-600 font-light space-y-4 text-justify leading-relaxed">
+                    <p>{t.about.associates.andy.bio1}</p>
+                    <p>{t.about.associates.andy.bio2}</p>
+                    <p className="text-sm font-medium text-gray-800">{t.about.associates.andy.lang}</p>
+                </div>
               </div>
             </div>
-        </div>
 
-        <div className="flex flex-col lg:flex-row gap-16 mb-20 mt-[-40px] md:mt-0">
+            {/* Divider */}
+            <div className="w-full h-[1px] bg-gray-200"></div>
+
             {/* Felix Section */}
-            <div className="lg:w-12/12 flex flex-col lg:flex-row gap-8 items-start">
+            <div className="flex flex-col lg:flex-row-reverse gap-12 lg:gap-16 items-start">
+              <div className="w-full lg:w-1/4 shrink-0">
+                 <div className="relative aspect-[3/4] rounded-xl overflow-hidden shadow-sm border border-gray-200">
+                    <Image 
+                        src="/profile-default.jpeg" 
+                        alt="Felix Nixon Hawer N Mahulae" 
+                        fill 
+                        className="object-cover"
+                    />
+                </div>
+              </div>
               <div className="flex-1">
-                <h3 className="text-2xl text-[#2f4e9b] font-light mb-6 mt-4">
+                <h3 className="text-2xl text-gray-900 font-light mb-2">
                     Felix Nixon Hawer N Mahulae, S.E., S.H.
                 </h3>
-                <p className="text-[#57595f] font-light mb-8 text-justify leading-relaxed">
-                    Felix Nixon Hawer N Mahulae memperoleh gelar Sarjana Hukum dari Sekolah Tinggi Ilmu Hukum Gunung Jati, Jakarta dan meraih gelar Sarjana Ekonomi pada Universitas HKBP Nomensen, Medan. Felix Nixon Hawer N Mahulaememulai karier hukum sebagai Legal Manager pada perusahaan swasta nasional terkemuka di Indonesia dan bergabung dengan Firma Hukum Jon Bernard & Associates sejak tahun 2008.<br /><br />
-                    Felix Nixon Hawer N Mahulaemempunyai banyak pengalaman dalam bidang hukum perusahaan dan hukum Bisnis terutama dalam bidang perbankan, Finacial, Energi, Minyak dan Gas<br /><br />
-                    Bahasa yang dikuasai: <b>Indonesia dan Inggris</b>
-                </p>
-              </div>
-              <div className="w-60 h-72 relative shrink-0 mt-[-40px] md:mt-0">
-                <Image 
-                    src="/profile-default.jpeg" 
-                    alt="Felix Nixon Hawer N Mahulae" 
-                    fill 
-                    className="object-cover rounded-xl border border-gray-200"
-                />
+                <p className="text-[#2f4e9b] text-sm font-medium tracking-wide mb-6">{t.about.associates.role}</p>
+
+                <div className="text-gray-600 font-light space-y-4 text-justify leading-relaxed">
+                    <p>{t.about.associates.felix.bio1}</p>
+                    <p>{t.about.associates.felix.bio2}</p>
+                    <p className="text-sm font-medium text-gray-800">{t.about.associates.felix.lang}</p>
+                </div>
               </div>
             </div>
         </div>
       </div>
-
     </section>
 
       {/* --- FOOTER --- */}
-        <SiteFooter />
+      <SiteFooter />
     </div>
   );
 }

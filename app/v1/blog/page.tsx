@@ -4,10 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { 
-  ArrowRight, Linkedin, Instagram, Twitter, 
-  ArrowUpRight, ArrowDown
+  ArrowRight, ArrowDown
 } from "lucide-react";
-import { SiteHeader } from "@/components/site-header"; // Import komponen baru
+import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 
 // --- DATA DUMMY ---
@@ -17,12 +16,12 @@ const BLOG_POSTS = [
     title: "KONSEP KEADILAN MENURUT AJARAN FILSAFAT HUKUM PANCASILA",
     category: "Article",
     date: "3 December 2025",
-    image: "/blog-sample.webp",
+    image: "/blog-sample.webp", // Pastikan file ini ada atau ganti URL
     link: "#"
   },
   {
     id: 2,
-    title: "Jon Bernard & Associates Partner Winnie Y. Rolindrawan Receives Lexology Client Choice Award for Fintech",
+    title: "Jon Bernard & Associates Partner Receives Lexology Client Choice Award for Fintech",
     category: "Firm News",
     date: "2 December 2025",
     image: "https://www.ssek.com/wp-content/uploads/2025/12/WYR-Lexology-Client-Choice-2026-Blog-Image.jpg",
@@ -38,7 +37,7 @@ const BLOG_POSTS = [
   },
   {
     id: 4,
-    title: "Jon Bernard & Associates Named to GRR 100 Again in 2025 – Leading Restructuring & Insolvency Practice",
+    title: "Jon Bernard & Associates Named to GRR 100 Again in 2025 – Leading Restructuring Practice",
     category: "Firm News",
     date: "25 November 2025",
     image: "https://www.ssek.com/wp-content/uploads/2025/11/GRR_100_2025-Blog-Image.jpg",
@@ -46,7 +45,7 @@ const BLOG_POSTS = [
   },
   {
     id: 5,
-    title: "Doing Business in Indonesia: ICCC–Jon Bernard & Associates Webinar Highlights Market Entry and Investment Guidance for Canadians",
+    title: "Doing Business in Indonesia: Webinar Highlights Market Entry and Investment Guidance",
     category: "Events",
     date: "24 November 2025",
     image: "https://www.ssek.com/wp-content/uploads/2025/11/ICCC-Jon Bernard & Associates-Webinar-Blog-Image.jpg",
@@ -54,7 +53,7 @@ const BLOG_POSTS = [
   },
   {
     id: 6,
-    title: "Jon Bernard & Associates Hosts Briefing on Indonesia’s Updated Risk-Based Business Licensing Framework",
+    title: "Briefing on Indonesia’s Updated Risk-Based Business Licensing Framework",
     category: "Events",
     date: "20 November 2025",
     image: "https://www.ssek.com/wp-content/uploads/2025/11/SSEK-Hosts-Briefing-on-Indonesias-Updated-Risk-Based-Business-Licensing-Framework-Blog-Image.jpg",
@@ -72,55 +71,58 @@ const EXPERTISE = [
 
 export default function BlogPage() {
   return (
-    <div className="min-h-screen font-sans text-[#57595f] bg-[#f7fbff] selection:bg-[#2f4e9b] selection:text-white">
+    <div className="min-h-screen font-sans text-gray-600 bg-white selection:bg-[#2f4e9b] selection:text-white">
       
-      {/* --- HEADER COMPONENT --- */}
+      {/* --- HEADER --- */}
       <SiteHeader />
 
       {/* --- CONTENT SPACER --- */}
-      {/* Spacer ini penting agar konten tidak tertutup header yang posisinya fixed */}
-      <div className="h-32"></div>
+      <div className="h-28 lg:h-32"></div>
 
       {/* --- PAGE TITLE & FILTERS --- */}
-      <section className="py-12">
-        <div className="container mx-auto px-6 mb-16">
-            <div className="flex flex-col mb-12 mt-[-60px] md:mt-0">
-                <div className="flex items-center gap-3 uppercase text-sm tracking-[0.15em] font-semibold text-[#2f4e9b] mb-4">
-                    <span className="w-1.5 h-4 bg-[#58b0e3] -skew-x-12 inline-block"></span>
-                    Article
+      <section className="py-12 lg:py-20">
+        <div className="container mx-auto px-6">
+            
+            {/* Title Section */}
+            <div className="flex flex-col mb-16">
+                <div className="flex items-center gap-3 uppercase text-xs font-bold tracking-[0.2em] text-[#2f4e9b] mb-4">
+                    <span className="w-8 h-[2px] bg-[#2f4e9b]"></span>
+                    Knowledge Centre
                 </div>
+                <h1 className="text-4xl lg:text-5xl font-light text-gray-900">
+                    Articles & News
+                </h1>
             </div>
 
             {/* Filter Dropdowns */}
-            <div className="flex flex-col md:flex-row gap-6 lg:gap-12 mb-16 mt-[-40px] md:mt-0">
+            <div className="flex flex-col md:flex-row gap-8 lg:gap-12 mb-20 border-b border-gray-100 pb-12">
                 {/* Category Filter */}
-                <div className="relative w-full md:w-1/2 lg:w-1/3">
-                    <select className="w-full appearance-none bg-transparent border-b border-gray-300 py-3 pr-10 text-[#2f4e9b] text-lg lg:text-xl font-light focus:outline-none cursor-pointer">
+                <div className="relative w-full md:w-1/3">
+                    <label className="text-xs uppercase tracking-widest text-gray-400 mb-2 block">Filter by Category</label>
+                    <select className="w-full appearance-none bg-transparent border-b border-gray-200 py-3 pr-10 text-gray-800 text-lg lg:text-xl font-light focus:outline-none focus:border-[#2f4e9b] focus:text-[#2f4e9b] transition-colors cursor-pointer">
                         {CATEGORIES.map((cat, idx) => (
                             <option key={idx} value={cat}>{cat}</option>
                         ))}
                     </select>
                     {/* Custom Plus Sign */}
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none">
-                        <div className="relative w-6 h-4 flex items-center justify-center">
-                            <div className="absolute w-full h-[1px] bg-[#2f4e9b]"></div>
-                            <div className="absolute h-full w-[1px] bg-[#2f4e9b]"></div>
+                    <div className="absolute right-0 bottom-4 pointer-events-none">
+                         <div className="relative w-4 h-4 flex items-center justify-center text-[#2f4e9b]">
+                            {/* Simple chevron down using borders for cleaner look or Lucide icon */}
+                            <ArrowDown className="w-4 h-4 opacity-50" />
                         </div>
                     </div>
                 </div>
 
                 {/* Expertise Filter */}
-                <div className="relative w-full md:w-1/2 lg:w-1/3">
-                    <select className="w-full appearance-none bg-transparent border-b border-gray-300 py-3 pr-10 text-[#2f4e9b] text-lg lg:text-xl font-light focus:outline-none cursor-pointer">
+                <div className="relative w-full md:w-1/3">
+                    <label className="text-xs uppercase tracking-widest text-gray-400 mb-2 block">Filter by Practice Area</label>
+                    <select className="w-full appearance-none bg-transparent border-b border-gray-200 py-3 pr-10 text-gray-800 text-lg lg:text-xl font-light focus:outline-none focus:border-[#2f4e9b] focus:text-[#2f4e9b] transition-colors cursor-pointer">
                         {EXPERTISE.map((exp, idx) => (
                             <option key={idx} value={exp}>{exp}</option>
                         ))}
                     </select>
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none">
-                        <div className="relative w-6 h-4 flex items-center justify-center">
-                            <div className="absolute w-full h-[1px] bg-[#2f4e9b]"></div>
-                            <div className="absolute h-full w-[1px] bg-[#2f4e9b]"></div>
-                        </div>
+                    <div className="absolute right-0 bottom-4 pointer-events-none">
+                        <ArrowDown className="w-4 h-4 opacity-50 text-[#2f4e9b]" />
                     </div>
                 </div>
             </div>
@@ -133,82 +135,54 @@ export default function BlogPage() {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="group cursor-pointer flex flex-col"
+                        className="group cursor-pointer flex flex-col h-full"
                     >
-                        <div className="relative aspect-[1.66] w-full mb-6 overflow-hidden rounded-sm">
+                        {/* Image Container */}
+                        <div className="relative aspect-[16/10] w-full mb-6 overflow-hidden rounded-2xl shadow-sm border border-gray-100">
                             <Image 
                                 src={post.image} 
                                 alt={post.title} 
                                 fill 
-                                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                className="object-cover transition-transform duration-700 group-hover:scale-105"
                             />
+                            {/* Overlay on hover (optional) */}
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-500" />
                         </div>
-                        <div className="text-xs uppercase tracking-[0.15em] text-[#57595f] mb-3">
-                            {post.category} / {post.date}
+
+                        {/* Meta Data */}
+                        <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.15em] text-[#2f4e9b] font-medium mb-3">
+                            <span>{post.category}</span>
+                            <span className="w-1 h-1 rounded-full bg-gray-300"></span>
+                            <span className="text-gray-400">{post.date}</span>
                         </div>
-                        <Link href={`/blog/${encodeURIComponent(post.title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, ''))}`}>
-                            <h3 className="text-2xl font-light text-[#2f4e9b] leading-tight mb-6 line-clamp-3 group-hover:opacity-80 transition-opacity">
+
+                        {/* Title */}
+                        <Link href={`/blog/${encodeURIComponent(post.title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, ''))}`} className="flex-1">
+                            <h3 className="text-xl lg:text-2xl font-normal text-gray-900 leading-snug mb-6 line-clamp-3 group-hover:text-[#2f4e9b] transition-colors">
                                 {post.title}
                             </h3>
-                            <div className="mt-auto">
-                                <button className="border border-[#2f4e9b] text-[#2f4e9b] group-hover:bg-[#2f4e9b] group-hover:text-white rounded-full px-6 py-2 text-[10px] uppercase tracking-[0.15em] transition-all duration-300">
-                                    Read Article
-                                </button>
-                            </div>
                         </Link>
+
+                        {/* Action Button - Clean Outline */}
+                        <div className="mt-auto">
+                           <Link href={`/blog/${encodeURIComponent(post.title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, ''))}`}>
+                            <button className="flex items-center gap-3 text-xs uppercase tracking-widest font-bold text-gray-400 group-hover:text-[#2f4e9b] transition-colors">
+                                Read Article
+                                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                            </button>
+                           </Link>
+                        </div>
                     </motion.div>
                 ))}
             </div>
 
-            {/* Load More */}
-            <div className="flex justify-center mt-20">
-                <div className="flex flex-col items-center gap-2 cursor-pointer text-[#2f4e9b] opacity-80 hover:opacity-100 group">
-                    <span className="uppercase text-xs tracking-widest group-hover:font-semibold transition-all">Load More</span>
-                    <div className="relative h-12 w-6 flex justify-center">
-                         <div className="w-[1px] h-full bg-[#2f4e9b] group-hover:translate-y-2 transition-transform"></div>
-                         <ArrowDown className="absolute bottom-0 text-[#2f4e9b] w-3 h-3 group-hover:translate-y-2 transition-transform" />
-                    </div>
-                </div>
+            {/* Load More Button */}
+            <div className="flex justify-center mt-24">
+                <button className="px-8 py-3 rounded-full border border-gray-200 text-xs uppercase tracking-widest text-gray-500 hover:border-[#2f4e9b] hover:text-[#2f4e9b] hover:bg-white transition-all duration-300">
+                    Load More Articles
+                </button>
             </div>
         </div>
-      </section>
-
-      {/* --- NEWSLETTER --- */}
-      <section className="relative py-32 bg-slate-900">
-         <div className="absolute inset-0 z-0">
-             <Image 
-                src="http://ssek.com/wp-content/uploads/2022/07/img-07.jpeg" 
-                alt="Background" 
-                fill 
-                className="object-cover opacity-60"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10" />
-         </div>
-         
-         <div className="container mx-auto px-6 relative z-20 flex flex-col lg:flex-row items-end gap-16">
-            <div className="lg:w-1/2">
-                <div className="flex items-center gap-3 mb-6 uppercase text-sm tracking-[0.15em] font-semibold text-[#50b848]">
-                    <span className="w-1.5 h-4 bg-[#50b848] -skew-x-12 inline-block"></span>
-                    Subscribe to Our Newsletter
-                </div>
-                <p className="text-2xl lg:text-4xl font-light text-white">
-                    Stay up to date with the latest legal developments in Indonesia, upcoming events, new publications and firm news.
-                </p>
-            </div>
-            <div className="lg:w-1/2 w-full">
-                <form className="flex border-b border-white/50 pb-4 relative items-center">
-                    <input 
-                        type="email" 
-                        placeholder="ENTER YOUR EMAIL ADDRESS" 
-                        className="bg-transparent w-full text-white placeholder:text-white/70 placeholder:font-light text-sm lg:text-lg outline-none uppercase tracking-widest"
-                    />
-                    <button type="submit" className="text-white uppercase tracking-widest text-sm flex items-center gap-2 hover:opacity-70 transition-opacity whitespace-nowrap ml-4">
-                        Send <ArrowRight className="w-4 h-4" />
-                    </button>
-                    <div className="absolute top-0 left-[-20px] h-[70%] w-[1px] bg-white hidden lg:block"></div>
-                </form>
-            </div>
-         </div>
       </section>
 
       {/* --- FOOTER --- */}

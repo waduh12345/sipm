@@ -8,35 +8,35 @@ import {
   MapPin, 
   Phone, 
   Mail,
-  ArrowRight
 } from "lucide-react";
 
 export function SiteFooter() {
   return (
-    <footer className="bg-[#2f4e9b] text-white pt-24 pb-10 font-sans border-t border-[#2f4e9b]">
+    <footer className="bg-white text-gray-600 pt-24 pb-10 font-sans border-t border-gray-100">
       <div className="container mx-auto px-6 h-full flex flex-col justify-between">
         
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-20 pb-10 border-b border-white/10 group">
+        {/* --- Top CTA Section --- */}
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-20 pb-10 border-b border-gray-100 group">
             <div className="flex flex-col">
-              <span className="text-4xl lg:text-7xl font-light tracking-tight mb-2">
+              <span className="text-4xl lg:text-7xl font-light tracking-tight mb-2 text-gray-900">
                 Let&apos;s Talk
               </span>
-              <span className="text-white/60 text-sm tracking-widest uppercase">
+              <span className="text-gray-400 text-sm tracking-widest uppercase">
                 Ready to assist your legal needs
               </span>
             </div>
             
-            {/* WhatsApp Button - Styled Circle */}
+            {/* WhatsApp Button - Clean Style */}
             <a
               href="https://wa.me/6282122024678?text=Halo%20Jon%20Bernard%20Law%20Firm%2C%20saya%20ingin%20bertanya."
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-4 group/btn"
             >
-              <span className="hidden md:block text-sm uppercase tracking-widest font-medium opacity-0 group-hover/btn:opacity-100 transition-opacity transform translate-x-4 group-hover/btn:translate-x-0 duration-300">
+              <span className="hidden md:block text-sm uppercase tracking-widest font-medium opacity-0 group-hover/btn:opacity-100 transition-opacity transform translate-x-4 group-hover/btn:translate-x-0 duration-300 text-[#2f4e9b]">
                 Chat via WhatsApp
               </span>
-              <div className="w-16 h-16 rounded-full border border-white/30 flex items-center justify-center bg-white/5 group-hover/btn:bg-[#FCD400] group-hover/btn:border-[#FCD400] group-hover/btn:text-[#2f4e9b] transition-all duration-300">
+              <div className="w-16 h-16 rounded-full border border-gray-200 flex items-center justify-center bg-white text-[#2f4e9b] group-hover/btn:bg-[#2f4e9b] group-hover/btn:border-[#2f4e9b] group-hover/btn:text-white transition-all duration-300 shadow-sm">
                  {/* Icon WhatsApp SVG */}
                  <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -55,37 +55,37 @@ export function SiteFooter() {
             
             {/* 1. Brand Section (Span 4) */}
             <div className="lg:col-span-5 flex flex-col items-start">
-                <h5 className="font-bold text-lg md:text-2xl tracking-[0.1em] leading-tight mb-6 text-white">
-                    JON BERNARD <span className="font-light opacity-80">& ASSOCIATES</span>
+                <h5 className="font-bold text-lg md:text-2xl tracking-[0.1em] leading-tight mb-6 text-gray-900">
+                    JON BERNARD <span className="font-light text-gray-400">& </span>ASSOCIATES
                 </h5>
                 
-                <div className="flex flex-col gap-4 text-white/70 font-light text-md mb-8">
-                    <a href="mailto:jonbernard@jonb-lawfirm.com" className="flex items-center gap-3 hover:text-[#FCD400] transition-colors group">
-                        <Mail className="w-4 h-4 text-[#FCD400] group-hover:scale-110 transition-transform" />
+                <div className="flex flex-col gap-4 text-gray-500 font-light text-md mb-8">
+                    <a href="mailto:jonbernard@jonb-lawfirm.com" className="flex items-center gap-3 hover:text-[#2f4e9b] transition-colors group">
+                        <Mail className="w-4 h-4 text-[#2f4e9b] group-hover:scale-110 transition-transform" />
                         jonbernard@jonb-lawfirm.com
                     </a>
                 </div>
 
-                {/* Socials */}
+                {/* Socials - Dark Text, Blue Hover */}
                 <div className="flex gap-4">
                     {[Linkedin, Instagram, Twitter].map((Icon, idx) => (
-                        <div key={idx} className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#FCD400] hover:border-[#FCD400] hover:text-[#2f4e9b] transition-all cursor-pointer">
+                        <div key={idx} className="w-10 h-10 rounded-full border border-gray-200 text-gray-600 flex items-center justify-center hover:bg-[#2f4e9b] hover:border-[#2f4e9b] hover:text-white transition-all cursor-pointer">
                             <Icon className="w-4 h-4" />
                         </div>
                     ))}
                 </div>
             </div>
 
-            {/* 2. Office Section (Span 5) - Center aligned visual weight */}
+            {/* 2. Office Section (Span 5) */}
             <div className="lg:col-span-4 flex flex-col">
-                <h6 className="font-semibold text-xs uppercase tracking-[0.2em] text-[#FCD400] mb-6 flex items-center gap-2">
-                    <span className="w-8 h-[1px] bg-[#FCD400]"></span>
+                <h6 className="font-semibold text-xs uppercase tracking-[0.2em] text-[#2f4e9b] mb-6 flex items-center gap-2">
+                    <span className="w-8 h-[1px] bg-[#2f4e9b]"></span>
                     Bekasi Office
                 </h6>
                 
-                <div className="flex flex-col gap-5 text-sm font-light text-white/80">
+                <div className="flex flex-col gap-5 text-sm font-light text-gray-600">
                     <div className="flex items-start gap-4 group">
-                        <MapPin className="w-5 h-5 text-white/40 mt-1 flex-shrink-0 group-hover:text-[#FCD400] transition-colors" />
+                        <MapPin className="w-5 h-5 text-gray-400 mt-1 flex-shrink-0 group-hover:text-[#2f4e9b] transition-colors" />
                         <address className="not-italic leading-relaxed">
                             Ruko Commercial Park 2<br/>
                             Jl. Harapan Indah Raya, Blok CP 2.2 No.1<br/>
@@ -93,24 +93,24 @@ export function SiteFooter() {
                         </address>
                     </div>
                     <div className="flex items-center gap-4 group">
-                        <Phone className="w-5 h-5 text-white/40 flex-shrink-0 group-hover:text-[#FCD400] transition-colors" />
+                        <Phone className="w-5 h-5 text-gray-400 flex-shrink-0 group-hover:text-[#2f4e9b] transition-colors" />
                         <span>(021) 89454773</span>
                     </div>
                 </div>
             </div>
 
-            {/* 3. Navigation (Span 3) - Right aligned */}
+            {/* 3. Navigation (Span 3) */}
             <div className="lg:col-span-3 flex flex-col lg:items-end">
-                <h6 className="font-semibold text-xs uppercase tracking-[0.2em] text-[#FCD400] mb-6 flex items-center gap-2 lg:flex-row-reverse">
-                    <span className="w-8 h-[1px] bg-[#FCD400]"></span>
+                <h6 className="font-semibold text-xs uppercase tracking-[0.2em] text-[#2f4e9b] mb-6 flex items-center gap-2 lg:flex-row-reverse">
+                    <span className="w-8 h-[1px] bg-[#2f4e9b]"></span>
                     Menu
                 </h6>
-                <nav className="flex flex-col gap-3 text-sm uppercase tracking-widest font-light text-white/70 lg:text-right">
+                <nav className="flex flex-col gap-3 text-sm uppercase tracking-widest font-light text-gray-500 lg:text-right">
                     {['Home', 'About Us', 'Practise Areas', 'Client', 'Article'].map((item) => (
                          <Link 
                             key={item} 
                             href={`/v1/${item.toLowerCase().replace(/\s+/g, '-')}`} 
-                            className="hover:text-white hover:translate-x-2 lg:hover:-translate-x-2 transition-all duration-300 flex items-center gap-2 lg:flex-row-reverse"
+                            className="hover:text-[#2f4e9b] hover:translate-x-2 lg:hover:-translate-x-2 transition-all duration-300 flex items-center gap-2 lg:flex-row-reverse"
                         >
                             {item}
                         </Link>
@@ -121,16 +121,16 @@ export function SiteFooter() {
         </div>
 
         {/* --- Bottom Section: Copyright & Legal --- */}
-        <div className="flex flex-col md:flex-row items-center justify-between border-t border-white/10 pt-8 mt-4">
-            <div className="text-white/40 text-[10px] uppercase tracking-wider mb-4 md:mb-0">
+        <div className="flex flex-col md:flex-row items-center justify-between border-t border-gray-100 pt-8 mt-4">
+            <div className="text-gray-400 text-[10px] uppercase tracking-wider mb-4 md:mb-0">
                 &copy; {new Date().getFullYear()} Jon Bernard & Associates. All Rights Reserved.
             </div>
             
-            <div className="flex gap-8 text-[10px] text-white/40 uppercase tracking-wider font-medium">
-                <Link href="/privacy" className="hover:text-white transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-[1px] after:bg-white hover:after:w-full after:transition-all">
+            <div className="flex gap-8 text-[10px] text-gray-400 uppercase tracking-wider font-medium">
+                <Link href="/privacy" className="hover:text-[#2f4e9b] transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-[1px] after:bg-[#2f4e9b] hover:after:w-full after:transition-all">
                     Privacy Policy
                 </Link>
-                <Link href="/terms" className="hover:text-white transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-[1px] after:bg-white hover:after:w-full after:transition-all">
+                <Link href="/terms" className="hover:text-[#2f4e9b] transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-[1px] after:bg-[#2f4e9b] hover:after:w-full after:transition-all">
                     Terms of Use
                 </Link>
             </div>

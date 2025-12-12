@@ -2,127 +2,140 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-
-// --- DATA SERVICES (6 Items) ---
-const SERVICES = [
-  { 
-    id: 1, 
-    title: "Energy & Mining", 
-    slug: "energy-mining", // Ini untuk URL tujuan
-    description: "Legal solutions for oil, gas, and renewable energy sectors.",
-    image: "http://ssek.com/wp-content/uploads/2022/07/img-07.jpeg" // Ganti dengan gambar relevan
-  },
-  { 
-    id: 2, 
-    title: "Banking & Finance", 
-    slug: "banking-finance",
-    description: "Comprehensive advisory for financial institutions and fintech.",
-    image: "http://ssek.com/wp-content/uploads/2022/07/SSEK_Website-Photo_Our-Attorney-Page.jpg"
-  },
-  { 
-    id: 3, 
-    title: "Technology & TMT", 
-    slug: "technology",
-    description: "Navigating regulations for digital platforms and startups.",
-    image: "http://ssek.com/wp-content/uploads/2022/07/img-07.jpeg"
-  },
-  { 
-    id: 4, 
-    title: "Consumer Goods", 
-    slug: "consumer-goods",
-    description: "Supporting manufacturing, distribution, and retail giants.",
-    image: "http://ssek.com/wp-content/uploads/2022/07/SSEK_Website-Photo_Our-Attorney-Page.jpg"
-  },
-  { 
-    id: 5, 
-    title: "Healthcare", 
-    slug: "healthcare",
-    description: "Regulatory compliance for hospitals and pharmaceuticals.",
-    image: "http://ssek.com/wp-content/uploads/2022/07/img-07.jpeg"
-  },
-  { 
-    id: 6, 
-    title: "Transportation", 
-    slug: "transportation",
-    description: "Aviation, maritime, and logistics legal frameworks.",
-    image: "http://ssek.com/wp-content/uploads/2022/07/SSEK_Website-Photo_Our-Attorney-Page.jpg"
-  },
-];
+import { useLanguage } from "@/contexts/LanguageContext"; // 1. Import Context
 
 export default function OurClientsPage() {
-  // State untuk menyimpan service mana yang sedang di-hover
-  // Defaultnya adalah service pertama
-  const [activeService, setActiveService] = useState(SERVICES[0]);
+  const { t } = useLanguage(); // 2. Gunakan Hook
+
+  // 3. Definisikan Data di dalam komponen agar dinamis sesuai bahasa
+  // Kita mapping data dari translation array, lalu gabungkan dengan data statis (gambar/slug)
+  const SERVICES = [
+    { 
+      id: 1, 
+      title: t.client.industries[0].title, 
+      description: t.client.industries[0].desc,
+      slug: "energy-mining", 
+      image: "http://ssek.com/wp-content/uploads/2022/07/img-07.jpeg" 
+    },
+    { 
+      id: 2, 
+      title: t.client.industries[1].title, 
+      description: t.client.industries[1].desc,
+      slug: "banking-finance",
+      image: "http://ssek.com/wp-content/uploads/2022/07/SSEK_Website-Photo_Our-Attorney-Page.jpg"
+    },
+    { 
+      id: 3, 
+      title: t.client.industries[2].title, 
+      description: t.client.industries[2].desc,
+      slug: "technology",
+      image: "http://ssek.com/wp-content/uploads/2022/07/img-07.jpeg"
+    },
+    { 
+      id: 4, 
+      title: t.client.industries[3].title, 
+      description: t.client.industries[3].desc,
+      slug: "consumer-goods",
+      image: "http://ssek.com/wp-content/uploads/2022/07/SSEK_Website-Photo_Our-Attorney-Page.jpg"
+    },
+    { 
+      id: 5, 
+      title: t.client.industries[4].title, 
+      description: t.client.industries[4].desc,
+      slug: "healthcare",
+      image: "http://ssek.com/wp-content/uploads/2022/07/img-07.jpeg"
+    },
+    { 
+      id: 6, 
+      title: t.client.industries[5].title, 
+      description: t.client.industries[5].desc,
+      slug: "transportation",
+      image: "http://ssek.com/wp-content/uploads/2022/07/SSEK_Website-Photo_Our-Attorney-Page.jpg"
+    },
+  ];
+
+  // 4. State menyimpan ID, bukan Objek utuh. 
+  // Agar saat bahasa berubah, 'activeService' ter-update otomatis.
+  const [activeId, setActiveId] = useState(1);
+
+  // Cari object service berdasarkan ID yang aktif
+  const activeService = SERVICES.find((s) => s.id === activeId) || SERVICES[0];
 
   return (
-    <div className="min-h-screen font-sans text-[#57595f] selection:bg-[#2f4e9b] selection:text-white bg-[#f7fbff]">
+    <div className="min-h-screen font-sans text-gray-600 selection:bg-[#2f4e9b] selection:text-white bg-white">
       
       <SiteHeader />
 
       {/* --- CONTENT SPACER --- */}
-      <div className="h-24 lg:h-32"></div>
+      <div className="h-28 lg:h-32"></div>
 
       {/* --- MAIN SPLIT SECTION --- */}
-      <section className="min-h-[80vh] flex flex-col justify-center py-10">
+      <section className="min-h-[80vh] flex flex-col justify-center py-12 lg:py-20">
         <div className="container mx-auto px-6">
           
-          <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-stretch mt-[-20px] md:mt-0">
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-start">
             
             {/* --- LEFT COLUMN: LIST SERVICES --- */}
             <div className="lg:w-1/2 flex flex-col justify-center">
                 
                 {/* Section Title */}
-                <div className="mb-10">
-                    <div className="flex items-center gap-3 uppercase text-sm tracking-[0.15em] font-semibold text-[#2f4e9b] mb-4">
-                        <span className="w-1 h-3 bg-[#a3238e] -skew-x-12 inline-block"></span>
-                        Our Expertise
+                <div className="mb-12">
+                    <div className="flex items-center gap-3 uppercase text-xs font-bold tracking-[0.2em] text-[#2f4e9b] mb-4">
+                        <span className="w-8 h-[2px] bg-[#2f4e9b]"></span>
+                        {t.client.label}
                     </div>
-                    <h1 className="text-3xl lg:text-5xl font-light text-[#2f4e9b] leading-tight">
-                        Industries We Serve
+                    <h1 className="text-3xl lg:text-5xl font-light text-gray-900 leading-tight">
+                        {t.client.heroTitle}
                     </h1>
                 </div>
 
                 {/* The List */}
-                <div className="flex flex-col">
+                <div className="flex flex-col border-t border-gray-100">
                     {SERVICES.map((service) => (
                         <div
                             key={service.id}
-                            className="group relative border-b border-[#2f4e9b]/20 py-6 lg:py-8 cursor-pointer transition-all duration-300"
-                            onMouseEnter={() => setActiveService(service)}
+                            className={`group relative border-b border-gray-100 py-6 lg:py-8 cursor-pointer transition-all duration-500 flex items-center justify-between
+                                ${activeId === service.id ? 'pl-4 bg-gray-50/50' : 'hover:pl-4 hover:bg-gray-50'}`}
+                            onMouseEnter={() => setActiveId(service.id)}
                         >
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <h3 className={`text-2xl lg:text-3xl font-light transition-colors duration-300 ${activeService.id === service.id ? "text-[#a3238e]" : "text-[#2f4e9b] group-hover:text-[#2f4e9b]"}`}>
-                                        {service.title}
-                                    </h3>
-                                    {/* Description hanya muncul jika aktif/hover */}
-                                    <div className={`overflow-hidden transition-all duration-500 ease-in-out ${activeService.id === service.id ? "max-h-20 opacity-100 mt-2" : "max-h-0 opacity-0 mt-0"}`}>
-                                        <p className="text-sm text-gray-500 font-light">{service.description}</p>
-                                    </div>
+                            <div className="w-full">
+                                <h3 className={`text-2xl lg:text-3xl font-light transition-colors duration-300 flex items-center gap-4 
+                                    ${activeId === service.id ? "text-[#2f4e9b]" : "text-gray-800 group-hover:text-[#2f4e9b]"}`}>
+                                    {service.title}
+                                    {activeId === service.id && (
+                                        <ArrowRight className="w-5 h-5 opacity-0 animate-fadeIn ml-2" />
+                                    )}
+                                </h3>
+                                {/* Description Animation */}
+                                <div className={`overflow-hidden transition-all duration-500 ease-in-out ${activeId === service.id ? "max-h-24 opacity-100 mt-3" : "max-h-0 opacity-0 mt-0"}`}>
+                                    <p className="text-sm text-gray-500 font-light leading-relaxed max-w-md">
+                                        {service.description}
+                                    </p>
                                 </div>
-
                             </div>
+
+                            {/* Active Indicator (Border Left) */}
+                            <div className={`absolute left-0 top-0 h-full w-[3px] bg-[#2f4e9b] transition-all duration-300 ${activeId === service.id ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-0'}`}></div>
                         </div>
                     ))}
                 </div>
             </div>
 
-            {/* --- RIGHT COLUMN: DYNAMIC IMAGE --- */}
+            {/* --- RIGHT COLUMN: DYNAMIC IMAGE (Sticky) --- */}
             <div className="lg:w-1/2 relative hidden lg:block h-[600px] sticky top-32">
-                <div className="relative w-full h-full rounded-lg overflow-hidden shadow-2xl">
+                <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-xl border border-gray-100">
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={activeService.id}
                             initial={{ opacity: 0, scale: 1.05 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0 }}
-                            transition={{ duration: 0.5, ease: "easeInOut" }}
+                            transition={{ duration: 0.7, ease: "easeInOut" }}
                             className="absolute inset-0"
                         >
                             <Image 
@@ -132,13 +145,13 @@ export default function OurClientsPage() {
                                 className="object-cover"
                                 priority
                             />
-                            {/* Overlay Gradient agar teks di atas gambar terbaca (opsional) */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#2f4e9b]/40 to-transparent mix-blend-multiply" />
+                            {/* Overlay Gradient Halus */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                             
-                            {/* Label Overlay Pojok Kanan Bawah */}
-                            <div className="absolute bottom-6 right-6 bg-white/90 backdrop-blur-sm px-6 py-3 border-l-4 border-[#a3238e]">
-                                <span className="block text-xs uppercase tracking-widest text-gray-500">View Clients In</span>
-                                <span className="block text-xl font-medium text-[#2f4e9b]">{activeService.title}</span>
+                            {/* Label Overlay - Clean Style */}
+                            <div className="absolute bottom-8 right-8 bg-white/95 backdrop-blur-md p-6 border-l-4 border-[#2f4e9b] shadow-lg max-w-xs">
+                                <span className="block text-[10px] uppercase tracking-widest text-gray-400 mb-1">{t.client.viewLabel}</span>
+                                <span className="block text-xl font-medium text-gray-900">{activeService.title}</span>
                             </div>
                         </motion.div>
                     </AnimatePresence>
@@ -149,25 +162,30 @@ export default function OurClientsPage() {
         </div>
       </section>
 
-      {/* --- MOBILE IMAGE FALLBACK (Hanya muncul di HP) --- */}
+      {/* --- MOBILE IMAGE FALLBACK --- */}
       <section className="lg:hidden pb-20 px-6">
-        <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-lg">
-             <Image 
-                src={activeService.image} 
-                alt={activeService.title}
-                fill
-                className="object-cover"
-            />
-            <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white p-4">
-                <p className="text-xs uppercase">Selected Industry</p>
-                <p className="font-bold">{activeService.title}</p>
-            </div>
+        <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-lg border border-gray-100">
+            <AnimatePresence mode="wait">
+                 <motion.div
+                    key={activeService.id}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="relative w-full h-full"
+                 >
+                    <Image 
+                        src={activeService.image} 
+                        alt={activeService.title}
+                        fill
+                        className="object-cover"
+                    />
+                     <div className="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm p-4 border-t border-gray-100">
+                        <p className="text-[10px] uppercase tracking-widest text-gray-400">{t.client.selectedLabel}</p>
+                        <p className="font-bold text-gray-900">{activeService.title}</p>
+                    </div>
+                </motion.div>
+            </AnimatePresence>
         </div>
-        {/* <div className="mt-6 text-center">
-            <Link href={`/clients/${activeService.slug}`} className="inline-flex items-center gap-2 bg-[#2f4e9b] text-white px-6 py-3 rounded-sm uppercase tracking-widest text-xs hover:bg-[#a3238e] transition-colors">
-                View Clients <ArrowRight size={16}/>
-            </Link>
-        </div> */}
       </section>
 
       <SiteFooter />

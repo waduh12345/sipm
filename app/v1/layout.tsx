@@ -6,6 +6,8 @@ import "../globals.css";
 // 1. IMPORT Provider yang sudah Anda buat
 // Pastikan path-nya benar (sesuaikan jika folder context ada di src atau root)
 import { LanguageProvider } from "@/contexts/LanguageContext"; 
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 
 const inter = Inter({ subsets: ["latin"] });
 

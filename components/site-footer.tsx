@@ -1,15 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
-import { 
-  Linkedin, 
-  Instagram, 
-  Twitter, 
-  MapPin, 
-  Phone, 
-  Mail,
-} from "lucide-react";
+import Image from "next/image"; // Import Next Image
+import { MapPin, Phone, Mail } from "lucide-react";
+
+// Data Social Media sesuai file yang dilampirkan
+const SOCIAL_LINKS = [
+  { name: "Instagram", icon: "/icons/instagram.svg", url: "#" },
+  { name: "Twitter", icon: "/icons/twitter.svg", url: "#" },
+];
 
 export function SiteFooter() {
   return (
@@ -51,26 +50,21 @@ export function SiteFooter() {
         </div>
 
         {/* --- Main Content: 12-Column Grid --- */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 mb-20">
-            
-            {/* 1. Brand Section (Span 4) */}
-            <div className="lg:col-span-4 flex flex-col items-start">
-                <Image
-                    src="/logo-footer.png"
-                    alt="Jon Bernard & Associates Logo"
-                    width={180}
-                    height={90}
-                    className="mb-6 w-auto max-w-full"
-                    style={{ maxWidth: "300px" }}
-                />
-                <div className="flex flex-col gap-4 text-gray-500 font-light text-md mb-8">
-                    <a href="mailto:jonbernard@jonb-lawfirm.com" className="flex items-center gap-3 hover:text-[#2f4e9b] transition-colors group">
-                        <Mail className="w-4 h-4 text-[#2f4e9b] group-hover:scale-110 transition-transform" />
-                        jonbernard@jonb-lawfirm.com
-                    </a>
-                </div>
-
-            <div className="flex flex-col gap-4 text-gray-500 font-light text-md mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 mb-10 md:mb-20">
+          {/* 1. Brand Section (Span 4) */}
+          <div className="lg:col-span-5 flex flex-col items-start">
+            {/* <h5 className="font-bold text-lg md:text-2xl tracking-[0.1em] leading-tight mb-6 text-gray-900">
+              JON BERNARD & ASSOCIATES
+            </h5> */}
+            <Image
+                src="/logo-footer.png"
+                alt="Jon Bernard & Associates Logo"
+                className="w-full"
+                style={{ maxWidth: '280px', height: 'auto' }}
+                width={200}
+                height={60}
+            />
+            <div className="flex flex-col gap-4 text-gray-500 font-light text-md mb-8 pt-8">
               <a
                 href="mailto:jonbernard@jonb-lawfirm.com"
                 className="flex items-center gap-3 hover:text-[#2f4e9b] transition-colors group"
@@ -80,27 +74,24 @@ export function SiteFooter() {
               </a>
             </div>
 
-            {/* 2. Office Section (Span 5) */}
-            <div className="lg:col-span-4 flex flex-col">
-                <h6 className="font-semibold text-xs uppercase tracking-[0.2em] text-[#2f4e9b] mb-6 flex items-center gap-2">
-                    <span className="w-8 h-[1px] bg-[#2f4e9b]"></span>
-                    Office
-                </h6>
-                
-                <div className="flex flex-col gap-5 text-sm font-light text-gray-600">
-                    <div className="flex items-start gap-4 group">
-                        <MapPin className="w-5 h-5 text-gray-400 mt-1 flex-shrink-0 group-hover:text-[#2f4e9b] transition-colors" />
-                        <address className="not-italic leading-relaxed">
-                            Ruko Commercial Park 2<br/>
-                            Jl. Harapan Indah Raya, Blok CP 2.2 No.1<br/>
-                            Bekasi 17214, Indonesia
-                        </address>
-                    </div>
-                    <div className="flex items-center gap-4 group">
-                        <Phone className="w-5 h-5 text-gray-400 flex-shrink-0 group-hover:text-[#2f4e9b] transition-colors" />
-                        <span>(021) 89454773</span>
-                    </div>
-                </div>
+            {/* Socials - Menggunakan File SVG Lokal */}
+            <div className="flex gap-4">
+              {SOCIAL_LINKS.map((social, idx) => (
+                <a
+                  key={idx}
+                  href={social.url}
+                  className="group w-10 h-10 rounded-full border border-gray-200 bg-white flex items-center justify-center hover:bg-[#2f4e9b] hover:border-[#2f4e9b] transition-all cursor-pointer shadow-sm"
+                >
+                  <div className="relative w-4 h-4">
+                    <Image
+                      src={social.icon}
+                      alt={social.name}
+                      fill
+                      className="object-contain transition-all duration-300 group-hover:brightness-0 group-hover:invert"
+                    />
+                  </div>
+                </a>
+              ))}
             </div>
           </div>
 
@@ -108,7 +99,7 @@ export function SiteFooter() {
           <div className="lg:col-span-4 flex flex-col">
             <h6 className="font-semibold text-xs uppercase tracking-[0.2em] text-[#2f4e9b] mb-4 md:mb-6 flex items-center gap-2">
               <span className="w-8 h-[1px] bg-[#2f4e9b]"></span>
-              Bekasi Office
+              Office
             </h6>
 
             <div className="flex flex-col gap-5 text-sm font-light text-gray-600">
@@ -141,7 +132,8 @@ export function SiteFooter() {
                 { name: "Practise Areas", url: "/v1/practise-areas" },
                 { name: "Client", url: "/v1/client" },
                 { name: "Article", url: "/v1/blog" },
-                { name: "Contact Us", url: "/v1/lets-talk" },
+                { name: "Lets Talk", url: "/v1/lets-talk" },
+                { name: "Contact Us", url: "/v1/contact-us" },
               ].map((item) => (
                 <Link
                   key={item.name}

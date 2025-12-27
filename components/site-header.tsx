@@ -46,6 +46,7 @@ export function SiteHeader() {
     { name: t.nav.practice, href: "/v1/practise-areas" },
     { name: t.nav.client, href: "/v1/client" },
     { name: t.nav.article, href: "/v1/blog" },
+    { name: t.nav.contact, href: "/v1/contact-us" },
   ];
 
   return (

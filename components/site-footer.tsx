@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { 
   Linkedin, 
   Instagram, 
@@ -54,11 +55,15 @@ export function SiteFooter() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 mb-20">
             
             {/* 1. Brand Section (Span 4) */}
-            <div className="lg:col-span-5 flex flex-col items-start">
-                <h5 className="font-bold text-lg md:text-2xl tracking-[0.1em] leading-tight mb-6 text-gray-900">
-                    JON BERNARD & ASSOCIATES
-                </h5>
-                
+            <div className="lg:col-span-4 flex flex-col items-start">
+                <Image
+                    src="/logo-footer.png"
+                    alt="Jon Bernard & Associates Logo"
+                    width={180}
+                    height={90}
+                    className="mb-6 w-auto max-w-full"
+                    style={{ maxWidth: "300px" }}
+                />
                 <div className="flex flex-col gap-4 text-gray-500 font-light text-md mb-8">
                     <a href="mailto:jonbernard@jonb-lawfirm.com" className="flex items-center gap-3 hover:text-[#2f4e9b] transition-colors group">
                         <Mail className="w-4 h-4 text-[#2f4e9b] group-hover:scale-110 transition-transform" />
@@ -80,7 +85,7 @@ export function SiteFooter() {
             <div className="lg:col-span-4 flex flex-col">
                 <h6 className="font-semibold text-xs uppercase tracking-[0.2em] text-[#2f4e9b] mb-6 flex items-center gap-2">
                     <span className="w-8 h-[1px] bg-[#2f4e9b]"></span>
-                    Bekasi Office
+                    Office
                 </h6>
                 
                 <div className="flex flex-col gap-5 text-sm font-light text-gray-600">

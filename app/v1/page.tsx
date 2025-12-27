@@ -167,7 +167,7 @@ export default function HomePage() {
                         {t.home.contact.emailBtn}
                     </a>
                     <a
-                        href="https://wa.me/6281234567890"
+                        href="https://wa.me/6285353222568"
                         className="flex items-center justify-center gap-3 px-8 py-4 bg-[#25D366] text-white font-medium hover:bg-[#128C7E] transition-all duration-300 rounded-lg shadow-lg"
                         target="_blank"
                         rel="noopener noreferrer"

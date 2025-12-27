@@ -19,7 +19,7 @@ export const translations = {
     home: {
       hero: {
         welcome: "SELAMAT DATANG DI WEBSITE",
-        subtitle: "Jon Bernard & Associates Partner Hukum Terpercaya Anda",
+        subtitle: "Jon Bernard & Associates\nPartner Hukum Terpercaya Anda",
         desc: "Firma hukum yang berdiri untuk melindungi kepentingan Anda dengan ketegasan, dedikasi dan strategi yang terukur.",
         cta: "Pelajari Lebih Lanjut"
       },
@@ -159,7 +159,7 @@ export const translations = {
     },
     contact: {
       label: "Mari Bicara",
-      intro: "Jika Anda memerlukan informasi tambahan mengenai Jon Bernard & Associates atau aspek apa pun dari praktik kami, jangan ragu untuk menghubungi kami.",
+      intro: "Jika Anda memerlukan informasi tambahan mengenai\nJon Bernard & Associates atau aspek apa pun dari praktik kami, jangan ragu untuk menghubungi kami.",
       form: {
         name: "NAMA",
         email: "EMAIL",
@@ -191,7 +191,7 @@ export const translations = {
     home: {
       hero: {
         welcome: "WELCOME TO OUR WEBSITE",
-        subtitle: "Jon Bernard & Associates Your Trusted Legal Partner",
+        subtitle: "Jon Bernard & Associates\nYour Trusted Legal Partner",
         desc: "A law firm established to protect your interests with firmness, dedication, and measured strategies.",
         cta: "Find Out More"
       },
@@ -331,7 +331,7 @@ export const translations = {
     },
     contact: {
       label: "Let's Talk",
-      intro: "Should you require any additional information regarding Jon Bernard & Associates or any aspect of our practice, please do not hesitate to contact us.",
+      intro: "Should you require any additional information regarding\nJon Bernard & Associates or any aspect of our practice, please do not hesitate to contact us.",
       form: {
         name: "NAME",
         email: "EMAIL",

@@ -1,38 +1,34 @@
 "use client";
 
 import Image from "next/image";
-import { 
-  MapPin,
-  Phone,
-} from "lucide-react";
-import { SiteFooter } from "@/components/site-footer"; 
+import { MapPin, Phone } from "lucide-react";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { useLanguage } from "@/contexts/LanguageContext"; // 1. Import Context
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function LetsTalkPage() {
-  const { t } = useLanguage(); // 2. Gunakan Hook
+  const { t } = useLanguage();
 
   return (
     <div className="min-h-screen font-sans text-gray-600 selection:bg-[#2f4e9b] selection:text-white bg-white">
-      
       {/* --- HEADER --- */}
       <SiteHeader />
 
       {/* --- CONTENT SPACER --- */}
-      <div className="h-28 lg:h-32"></div>
+      <div className="h-24 lg:h-32"></div>
 
       <main>
         {/* --- HERO IMAGE --- */}
-        <div className="container mx-auto px-6 mb-20">
-            <div className="relative aspect-[2.5] w-full overflow-hidden rounded-2xl shadow-sm border border-gray-100">
-                <Image 
-                    src="/WhatsApp Image 2025-12-08 at 18.04.25.jpeg" 
-                    alt="Jon Bernard Office" 
-                    fill 
-                    className="object-cover"
-                    priority
-                />
-            </div>
+        <div className="container mx-auto px-6 mb-6 md:mb-14">
+          <div className="relative aspect-[1.5] md:aspect-[2.5] w-full overflow-hidden rounded-2xl shadow-sm border border-gray-100">
+            <Image
+              src="/WhatsApp Image 2025-12-08 at 18.04.25.jpeg"
+              alt="Jon Bernard Office"
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
         </div>
 
         {/* --- CONTACT FORM SECTION --- */}
@@ -112,6 +108,54 @@ export default function LetsTalkPage() {
                         </form>
                     </div>
                 </div>
+            </div>
+
+            {/* Right: Form & Text */}
+            <div className="lg:w-2/3 w-full">
+            <h2 className="text-xl lg:text-3xl font-light text-justify text-gray-900 leading-snug mb-4 lg:mb-12 whitespace-pre-line">
+                {t.contact.intro}
+            </h2>
+
+            <form className="space-y-6 lg:space-y-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+                <div className="group">
+                    <input
+                    type="text"
+                    placeholder={t.contact.form.name}
+                    className="w-full bg-transparent border-b border-gray-200 py-3 text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-[#2f4e9b] transition-colors uppercase text-sm tracking-widest"
+                    />
+                </div>
+                <div className="group">
+                    <input
+                    type="email"
+                    placeholder={t.contact.form.email}
+                    className="w-full bg-transparent border-b border-gray-200 py-3 text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-[#2f4e9b] transition-colors uppercase text-sm tracking-widest"
+                    />
+                </div>
+                </div>
+                <div className="group">
+                <input
+                    type="text"
+                    placeholder={t.contact.form.subject}
+                    className="w-full bg-transparent border-b border-gray-200 py-3 text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-[#2f4e9b] transition-colors uppercase text-sm tracking-widest"
+                />
+                </div>
+                <div className="group">
+                <textarea
+                    rows={4}
+                    placeholder={t.contact.form.message}
+                    className="w-full bg-gray-50 border border-gray-200 p-4 rounded-xl text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-[#2f4e9b] focus:bg-white transition-colors text-sm tracking-wide resize-none mt-2 lg:mt-4"
+                />
+                </div>
+                <div>
+                <button
+                    type="submit"
+                    className="bg-[#2f4e9b] text-white hover:bg-[#253e7d] rounded-full px-8 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 w-full md:w-auto"
+                >
+                    {t.contact.form.submit}
+                </button>
+                </div>
+            </form>
             </div>
         </section>
       </main>

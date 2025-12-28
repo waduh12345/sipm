@@ -60,13 +60,14 @@ export function SiteHeader() {
       >
         <div className="container mx-auto px-6 flex justify-between items-center">
           <Link href="/" className="relative z-50 block">
-             <div className={`relative w-48 transition-all duration-300 ${isScrolled ? "h-14" : "h-20 mt-[-10px]"}`}>
-                <Image 
-                  src="https://jonb-lawfirm.com/wp-content/uploads/2017/03/JB-new-logo.png" 
-                  alt="Jon Bernard & Associates Logo" 
-                  fill 
-                  className="object-contain" 
-                  sizes="(max-width: 768px) 100vw, 33vw"
+             <div className={`relative transition-all duration-300 ${isScrolled ? "h-14" : "h-20 mt-20]"}`} style={{ maxWidth: '280px', height: 'auto' }}>
+                <Image
+                  src="/logo-footer.png"
+                  alt="Jon Bernard & Associates Logo"
+                  className="w-full"
+                  style={{ maxWidth: '280px', height: 'auto' }}
+                  width={200}
+                  height={60}
                 />
              </div>
           </Link>
@@ -172,7 +173,7 @@ export function SiteHeader() {
                   </Link>
                 ))}
                 <Link href="/v1/lets-talk" onClick={() => setMobileMenuOpen(false)} className="border-b border-gray-100 pb-4 hover:text-[#58b0e3]">
-                    {t.nav.contact}
+                    {t.nav.letsTalk}
                 </Link>
                 </nav>
             </motion.div>

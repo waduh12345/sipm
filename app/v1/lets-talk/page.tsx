@@ -14,7 +14,7 @@ export default function LetsTalkPage() {
       <SiteHeader />
 
       {/* --- CONTENT SPACER --- */}
-      <div className="h-24 lg:h-32"></div>
+      <div className="h-28 lg:h-32"></div>
 
       <main>
         {/* --- HERO IMAGE --- */}
@@ -54,14 +54,14 @@ export default function LetsTalkPage() {
                       <input
                         type="text"
                         placeholder={t.contact.form.name}
-                        className="w-full bg-transparent border-b border-gray-200 py-3 text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-[#2f4e9b] transition-colors uppercase text-sm tracking-widest"
+                        className="w-full bg-transparent border-b border-gray-200 py-3 text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-[#2f4e9b] transition-colors text-sm tracking-widest"
                       />
                     </div>
                     <div className="group">
                       <input
                         type="email"
                         placeholder={t.contact.form.email}
-                        className="w-full bg-transparent border-b border-gray-200 py-3 text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-[#2f4e9b] transition-colors uppercase text-sm tracking-widest"
+                        className="w-full bg-transparent border-b border-gray-200 py-3 text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-[#2f4e9b] transition-colors text-sm tracking-widest"
                       />
                     </div>
                   </div>
@@ -69,7 +69,7 @@ export default function LetsTalkPage() {
                     <input
                       type="text"
                       placeholder={t.contact.form.subject}
-                      className="w-full bg-transparent border-b border-gray-200 py-3 text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-[#2f4e9b] transition-colors uppercase text-sm tracking-widest"
+                      className="w-full bg-transparent border-b border-gray-200 py-3 text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-[#2f4e9b] transition-colors text-sm tracking-widest"
                     />
                   </div>
                   <div className="group">
@@ -80,8 +80,11 @@ export default function LetsTalkPage() {
                     />
                   </div>
                   <div>
-                    <div className="flex gap-4">
-                        <button type="submit" className="bg-[#2f4e9b] text-white hover:bg-[#253e7d] rounded-full px-8 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    <div className="flex flex-col gap-4 sm:flex-row">
+                        <button
+                            type="submit"
+                            className="w-full sm:w-auto bg-[#2f4e9b] text-white hover:bg-[#253e7d] rounded-full px-8 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                        >
                             {t.contact.form.submit}
                         </button>
                         <a
@@ -90,7 +93,7 @@ export default function LetsTalkPage() {
                             )}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center bg-[#25D366] text-white hover:bg-[#1DA851] rounded-full px-8 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                            className="w-full sm:w-auto flex items-center justify-center bg-[#25D366] text-white hover:bg-[#1DA851] rounded-full px-8 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"

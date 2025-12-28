@@ -22,18 +22,17 @@ export default function LetsTalkPage() {
       <div className="h-28 lg:h-32"></div>
 
       <main>
-        {/* --- HERO IMAGE --- */}
-        <div className="container mx-auto px-6 mb-20">
-            <div className="relative aspect-[2.5] w-full overflow-hidden rounded-2xl shadow-sm border border-gray-100">
-                <Image 
-                    src="/WhatsApp Image 2025-12-08 at 18.04.25.jpeg" 
-                    alt="Jon Bernard Office" 
-                    fill 
-                    className="object-cover"
-                    priority
-                />
-            </div>
-        </div>
+        <div className="container mx-auto px-6 mb-6 md:mb-14">
+                  <div className="relative aspect-[1.5] md:aspect-[2.5] w-full overflow-hidden rounded-2xl shadow-sm border border-gray-100">
+                    <Image
+                      src="/WhatsApp Image 2025-12-08 at 18.04.25.jpeg"
+                      alt="Jon Bernard Office"
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                  </div>
+                </div>
 
         {/* --- OFFICE LOCATIONS SECTION --- */}
         <section className="pb-24 lg:pb-32">

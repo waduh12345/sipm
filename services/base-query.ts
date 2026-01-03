@@ -64,6 +64,8 @@ export const apiSecondSlice = createApi({
     "Achievement",
     "Cta",
     "FAQ",
+    "BeritaKategori",
+    "BeritaKonten",
   ],
   endpoints: () => ({}),
 });

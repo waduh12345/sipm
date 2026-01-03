@@ -21,6 +21,11 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/storage/**",
       },
+      {
+        protocol: "https",
+        hostname: "api-content-web.naditechno.id",
+        pathname: "/media/**",
+      },
       { protocol: "https", hostname: "api.qrserver.com" },
     ],
   },

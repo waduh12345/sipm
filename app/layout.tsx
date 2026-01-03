@@ -17,9 +17,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Aplikasi SIPPM",
+  title: "Jon Bernard & Associates",
   description:
-    "Aplikasi keanggotaan digital untuk mengelola data anggota, status keanggotaan, dan berbagai layanan koperasi secara online.",
+    "Jon Bernard & Associates Partner Hukum Terpercaya Anda. Firma hukum yang berdiri untuk melindungi kepentingan Anda dengan ketegasan, dedikasi dan strategi yang terukur.",
   icons: {
     icon: "/jon-bernard-associates-logo.png",
   },
@@ -29,7 +29,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="id">
+    <html lang="id" suppressHydrationWarning>
       <head>
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#ff3b30" />

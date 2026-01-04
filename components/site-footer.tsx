@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { MapPin, Phone, Mail, Settings } from "lucide-react";
@@ -22,13 +22,15 @@ const safeImage = (img: string | null | undefined, fallback: string) => {
   return fallback;
 };
 
-export function SiteFooter() {
+// --- CONTENT COMPONENT (Logic & Fetching) ---
+function SiteFooterContent() {
   const isEditMode = useEditMode();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // --- FETCH SETTINGS ---
   const clientCode =
     "$2b$10$/pdGKqOqU7wOJUheZ07.H.AqTam8PZv5oLDtdxB5zT.25h3x491vy";
+
   const { data: settingsData } = useGetPengaturanListQuery(
     { client_code: clientCode },
     { skip: !clientCode }
@@ -42,7 +44,7 @@ export function SiteFooter() {
   if (settings?.instagram)
     socials.push({
       name: "Instagram",
-      icon: "/icons/instagram.png",
+      icon: "/icons/instagram.svg",
       url: settings.instagram,
     });
   if (settings?.tiktok)
@@ -50,8 +52,9 @@ export function SiteFooter() {
       name: "TikTok",
       icon: "/icons/tiktok.svg",
       url: settings.tiktok,
-    }); // Gunakan icon yg sesuai jika ada
-  // Default fallback if api empty (optional)
+    });
+
+  // Default fallback if api empty
   if (socials.length === 0) {
     socials.push({ name: "Instagram", icon: "/icons/instagram.svg", url: "#" });
     socials.push({ name: "Twitter", icon: "/icons/twitter.svg", url: "#" });
@@ -94,7 +97,6 @@ export function SiteFooter() {
                 Chat via WhatsApp
               </span>
               <div className="w-14 h-14 md:w-16 md:h-16 rounded-full border border-gray-200 flex items-center justify-center bg-white text-[#2f4e9b] group-hover/btn:bg-[#2f4e9b] group-hover/btn:border-[#2f4e9b] group-hover/btn:text-white transition-all duration-300 shadow-sm">
-                {/* Icon WhatsApp SVG */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -180,7 +182,7 @@ export function SiteFooter() {
               </h6>
               <nav className="flex flex-col gap-3 text-sm uppercase tracking-widest font-light text-gray-500 lg:text-right">
                 {[
-                  { name: "Home", url: "/v1" },
+                  { name: "Home", url: "/v1/home" },
                   { name: "About Us", url: "/v1/about-us" },
                   { name: "Practise Areas", url: "/v1/practise-areas" },
                   { name: "Client", url: "/v1/client" },
@@ -233,5 +235,20 @@ export function SiteFooter() {
         clientCode={clientCode}
       />
     </>
+  );
+}
+
+// --- MAIN COMPONENT (Wrapped in Suspense) ---
+export function SiteFooter() {
+  return (
+    <Suspense
+      fallback={
+        <div className="bg-white py-10 text-center text-gray-400">
+          Loading Footer...
+        </div>
+      }
+    >
+      <SiteFooterContent />
+    </Suspense>
   );
 }

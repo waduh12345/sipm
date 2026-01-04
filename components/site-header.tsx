@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -21,7 +21,7 @@ const safeImage = (img: string | null | undefined, fallback: string) => {
   return fallback;
 };
 
-export function SiteHeader() {
+function SiteHeaderContent() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -230,5 +230,13 @@ export function SiteHeader() {
         </AnimatePresence>
       </header>
     </>
+  );
+}
+
+export function SiteHeader() {
+  return (
+    <Suspense fallback={<div>Loading Header...</div>}>
+      <SiteHeaderContent />
+    </Suspense>
   );
 }

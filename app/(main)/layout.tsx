@@ -17,8 +17,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body  className={montserrat.className}>
+    <html lang="en" suppressHydrationWarning>
+      <body  className={montserrat.className} suppressHydrationWarning>
         <LanguageProvider>
           {children}
         </LanguageProvider>

@@ -7,6 +7,7 @@ export interface BeritaKategori {
   status: number; // 1
   created_at?: string;
   updated_at?: string;
+  kategori_id: number;
 }
 
 // Parameter untuk GET (Query String)

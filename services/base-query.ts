@@ -66,6 +66,8 @@ export const apiSecondSlice = createApi({
     "FAQ",
     "BeritaKategori",
     "BeritaKonten",
+    "FaqKategori",
+    "FaqKonten",
   ],
   endpoints: () => ({}),
 });

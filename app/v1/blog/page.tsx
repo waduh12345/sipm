@@ -1,6 +1,13 @@
 "use client";
 
-import { useState, useEffect, useMemo, ChangeEvent, FormEvent } from "react";
+import {
+  useState,
+  useEffect,
+  useMemo,
+  ChangeEvent,
+  FormEvent,
+  Suspense,
+} from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -138,9 +145,9 @@ const safeImage = (
 };
 
 // =========================================================================
-// MAIN COMPONENT
+// MAIN LOGIC COMPONENT (Renamed from default export)
 // =========================================================================
-export default function BlogPage() {
+function BlogContent() {
   const { language } = useLanguage();
   const isEditMode = useEditMode();
   const [clientCode, setClientCode] = useState<string>("");
@@ -741,5 +748,22 @@ export default function BlogPage() {
         </div>
       )}
     </div>
+  );
+}
+
+// =========================================================================
+// DEFAULT EXPORT WRAPPED IN SUSPENSE
+// =========================================================================
+export default function BlogPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex h-screen items-center justify-center">
+          <div className="w-10 h-10 border-4 border-gray-200 border-t-[#2f4e9b] rounded-full animate-spin"></div>
+        </div>
+      }
+    >
+      <BlogContent />
+    </Suspense>
   );
 }

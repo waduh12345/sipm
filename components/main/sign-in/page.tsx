@@ -286,7 +286,7 @@ export default function LoginPage() {
     setIsSendingResetLink(true);
     try {
       const response = await fetch(
-        "https://cms.yameiyashop.com/api/v1/password/reset",
+        "https://cms.yameiyashop.com/api/password/reset",
         {
           method: "POST",
           headers: {
@@ -345,7 +345,7 @@ export default function LoginPage() {
     setIsVerifyingOtp(true);
     try {
       const response = await fetch(
-        "https://cms.yameiyashop.com/api/v1/password/reset/validate-otp",
+        "https://cms.yameiyashop.com/api/password/reset/validate-otp",
         {
           method: "POST",
           headers: {

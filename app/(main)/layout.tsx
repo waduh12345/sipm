@@ -18,7 +18,7 @@ export default function RootLayout({
       const token = localStorage.getItem("token");
       if (!token) {
         window.location.href =
-          "/v1/customize/login?callbackUrl=" +
+          "/customize/login?callbackUrl=" +
           encodeURIComponent(window.location.href);
       }
     }

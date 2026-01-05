@@ -525,7 +525,7 @@ function BlogContent() {
                   </Link>
 
                   <div className="mt-auto">
-                    <Link href={`/v1/blog/${post.id}`}>
+                    <Link href={`/blog/${post.id}`}>
                       <button className="flex items-center gap-3 text-xs uppercase tracking-widest font-bold text-gray-400 group-hover:text-[#2f4e9b] transition-colors">
                         {t.readArticle}
                         <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />

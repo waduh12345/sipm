@@ -25,7 +25,7 @@ function SiteHeaderContent() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
-  const isHome = pathname === "/" || pathname === "/v1";
+  const isHome = pathname === "/";
 
   const { language, setLanguage, t } = useLanguage();
 
@@ -66,11 +66,11 @@ function SiteHeaderContent() {
       : "bg-white/10 border-white/20 text-white/70 backdrop-blur-sm";
 
   const menuItems = [
-    { name: t.nav.about, href: "/v1/about-us" },
-    { name: t.nav.practice, href: "/v1/practise-areas" },
-    { name: t.nav.client, href: "/v1/client" },
-    { name: t.nav.article, href: "/v1/blog" },
-    { name: t.nav.contact, href: "/v1/contact-us" },
+    { name: t.nav.about, href: "/about-us" },
+    { name: t.nav.practice, href: "/practise-areas" },
+    { name: t.nav.client, href: "/client" },
+    { name: t.nav.article, href: "/blog" },
+    { name: t.nav.contact, href: "/contact-us" },
   ];
 
   return (
@@ -143,7 +143,7 @@ function SiteHeaderContent() {
                 </button>
               </div>
 
-              <Link href="/v1/lets-talk">
+              <Link href="/lets-talk">
                 <button className="bg-[#58b0e3] hover:bg-[#2f4e9b] text-white rounded-full px-7 py-3 text-[12px] font-bold uppercase tracking-[0.15em] transition-all shadow-sm hover:shadow-md transform hover:-translate-y-0.5">
                   {t.nav.letsTalk}
                 </button>
@@ -199,7 +199,7 @@ function SiteHeaderContent() {
               {/* Mobile Menu Content (Sama seperti sebelumnya) */}
               <nav className="flex flex-col gap-6 text-gray-800 text-xl font-light">
                 <Link
-                  href="/v1/"
+                  href="/"
                   onClick={() => setMobileMenuOpen(false)}
                   className="border-b border-gray-100 pb-4 hover:text-[#58b0e3]"
                 >
@@ -217,7 +217,7 @@ function SiteHeaderContent() {
                   </Link>
                 ))}
                 <Link
-                  href="/v1/lets-talk"
+                  href="/lets-talk"
                   onClick={() => setMobileMenuOpen(false)}
                   className="border-b border-gray-100 pb-4 hover:text-[#58b0e3]"
                 >

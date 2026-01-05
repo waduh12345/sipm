@@ -182,13 +182,13 @@ function SiteFooterContent() {
               </h6>
               <nav className="flex flex-col gap-3 text-sm uppercase tracking-widest font-light text-gray-500 lg:text-right">
                 {[
-                  { name: "Home", url: "/v1/home" },
-                  { name: "About Us", url: "/v1/about-us" },
-                  { name: "Practise Areas", url: "/v1/practise-areas" },
-                  { name: "Client", url: "/v1/client" },
-                  { name: "Article", url: "/v1/blog" },
-                  { name: "Lets Talk", url: "/v1/lets-talk" },
-                  { name: "Contact Us", url: "/v1/contact-us" },
+                  { name: "Home", url: "/home" },
+                  { name: "About Us", url: "/about-us" },
+                  { name: "Practise Areas", url: "/practise-areas" },
+                  { name: "Client", url: "/client" },
+                  { name: "Article", url: "/blog" },
+                  { name: "Lets Talk", url: "/lets-talk" },
+                  { name: "Contact Us", url: "/contact-us" },
                 ].map((item) => (
                   <Link
                     key={item.name}

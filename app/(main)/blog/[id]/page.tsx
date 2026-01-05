@@ -134,7 +134,7 @@ function BlogDetailContent() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-[#f7fbff] text-gray-500 gap-4">
         <p className="text-xl">Article not found or error loading data.</p>
-        <Link href="/v1/blog">
+        <Link href="/blog">
           <button className="px-6 py-2 bg-[#2f4e9b] text-white rounded-lg hover:bg-blue-800 transition-colors">
             Back to Blog
           </button>
@@ -244,7 +244,7 @@ function BlogDetailContent() {
 
                 {/* Back Button */}
                 <div className="pt-12">
-                  <Link href="/v1/blog">
+                  <Link href="/blog">
                     <button className="border border-[#2f4e9b] text-[#2f4e9b] hover:bg-[#2f4e9b] hover:text-white rounded-full px-8 py-3 text-[11px] uppercase tracking-[0.15em] transition-all duration-300">
                       Back to Article
                     </button>
@@ -269,7 +269,7 @@ function BlogDetailContent() {
               {relatedPosts.map((item) => (
                 <Link
                   key={item.id}
-                  href={`/v1/blog/${item.id}`}
+                  href={`/blog/${item.id}`}
                   className="flex flex-col group cursor-pointer"
                 >
                   <div className="relative aspect-[1.66] w-full mb-6 overflow-hidden rounded-sm bg-gray-100">

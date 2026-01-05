@@ -1,211 +1,152 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  ArrowRight,
-  ArrowUpRight
-} from "lucide-react";
-import { SiteHeader } from "@/components/site-header"; // Import komponen baru
+import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-
-// --- DATA DUMMY (Sesuai Konten Asli) ---
-const EXPERTISE_DATA = [
-  {
-    title: "Asuransi & Re-asuransi",
-    overview: "Jon Bernard & Associates memiliki pengalaman luas dalam menangani berbagai aspek hukum asuransi dan re-asuransi, termasuk penyusunan kontrak, penyelesaian sengketa, dan kepatuhan terhadap regulasi yang berlaku.",
-    news: [
-      "Jon Bernard & Associates Named One of Indonesia’s Top Law Firms in the Asialaw 2025 Rankings",
-      "Jon Bernard & Associates Lawyers Share Legal Insights with Siam Cement Group"
-    ]
-  },
-  {
-    title: "Litigasi Koorporasi, Arbitrase, Kepailitan dan Penundaan Kewajiban Pembayaran Utang (PKPU) Litigasi Kriminal",
-    overview: "Jon Bernard & Associates memiliki pengalaman dalam litigasi korporasi, arbitrase, dan kepailitan, serta penundaan kewajiban pembayaran utang (PKPU) dan litigasi kriminal. Kami secara rutin menangani masalah terkait ketenagakerjaan termasuk mewakili klien korporat di pengadilan.",
-    news: [
-      "Jon Bernard & Associates Founding Partner Speaks at BANI Anniversary Seminar",
-      "Jon Bernard & Associates Partner Leads Panel Discussion at 7th ICC Indonesia Arbitration Day"
-    ]
-  },
-  {
-    title: "Pasar Modal & Sekuritas",
-    overview: "Jon Bernard & Associates memberikan nasihat kepada penerbit, penjamin emisi, dan investor dalam transaksi saham, obligasi, obligasi konversi, dan surat komersial, serta mempersiapkan dan membantu klien dengan IPO, penawaran sekunder atau berikutnya.",
-    news: [
-      "Indonesia Issues Draft OJK Regulation on Digital Financial Asset Offerings",
-      "Jon Bernard & Associates Contributes Indonesia Banking Regulation Overview to Thomson Reuters"
-    ]
-  },
-  {
-    title: "Hukum Perusahaan (Aksi koorporasi: penggabungan, pengambilalihan dan restrukturisasi)",
-    overview: "Jon Bernard & Associates memiliki pengalaman luas dalam menangani berbagai transaksi perusahaan, termasuk penggabungan, pengambilalihan, dan restrukturisasi. Kami memberikan nasihat strategis untuk membantu klien mencapai tujuan bisnis mereka secara efektif.",
-    news: [
-      "Hot Topics in Corporate Governance in Indonesia",
-      "11 Jon Bernard & Associates Lawyers Recognized in IFLR1000 Indonesia 2025"
-    ]
-  },
-  {
-    title: "Perbankan & Keuangan",
-    overview: "Jon Bernard & Associates memberikan nasihat kepada bank domestik dan internasional, lembaga keuangan non-bank, perusahaan pembiayaan, dan perusahaan modal ventura dalam berbagai transaksi pembiayaan, termasuk pembiayaan proyek, pembiayaan perdagangan, dan restrukturisasi utang.",
-    news: [
-      "Indonesia Issues New Environmental Standard: What Mining Companies Must Know",
-      "Nine Jon Bernard & Associates Lawyers Recognized Among Indonesia’s Leading Practitioners"
-    ]
-  },
-  {
-    title: "Konstruksi dan Infrastruktur",
-    overview: "Jon Bernard & Associates memiliki pengalaman dalam menangani berbagai proyek konstruksi dan infrastruktur, termasuk penyusunan kontrak, penyelesaian sengketa, dan kepatuhan terhadap regulasi yang berlaku di sektor ini.",
-    news: [
-      "ESG in APAC 2025 – Indonesia",
-      "Landmark Court Ruling Expands Legal Protection for Environmental Activists"
-    ]
-  },
-  {
-    title: "Pertambangan, Energi, Minyak dan Gas",
-    overview: "Jon Bernard & Associates memberikan nasihat kepada perusahaan pertambangan, energi, minyak, dan gas dalam berbagai aspek hukum, termasuk perizinan, kepatuhan regulasi, dan penyelesaian sengketa di sektor ini.",
-    news: [
-      "Jon Bernard & Associates Again a Recommended Firm for Indonesia in Asia Pacific Green Guide",
-      "Jon Bernard & Associates Assists on Singapore Listing of Malaysian Plantation Group TSH Resources Berhad"
-    ]
-  },
-  {
-    title: "Kekayaan Intelektual dan Informasi Teknologi",
-    overview: "Kami bertindak sebagai penasihat bagi pengembang dan pemberi pinjaman dalam semua jenis proyek pengembangan infrastruktur, termasuk proyek pembangkit listrik swasta senilai jutaan dolar, jalan tol, telekomunikasi, dan proyek pasokan air.",
-    news: [
-      "Jon Bernard & Associates Law Firm – 17 Recommended Lawyers Across 11 Practice Areas in Legal 500",
-      "Construction and Projects in Indonesia – Practical Law Guide"
-    ]
-  }
-];
+import { useLanguage } from "@/contexts/LanguageContext"; // 1. Import Context
 
 export default function OurExpertisePage() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { t } = useLanguage(); // 2. Gunakan Hook
   const [activeAccordion, setActiveAccordion] = useState<number | null>(null);
-
-  // Scroll effect for Navbar
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const toggleAccordion = (index: number) => {
     setActiveAccordion(activeAccordion === index ? null : index);
   };
 
   return (
-    <div className="min-h-screen font-sans text-[#57595f] bg-[#f7fbff] selection:bg-[#2f4e9b] selection:text-white">
-      
+    <div className="min-h-screen font-sans text-gray-600 bg-white selection:bg-[#2f4e9b] selection:text-white">
       {/* --- HEADER --- */}
       <SiteHeader />
 
       {/* --- CONTENT SPACER --- */}
-      <div className="h-32"></div>
+      {/* PERUBAHAN: h-28 jadi h-24 di mobile agar konten naik sedikit */}
+      <div className="h-24 lg:h-32"></div>
 
       {/* --- HERO SECTION --- */}
-      <section className="py-12">
-        <div className="container mx-auto px-6 mb-20 text-center flex flex-col items-center mt-[-60px] md:mt-0">
-            <div className="w-full lg:w-4/5">
-                <div className="flex flex-col lg:flex-row items-center justify-center gap-4 mb-6">
-                    <div className="flex items-center gap-3 uppercase text-sm tracking-[0.15em] font-semibold text-[#2f4e9b]">
-                        <span className="w-1.5 h-4 bg-[#a3238e] -skew-x-12 inline-block"></span>
-                        Our Expertise
-                    </div>
-                </div>
-                <h2 className="text-md lg:text-2xl font-light text-[#2f4e9b] leading-tight mb-12 text-justify">
-                    Jon Bernard & Associates memiliki pengalaman luas dalam menangani perkara hukum di bidang asuransi, korporasi, pasar modal, dan ketenagakerjaan, baik melalui jalur litigasi maupun non-litigasi. Dengan pendekatan strategis dan berorientasi hasil, kami siap mendampingi klien dalam penyelesaian sengketa di pengadilan, forum arbitrase, maupun melalui proses negosiasi yang efektif.
-                </h2>
+      {/* PERUBAHAN: py-12 jadi py-10 */}
+      <section className="pt-10 lg:py-20">
+        <div className="container mx-auto px-6">
+          {/* Intro Text */}
+          {/* PERUBAHAN: mb-16 jadi mb-8 di mobile */}
+          <div className="flex flex-col items-center text-center max-w-5xl mx-auto mb-8 lg:mb-16">
+            <div className="flex items-center gap-3 uppercase text-xs font-bold tracking-[0.2em] text-[#2f4e9b] mb-4 lg:mb-6">
+              <span className="w-8 h-[2px] bg-[#2f4e9b]"></span>
+              {t.expertise.label}
             </div>
-        </div>
+            {/* PERUBAHAN: mb-8 jadi mb-6 */}
+            <h2 className="text-2xl lg:text-4xl font-light text-gray-900 leading-tight mb-6 lg:mb-8">
+              {t.expertise.hero.title}
+            </h2>
+            <p className="text-lg lg:text-xl text-gray-500 font-light leading-relaxed">
+              {t.expertise.hero.desc}
+            </p>
+          </div>
 
-        {/* Large Image */}
-        <div className="container mx-auto px-6 mb-20 mt-[-80px] md:mt-0">
-            <div className="relative aspect-[16/9] lg:aspect-[21/9] w-full">
-                <Image 
-                    src="/WhatsApp Image 2025-12-08 at 18.09.38.jpeg" 
-                    alt="Our Expertise Meeting" 
-                    fill
-                    className="object-cover"
-                    priority
-                />
-            </div>
-        </div>
+          {/* Large Image */}
+          {/* PERUBAHAN: mb-20 jadi mb-10 di mobile */}
+          <div className="relative w-full aspect-[16/9] lg:aspect-[21/9] mb-10 lg:mb-20 rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+            <Image
+              src="/WhatsApp Image 2025-12-08 at 18.09.38.jpeg"
+              alt="Our Expertise Meeting"
+              fill
+              className="object-cover hover:scale-105 transition-transform duration-1000"
+              priority
+            />
+          </div>
 
-        {/* What We Do Text */}
-        <div className="container mx-auto px-6 mb-24 mt-[-40px] md:mt-0">
-            <div className="flex items-center gap-3 mb-8 uppercase text-sm tracking-[0.15em] font-semibold text-[#2f4e9b]">
-                <span className="w-1.5 h-4 bg-[#50b848] -skew-x-12 inline-block"></span>
-                Practice Areas
+          {/* Practice Areas Intro */}
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-20 items-start mb-12 lg:mb-24 border-b border-gray-100 pb-8 lg:pb-12">
+            <div className="lg:w-1/3">
+              <h3 className="text-2xl lg:text-3xl text-gray-900 font-light mb-4">
+                {t.expertise.intro.title}
+              </h3>
+              <div className="w-16 h-1 bg-[#2f4e9b]"></div>
             </div>
-            
-            <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 mt-[-20px] md:mt-0">
-                <div className="lg:w-1/2">
-                    <p className="text-[#57595f] font-light leading-relaxed text-md lg:text-base text-justify md:mt-0">
-                        Jon Bernard & Associates mempunyai keahlian dalam menangani permasalahan hukum asuransi dan ahli dalam melakukan investigasi Klaim. Firma Hukum juga menangani hal-hal yang berkaitan dengan hukum perusahaan dan pasar modal serta membantu kliennya dalam permasalahan perburuhan (tenaga kerja). Penanganan setiap kasus hukum, baik hukum asuransi, hukum perusahaan maupun pasar modal dapat ditempuh dengan cara non litigasi dan/atau cara litigasi. Firma Hukum dapat membantu kliennya dalam kedua cara tersebut dengan berupaya mencapai hasil yang baik dalam penyelesaian suatu perkara. Dalam beberapa pengalaman menangani kasus, Firma Hukum telah berhasil dengan baik menangani beberapa perkara baik perkara di pengadilan dan juga perkara di arbitrase. Jika diperlukan Firma Hukum juga membantu klien dalam melakukan negosiasi kepada pihak lain.
-                    </p>
-                </div>
+            <div className="lg:w-2/3">
+              <p className="text-gray-600 font-light leading-relaxed text-base lg:text-lg text-justify">
+                {t.expertise.intro.desc}
+              </p>
             </div>
+          </div>
         </div>
       </section>
 
-      {/* --- ACCORDION SECTION --- */}
-      <section className="pb-12 md:pb-32 mt-[-80px] md:mt-0">
-        <div className="container mx-auto px-6 lg:px-24">
-            <div className="border-t border-gray-200">
-                {EXPERTISE_DATA.map((item, index) => (
-                    <div key={index} className="border-b border-gray-200">
-                        {/* Header */}
-                        <div 
-                            onClick={() => toggleAccordion(index)}
-                            className="py-8 cursor-pointer flex justify-between items-center group select-none"
-                        >
-                            <h4 className={`text-2xl lg:text-3xl font-light transition-colors duration-300 ${activeAccordion === index ? 'text-[#2f4e9b]' : 'text-[#2f4e9b] hover:opacity-70'}`}>
-                                {item.title}
-                            </h4>
-                            <div className="relative w-6 h-6 flex items-center justify-center">
-                                {/* Horizontal line (always visible) */}
-                                <div className="absolute w-full h-[1px] bg-[#2f4e9b]"></div>
-                                {/* Vertical line (rotates/fades) */}
-                                <motion.div 
-                                    initial={false}
-                                    animate={{ rotate: activeAccordion === index ? 90 : 0, opacity: activeAccordion === index ? 0 : 1 }}
-                                    className="absolute h-full w-[1px] bg-[#2f4e9b]"
-                                ></motion.div>
-                            </div>
-                        </div>
+      {/* --- ACCORDION LIST --- */}
+      <section className="pb-2 lg:pb-32 bg-white">
+        <div className="container mx-auto px-6 max-w-5xl">
+          <div className="flex flex-col">
+            {/* 3. Map Data dari Translation (t.expertise.list) */}
+            {t.expertise.list.map((item, index) => (
+              <div
+                key={index}
+                className="border-b border-gray-100 last:border-0"
+              >
+                {/* Header Accordion */}
+                <div
+                  onClick={() => toggleAccordion(index)}
+                  className="py-6 lg:py-8 cursor-pointer flex justify-between items-center group select-none"
+                >
+                  <h4
+                    className={`text-lg lg:text-2xl font-light transition-colors duration-300 pr-4 lg:pr-8 ${
+                      activeAccordion === index
+                        ? "text-[#2f4e9b]"
+                        : "text-gray-800 group-hover:text-[#2f4e9b]"
+                    }`}
+                  >
+                    {item.title}
+                  </h4>
 
-                        {/* Content */}
-                        <AnimatePresence>
-                            {activeAccordion === index && (
-                                <motion.div
-                                    initial={{ height: 0, opacity: 0 }}
-                                    animate={{ height: "auto", opacity: 1 }}
-                                    exit={{ height: 0, opacity: 0 }}
-                                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                                    className="overflow-hidden"
-                                >
-                                    <div className="pb-10 pl-4 lg:pl-8">
-                                        {/* Overview */}
-                                        <div className="mb-8">
-                                            <div className="flex items-center gap-3 mb-4 uppercase text-xs tracking-[0.15em] font-semibold text-[#2f4e9b]">
-                                                <span className="w-1 h-3 bg-[#50b848] -skew-x-12 inline-block"></span>
-                                                Overview
-                                            </div>
-                                            <p className="text-[#57595f] font-light leading-relaxed text-lg lg:text-base">
-                                                {item.overview}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </div>
-                ))}
-            </div>
+                  {/* Animated Plus/Minus Icon */}
+                  <div className="relative w-8 h-8 flex items-center justify-center shrink-0 border border-gray-200 rounded-full group-hover:border-[#2f4e9b] transition-colors">
+                    {/* Horizontal line */}
+                    <div
+                      className={`absolute w-3 h-[1.5px] bg-current transition-colors ${
+                        activeAccordion === index
+                          ? "bg-[#2f4e9b]"
+                          : "bg-gray-400 group-hover:bg-[#2f4e9b]"
+                      }`}
+                    ></div>
+                    {/* Vertical line */}
+                    <motion.div
+                      initial={false}
+                      animate={{
+                        rotate: activeAccordion === index ? 90 : 0,
+                        opacity: activeAccordion === index ? 0 : 1,
+                      }}
+                      className="absolute h-3 w-[1.5px] bg-gray-400 group-hover:bg-[#2f4e9b]"
+                    ></motion.div>
+                  </div>
+                </div>
+
+                {/* Content Accordion */}
+                <AnimatePresence>
+                  {activeAccordion === index && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      className="overflow-hidden"
+                    >
+                      {/* PERUBAHAN: pb-10 jadi pb-8 */}
+                      <div className="pb-8 lg:pb-10 pl-0 lg:pl-4">
+                        <div className="flex flex-col gap-3 lg:gap-4">
+                          <div className="flex items-center gap-2 uppercase text-[10px] font-bold tracking-widest text-gray-400">
+                            Overview
+                          </div>
+                          <p className="text-gray-600 font-light leading-relaxed text-base lg:text-lg">
+                            {item.overview}
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

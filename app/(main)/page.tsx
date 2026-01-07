@@ -395,12 +395,15 @@ function HomeContent() {
               </div>
 
               <div className="mt-10">
-                <Button className="border border-white bg-transparent hover:bg-white hover:text-[#2f4e9b] text-white rounded-full px-10 py-6 text-xs uppercase tracking-wider transition-all duration-300">
+                <Button
+                  className="border border-white bg-transparent hover:bg-white hover:text-[#2f4e9b] text-white rounded-full px-10 py-6 text-xs uppercase tracking-wider transition-all duration-300"
+                  onClick={() => window.location.href = "/about-us"}
+                >
                   <EditableText
-                    isEditMode={isEditMode}
-                    text={editableData.heroCtaText}
-                    onSave={(val) => updateContent("heroCtaText", val)}
-                    as="span"
+                  isEditMode={isEditMode}
+                  text={editableData.heroCtaText}
+                  onSave={(val) => updateContent("heroCtaText", val)}
+                  as="span"
                   />
                 </Button>
               </div>

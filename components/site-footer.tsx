@@ -182,7 +182,7 @@ function SiteFooterContent() {
               </h6>
               <nav className="flex flex-col gap-3 text-sm uppercase tracking-widest font-light text-gray-500 lg:text-right">
                 {[
-                  { name: "Home", url: "/home" },
+                  { name: "Home", url: "/" },
                   { name: "About Us", url: "/about-us" },
                   { name: "Practise Areas", url: "/practise-areas" },
                   { name: "Client", url: "/client" },

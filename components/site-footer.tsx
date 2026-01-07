@@ -87,7 +87,7 @@ function SiteFooterContent() {
 
             <a
               href={`https://wa.me/${
-                settings?.nomer_whatsapp || "6282122024678"
+                settings?.nomer_whatsapp || "6285353222568"
               }?text=Halo...`}
               target="_blank"
               rel="noopener noreferrer"

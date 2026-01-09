@@ -6,7 +6,6 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { Mail, MessageCircle } from "lucide-react";
-import { useGetPengaturanListQuery } from "@/services/customize/setting.service";
 
 // --- IMPORTS UNTUK EDITABLE SYSTEM ---
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -91,13 +90,6 @@ function HomeContent() {
     if (code) setClientCode(code);
   }, []);
 
-  const { data: settingsData } = useGetPengaturanListQuery(
-    { client_code: clientCode },
-    { skip: !clientCode }
-  );
-
-  const settings = settingsData?.data?.items?.[0];
-
 
   // State Background (Default diset sama persis dengan kode lama)
   const [heroBg, setHeroBg] = useState<BackgroundConfig>({
@@ -170,7 +162,7 @@ function HomeContent() {
     contactEmailBtn: t["contact-email-btn"],
     contactEmailUrl: "mailto:info@jonb-associates.com",
     contactWaBtn: t["contact-wa-btn"],
-    contactWaUrl: "https://wa.me/" + settings?.nomer_whatsapp || "6285353222568",
+    contactWaUrl: "https://wa.me/6285353222568",
   });
 
   // Sync Data
@@ -188,7 +180,7 @@ function HomeContent() {
       contactEmailBtn: t["contact-email-btn"],
       contactEmailUrl: "mailto:info@jonb-associates.com",
       contactWaBtn: t["contact-wa-btn"],
-      contactWaUrl: "https://wa.me/" + settings?.nomer_whatsapp || "6285353222568",
+      contactWaUrl: "https://wa.me/6285353222568",
     };
 
     setEditableData((prev) => ({

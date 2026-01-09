@@ -68,7 +68,7 @@ function LoginContent() {
         if (callbackUrl) {
           router.push(decodeURIComponent(callbackUrl));
         } else {
-          router.push("/customize/client");
+          router.push("/");
         }
       }
     } catch (err: unknown) {
